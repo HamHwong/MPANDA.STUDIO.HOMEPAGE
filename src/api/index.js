@@ -12,7 +12,7 @@ export async function UploadImage(params){
     url: '/api/v1/image/upload',
     method: 'post',
     data: params
-  })
+  }) 
 }
 export async function GetImage(params){
   return request({
