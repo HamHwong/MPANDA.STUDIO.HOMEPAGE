@@ -1,6 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-22 23:36:22
+ * @LastEditTime: 2020-12-24 10:15:49
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
+-->
 <template>
 <div>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <img alt="Vue logo" src="@/static/logo.png">
   <Uploader />
 </div>
 </template>
