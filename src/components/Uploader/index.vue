@@ -9,71 +9,155 @@
 <template>
   <div>
     <div>
-      <img :src="img" alt="" style="max-width: 300px; max-height: 200px" />
+      <img
+        :src="img"
+        alt=""
+      />
+    </div>
+    <div
+      v-for="i in results"
+      :key="i.fileId"
+    >a
+      <img
+        :src="i.base64"
+        alt=""
+      />
     </div>
     <div>
-      <input ref="" type="file" name="" id="" @change="handleMountFile" />
-      <button :disabled="!file || loading" @click="handleUploadClick">
+      <input
+        ref=""
+        type="file"
+        name=""
+        id=""
+        @change="handleMountFile"
+      />
+      <button
+        :disabled="!file || loading"
+        @click="handleUploadClick"
+      >
         {{ loading ? "上传中" : "上传" }}
+      </button>
+      <button
+        :disabled="!file || loading"
+        @click="UploadMXDImage"
+      >
+        {{ loading ? "上传中" : "上传到MXD" }}
+      </button>
+
+      <button
+        :disabled="!file || loading"
+        @click="GetMXDImageInfo"
+      >
+        {{ loading ? "上传中" : "查询" }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import { UploadImage, GetImage } from "@/api/index.js";
+import { UploadImage, GetImage, GetMXDImageInfo, UploadMXDImage } from "@/api/index.js";
 export default {
-  data() {
+  data () {
     return {
       loading: false,
       file: null,
       id: "",
       img: null,
+      results: []
     };
   },
+  props:['paste'],
+  watch:{
+    paste:{
+      handler(obj){ 
+        this.file = obj 
+        console.log(this.img)
+      },
+      // immediate:true,
+      // deep:true
+    }
+  },
   methods: {
-    handleMountFile(e) {
+    handleMountFile (e) {
       this.file = e.target.files[0];
     },
-    async handleUploadClick() {
+    async handleUploadClick () {
       await this.handleUpload();
       await this.handleReadImage();
     },
-    async handleUpload() {
+    async handleUpload () {
       this.loading = true;
       var data = new FormData();
       data.append("file", this.file);
-      var { Data, Message, IsSuccess } = await UploadImage(data);
+      var { Data, Message, IsSuccess } = await UploadImage(data).catch(() => {
+        this.loading = false;
+      });
       if (IsSuccess) {
         this.id = Data;
       } else {
         throw new Error(Message);
       }
-
       this.loading = false;
     },
-    async handleReadImage() {
+    async UploadMXDImage () {
+      this.loading = true;
+      var data = new FormData();
+      data.append("file", this.file);
+      var { Data, Message, IsSuccess } = await UploadMXDImage(data).catch(() => {
+        this.loading = false;
+      });
+      if (IsSuccess) {
+        this.id = Data;
+      } else {
+        throw new Error(Message);
+      }
+      this.loading = false;
+      await this.handleReadImage();
+    },
+    async GetMXDImageInfo () {
+
+      this.loading = true;
+      var data = new FormData();
+      data.append("file", this.file);
+      var { Data, IsSuccess } = await GetMXDImageInfo(data).catch(() => {
+        this.loading = false;
+      });
+      if (IsSuccess) {
+        this.results = await Data
+        Data.map(async item => {
+          return await this.handleResultImage(item.fileId).then((response) => {
+            // console.log('res', response)
+            var index = this.results.findIndex(i => i.fileId == response.fileId)
+            this.results[index].base64 = response.base64
+          })
+        })
+      }
+      this.loading = false;
+    },
+    async handleReadImage () {
       if (this.id) {
         this.loading = true;
-        var { Data, IsSuccess } = await GetImage({ id: this.id });
+        var { Data, IsSuccess } = await GetImage({ id: this.id }).catch(() => {
+          this.loading = false;
+        });
         if (IsSuccess) {
-          const { base64, suffix } = Data;
-          let imgBase64 = "";
-          switch (suffix) {
-            case "png":
-              imgBase64 = "data:image/png;base64," + base64;
-              break;
-            case "jpg":
-            case "jpeg":
-              imgBase64 = "data:image/jpeg;base64," + base64;
-              break;
-            case "gif":
-              imgBase64 = "data:image/gif;base64," + base64;
-              break;
-          }
+          const { base64 } = Data;
+          let imgBase64 = base64;
+          // console.log('imgBase64', imgBase64)
           this.img = imgBase64;
         }
         this.loading = false;
+      }
+    },
+    async handleResultImage (id) {
+      if (id) {
+        // this.loading = true;
+        var { Data, IsSuccess } = await GetImage({ id: id }).catch(() => {
+          this.loading = false;
+        });
+        if (IsSuccess) {
+          return Data
+        }
       }
     },
   },

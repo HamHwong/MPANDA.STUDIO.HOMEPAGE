@@ -8,17 +8,16 @@
 -->
 <template>
 <div>
-  <img alt="Vue logo" src="@/static/logo.png">
-  <Uploader />
+  <HomePage />
 </div>
 </template>
 
-<script>
-import Uploader from './components/Uploader'
+<script> 
+import HomePage from './components/HomePage'
 export default {
   name: 'App',
   components: {
-    Uploader
+    HomePage, 
   },
   mounted(){
   }
