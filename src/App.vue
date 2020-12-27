@@ -8,16 +8,18 @@
 -->
 <template>
 <div>
-  <HomePage />
+  <!-- <HomePage /> -->
+  <router-view></router-view>
+  <el-button>a</el-button>
 </div>
 </template>
 
 <script> 
-import HomePage from './components/HomePage'
+// import HomePage from './components/HomePage'
 export default {
   name: 'App',
   components: {
-    HomePage, 
+    // HomePage, 
   },
   mounted(){
   }
@@ -31,6 +33,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
+r: #2c3e50;
   margin-top: 60px;
 }
 </style>

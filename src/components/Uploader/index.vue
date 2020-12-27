@@ -12,25 +12,25 @@
       <img
         :src="img"
         alt=""
-      />
+      >
     </div>
     <div
       v-for="i in results"
       :key="i.fileId"
-    >a
+    > 
       <img
         :src="i.base64"
         alt=""
-      />
+      >
     </div>
     <div>
       <input
+        id=""
         ref=""
         type="file"
         name=""
-        id=""
         @change="handleMountFile"
-      />
+      >
       <button
         :disabled="!file || loading"
         @click="handleUploadClick"
@@ -57,6 +57,7 @@
 <script>
 import { UploadImage, GetImage, GetMXDImageInfo, UploadMXDImage } from "@/api/index.js";
 export default {
+  props:['paste'],
   data () {
     return {
       loading: false,
@@ -66,7 +67,6 @@ export default {
       results: []
     };
   },
-  props:['paste'],
   watch:{
     paste:{
       handler(obj){ 

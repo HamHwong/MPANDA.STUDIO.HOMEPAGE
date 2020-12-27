@@ -1252,7 +1252,7 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.5.9":
+"@vue/cli-plugin-router@^4.5.9", "@vue/cli-plugin-router@~4.5.0":
   version "4.5.9"
   resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.5.9.tgz?cache=0&sync_timestamp=1607994046816&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-router%2Fdownload%2F%40vue%2Fcli-plugin-router-4.5.9.tgz#b3d23a8083d26a81bd09bf9c8d010a3e4e4b13d0"
   integrity sha1-s9I6gIPSaoG9Cb+cjQEKPk5LE9A=
@@ -8362,7 +8362,7 @@ vm-browserify@^1.0.1:
 
 vue-cli-plugin-vuetify@~2.0.8:
   version "2.0.8"
-  resolved "https://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-2.0.8.tgz?cache=0&sync_timestamp=1606986118483&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-cli-plugin-vuetify%2Fdownload%2Fvue-cli-plugin-vuetify-2.0.8.tgz#026051aad7820b356ec9cea208bf0f06e95a53a2"
+  resolved "https://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-2.0.8.tgz?cache=0&sync_timestamp=1606985603485&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-cli-plugin-vuetify%2Fdownload%2Fvue-cli-plugin-vuetify-2.0.8.tgz#026051aad7820b356ec9cea208bf0f06e95a53a2"
   integrity sha1-AmBRqteCCzVuyc6iCL8PBulaU6I=
   dependencies:
     null-loader "^3.0.0"
@@ -8406,6 +8406,11 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-router@^4.0.0-0:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-4.0.1.tgz?cache=0&sync_timestamp=1607347184356&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-4.0.1.tgz#309240e50524b1e7d4e82e27f0a0fa25fe3d1d71"
+  integrity sha1-MJJA5QUksefU6C4n8KD6Jf49HXE=
+
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
@@ -8440,6 +8445,11 @@ vuetify@^2:
   version "2.3.22"
   resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.3.22.tgz#482d12fbf6502c3ef7dc597aedc24c8f0a27356e"
   integrity sha1-SC0S+/ZQLD733Fl67cJMjwonNW4=
+
+vuetify@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.4.0.tgz#6aa2616b0fecb0614cf85052b0ffbb5cad80bf92"
+  integrity sha1-aqJhaw/ssGFM+FBSsP+7XK2Av5I=
 
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"

@@ -8,25 +8,25 @@
 -->
 <template>
   <div>
-    <Uploader :paste="file" /> 
+    <Uploader :paste="file" />  
   </div>
 </template>
 
 <script>
-import Uploader from '../Uploader'
+import Uploader from '@/components/Uploader'
 export default {
   name: 'App',
   components: {
     Uploader
-  },
-  mounted () {
-    this.BindPaste()
   },
   data(){
     return {
       file:null,
       // test:''
     }
+  },
+  mounted () {
+    this.BindPaste()
   },
   methods: {
     BindPaste () {
