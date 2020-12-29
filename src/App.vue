@@ -9,8 +9,7 @@
 <template>
 <div>
   <!-- <HomePage /> -->
-  <router-view></router-view>
-  <el-button>a</el-button>
+  <router-view></router-view> 
 </div>
 </template>
 

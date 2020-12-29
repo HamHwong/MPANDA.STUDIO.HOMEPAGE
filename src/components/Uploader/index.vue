@@ -24,38 +24,66 @@
       >
     </div>
     <div>
-      <input
-        id=""
-        ref=""
-        type="file"
-        name=""
-        @change="handleMountFile"
-      >
-      <button
-        :disabled="!file || loading"
-        @click="handleUploadClick"
-      >
-        {{ loading ? "上传中" : "上传" }}
-      </button>
-      <button
-        :disabled="!file || loading"
-        @click="UploadMXDImage"
-      >
-        {{ loading ? "上传中" : "上传到MXD" }}
-      </button>
-
-      <button
-        :disabled="!file || loading"
-        @click="GetMXDImageInfo"
-      >
-        {{ loading ? "上传中" : "查询" }}
-      </button>
+      <el-row>
+        <el-col>
+          <el-input 
+          size="mini"
+          v-model="id"
+          :disabled="loading"/>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <input
+            id=""
+            ref=""
+            type="file"
+            name=""
+            @change="handleMountFile"
+          >
+          <el-button
+            size="mini"
+            :disabled="!file || loading"
+            @click="handleUploadClick"
+          >
+            {{ loading ? "上传中" : "上传图片" }}
+          </el-button>
+          <el-button
+            size="mini"
+            :disabled="!file || loading"
+            @click="GetBinarizationImage"
+          >
+            {{ loading ? "上传中" : "二值化图片" }}
+          </el-button>
+          <el-button
+            size="mini"
+            :disabled="!id || loading"
+            @click="HandleBinarizationImageWithID"
+          >
+            {{ loading ? "上传中" : "通过ID查询二值化图片" }}
+          </el-button>
+          <el-button
+            size="mini"
+            :disabled="!file || loading"
+            @click="UploadMXDImage"
+          >
+            {{ loading ? "上传中" : "上传MXD图片" }}
+          </el-button>
+          <el-button
+            size="mini"
+            :disabled="!file || loading"
+            @click="SearchMXDImage"
+          >
+            {{ loading ? "上传中" : "以图片查询MXD图片" }}
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
-import { UploadImage, GetImage, GetMXDImageInfo, UploadMXDImage } from "@/api/index.js";
+import { Image,MXD } from "@/api/index.js";
 export default {
   props:['paste'],
   data () {
@@ -70,11 +98,8 @@ export default {
   watch:{
     paste:{
       handler(obj){ 
-        this.file = obj 
-        console.log(this.img)
-      },
-      // immediate:true,
-      // deep:true
+        this.file = obj  
+      }, 
     }
   },
   methods: {
@@ -89,7 +114,7 @@ export default {
       this.loading = true;
       var data = new FormData();
       data.append("file", this.file);
-      var { Data, Message, IsSuccess } = await UploadImage(data).catch(() => {
+      var { Data, Message, IsSuccess } = await Image.UploadImage(data).catch(() => {
         this.loading = false;
       });
       if (IsSuccess) {
@@ -103,7 +128,7 @@ export default {
       this.loading = true;
       var data = new FormData();
       data.append("file", this.file);
-      var { Data, Message, IsSuccess } = await UploadMXDImage(data).catch(() => {
+      var { Data, Message, IsSuccess } = await MXD.UploadMXDImage(data).catch(() => {
         this.loading = false;
       });
       if (IsSuccess) {
@@ -114,19 +139,17 @@ export default {
       this.loading = false;
       await this.handleReadImage();
     },
-    async GetMXDImageInfo () {
-
+    async SearchMXDImage () { 
       this.loading = true;
       var data = new FormData();
       data.append("file", this.file);
-      var { Data, IsSuccess } = await GetMXDImageInfo(data).catch(() => {
+      var { Data, IsSuccess } = await MXD.SearchMXDImage(data).catch(() => {
         this.loading = false;
       });
       if (IsSuccess) {
         this.results = await Data
         Data.map(async item => {
-          return await this.handleResultImage(item.fileId).then((response) => {
-            // console.log('res', response)
+          return await this.handleResultImage(item.fileId).then((response) => { 
             var index = this.results.findIndex(i => i.fileId == response.fileId)
             this.results[index].base64 = response.base64
           })
@@ -137,22 +160,21 @@ export default {
     async handleReadImage () {
       if (this.id) {
         this.loading = true;
-        var { Data, IsSuccess } = await GetImage({ id: this.id }).catch(() => {
+        var { Data, IsSuccess } = await Image.GetImage({ id: this.id }).catch(() => {
           this.loading = false;
         });
         if (IsSuccess) {
           const { base64 } = Data;
-          let imgBase64 = base64;
-          // console.log('imgBase64', imgBase64)
+          let imgBase64 = base64; 
           this.img = imgBase64;
         }
         this.loading = false;
       }
     },
     async handleResultImage (id) {
-      if (id) {
-        // this.loading = true;
-        var { Data, IsSuccess } = await GetImage({ id: id }).catch(() => {
+      if (id) { 
+        this.loading = true;
+        var { Data, IsSuccess } = await Image.GetImage({ id: id }).catch(() => {
           this.loading = false;
         });
         if (IsSuccess) {
@@ -160,6 +182,32 @@ export default {
         }
       }
     },
+    async HandleBinarizationImageWithID (){ 
+        this.loading = true;
+        var { Data, IsSuccess } = await Image.GetBinarizationImage({ id: this.id }).catch(() => {
+          this.loading = false;
+        });
+        if (IsSuccess) {
+          const { base64 } = Data;
+          let imgBase64 = base64; 
+          this.img = imgBase64;
+        }
+        this.loading = false; 
+    },
+    async GetBinarizationImage(){
+        this.loading = true;
+        var data = new FormData();
+        data.append("file", this.file);
+        var { Data, IsSuccess } = await Image.BinarizationImage(data).catch(() => {
+          this.loading = false;
+        });
+        if (IsSuccess) {
+          const { base64 } = Data;
+          let imgBase64 = base64; 
+          this.img = imgBase64;
+        }
+        this.loading = false; 
+    }
   },
 };
 </script>
