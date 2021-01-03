@@ -14,3 +14,10 @@ export async function SearchMXDImage(params){
     data: params
   })
 }
+export async function InitMXDImage(params){
+  return request({
+    url: '/api/v1/MapleStory/imageBatchImport',
+    method:'post',
+    data: params
+  })
+}

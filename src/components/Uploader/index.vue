@@ -76,6 +76,13 @@
           >
             {{ loading ? "上传中" : "以图片查询MXD图片" }}
           </el-button>
+          <el-button
+            size="mini"
+            :disabled="loading"
+            @click="InitMXDImage"
+          >
+            {{ loading ? "初始化中" : "初始化MXD图片" }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -207,6 +214,9 @@ export default {
           this.img = imgBase64;
         }
         this.loading = false; 
+    },
+    async InitMXDImage(){
+      MXD.InitMXDImage()
     }
   },
 };
