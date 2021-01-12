@@ -1,21 +1,22 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2020-12-24 10:15:49
+ * @LastEditTime: 2021-01-07 14:51:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
 -->
 <template>
   <div>
+    <img :src="require('@/static/logo.png')" />
     <Uploader :paste="file" />  
   </div>
 </template>
 
 <script>
 import Uploader from '@/components/Uploader'
-export default {
-  name: 'App',
+
+export default { 
   components: {
     Uploader
   },
@@ -65,13 +66,5 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style> 
 </style>

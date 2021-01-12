@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 09:46:43
- * @LastEditTime: 2020-12-24 10:03:34
+ * @LastEditTime: 2021-01-07 14:48:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/vue.config.js
@@ -25,12 +25,29 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `@import "@/assets/scss/variable.scss";` //引入全局变量    
-      } 
-    } 
+        additionalData: `@import "@/assets/scss/index.scss";`
+        // additionalData:`@import "${resolve('./src/scss/variables.scss')};"`
+      }
+    }
   },
   chainWebpack: (config) => {
-    config.resolve.alias.
-    set('@', resolve('./src'))
-  } 
+    config
+    .resolve
+    .alias
+    .set('@', resolve('./src'))
+
+    config
+    .module
+    .rule("images")
+    .test(/\.(jpg|png|gif)$/)
+    .use("url-loader")
+    .loader("url-loader")
+    .options({
+        limit:10,
+        // publicPath: 'https://oss.xx.com/img' ,
+        outputPath: 'assets/images',
+        name: '[name].[ext]',
+    })
+    .end()
+  }, 
 }

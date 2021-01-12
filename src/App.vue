@@ -1,39 +1,56 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2020-12-24 10:15:49
+ * @LastEditTime: 2021-01-07 15:30:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
 -->
 <template>
-<div>
-  <!-- <HomePage /> -->
-  <router-view></router-view> 
-</div>
+  <div>
+    <el-container>
+      <!-- <HomePage /> -->
+      <Aside/>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+        <el-footer><small>©1994-2021 MPanda Studio. All Rights Reserved.</small></el-footer>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
-<script> 
+<script>
 // import HomePage from './components/HomePage'
+import Aside from './components/Aside'
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    // HomePage, 
+    // HomePage,
+    Aside
   },
-  mounted(){
-  }
-}
+  mounted() {},
+};
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-r: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* margin-top: 60px; */
+}
+</style>
+
+<style lang="scss" scoped>
+.el-container {
+  height: 100vh;
 }
 </style>
