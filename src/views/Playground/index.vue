@@ -10,7 +10,10 @@
   <div>
     <!-- <canvas class="canvas"></canvas> -->
     <div class="canvas-container">
-      <canvas ref="canvas" class="canvas"></canvas>
+      <canvas
+        ref="canvas"
+        class="canvas"
+      ></canvas>
     </div>
   </div>
 </template>
@@ -19,28 +22,28 @@
 const imgs = require("@/static/test.png");
 export default {
   name: "playground",
-  mounted() {
+  mounted () {
     this.init();
   },
-  data() {
+  data () {
     return {
       canvas: null,
       ctx: null,
     };
   },
   methods: {
-    async init() {
+    async init () {
       console.log("start");
       this.canvas = this.$refs["canvas"];
       await this.initCtx(this.canvas);
       this.loadImage();
     },
-    async initCtx(canvas) {
+    async initCtx (canvas) {
       this.ctx = await canvas.getContext("2d");
       canvas.width = "200";
       canvas.height = "200";
     },
-    loadImage(path) {
+    loadImage (path) {
       // this.ctx.putImageData(img,100,100)
       const img = new Image();
       img.onload = async () => {
@@ -48,7 +51,7 @@ export default {
         this.canvas.height = img.height;
         this.ctx.drawImage(img, 0, 0);
         const ImageData = await this.DrawLine(
-          this.ctx.getImageData(0, 0, this.canvas.width,this.canvas.height),
+          this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height),
           this.canvas.width,
           this.canvas.height
         );
@@ -58,17 +61,91 @@ export default {
       };
       img.src = imgs;
     },
-    async DrawLine(ImageData, w, h) {
-      var data = ImageData.data;
-      function getColumnLine(x) {}
-      for (var i = 0; i < data.length; i += 4) {
-        if (i % w == 0) {
-          data[i] = 0;
-          data[i + 1] = 0;
-          data[i + 2] = 0;
-          data[i + 3] = 255;
+    // 画横线
+    DrawHorizontalLine (data, w, y) {
+      var col = 0
+      while (col < y) {
+        col++
+      }
+      for (var index = col * w; index < (col + 1) * w; index++) {
+        data[index * 4] = 0;
+        data[index * 4 + 1] = 0;
+        data[index * 4 + 2] = 0;
+        data[index * 4 + 3] = 255;
+      }
+    },
+    // 画竖线
+    DrawVerticalLine (data,w,h,x) {
+      var row = 0
+      while (row < h) {
+        var index = row * w + x - 1
+        data[index * 4] = 0;
+        data[index * 4 + 1] = 0;
+        data[index * 4 + 2] = 0;
+        data[index * 4 + 3] = 255;
+        row++
+      }
+    },
+    // 框出垂直边距
+    HorizontalCollide (data, w, h, from = "top") {
+      var enableSearch = true;
+      var y = 0
+      var pixelsIndexArr = []
+      if (from.toLowerCase() === "top") {
+        while (y < h && enableSearch) {
+          for (var index = y * w; index < (y + 1) * w; index++) {
+            if (data[index * 4] !== 0 && data[index * 4 + 1] !== 0 && data[index * 4 + 2] !== 0) {
+              enableSearch = false
+              pixelsIndexArr.push(index * 4)
+              this.DrawHorizontalLine(data, w, y)
+              break;
+            }
+          }
+          y++
+        }
+      } else if (from.toLowerCase() === "bottom") {
+        var y = h
+        while (y > 0 && enableSearch) {
+          for (var index = y * w - 1; index > (y - 1) * w; index--) {
+            if (data[index * 4] !== 0 && data[index * 4 + 1] !== 0 && data[index * 4 + 2] !== 0) {
+              enableSearch = false
+              pixelsIndexArr.push(index * 4)
+              this.DrawHorizontalLine(data, w, y)
+              break;
+            }
+          }
+          y--
         }
       }
+      return pixelsIndexArr
+    },
+    async DrawLine (ImageData, w, h) {
+      var data = ImageData.data;
+      console.log(data.length)
+      var pixelCount = data.length / 4
+      var RowsCount = h
+
+      this.HorizontalCollide(data, w, h)
+      this.HorizontalCollide(data, w, h, "bottom")
+
+      function VerticalCollide (from = "left") {
+        // var enableSearch = true;
+        // var x = 0;
+        // while(x < w){
+        //   for(var row = 0; row < h;row++){
+        //     row*w+x
+        //   }
+        //   x++
+        // }
+        for (var col = 0; col < w; col++) {
+          for (var y = 0; y < h; y++) {
+            // if()
+            // col+
+            // if(col*y+y)
+          }
+        }
+      }
+
       return ImageData;
     },
   },
