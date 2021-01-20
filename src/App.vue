@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-01-07 15:30:36
+ * @LastEditTime: 2021-01-20 14:04:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
@@ -52,5 +52,6 @@ export default {
 <style lang="scss" scoped>
 .el-container {
   height: 100vh;
+  background-color:#f4f6f9
 }
 </style>
