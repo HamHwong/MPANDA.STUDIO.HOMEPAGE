@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-01-20 17:54:02
+ * @LastEditTime: 2021-01-21 17:41:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -78,22 +78,18 @@
     <el-row>
       <el-col :span="24">
         <MPCard>
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName"  >
             <el-tab-pane label="用户管理" name="first">
               <el-row>
-                <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="date" label="日期">
-                  </el-table-column>
+                <el-table style="width: 100%">
+                  <el-table-column prop="date" label="日期"> </el-table-column>
                   <el-table-column prop="name" label="姓名" width="180">
                   </el-table-column>
                   <el-table-column prop="address" label="地址">
                   </el-table-column>
                 </el-table>
               </el-row>
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page.sync="currentPage1"
+              <el-pagination 
                 :page-size="100"
                 layout="total, prev, pager, next"
                 :total="1000"
@@ -132,22 +128,28 @@
         </MPCard>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col>
+        <MPCard> 
+        </MPCard>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import MPCard from "./components/mp-card";
-import MPButton from "./components/mp-card/mp-card-button";
+import MPButton from "./components/mp-card/mp-card-button"; 
 export default {
   name: "",
   data() {
     return {
-      tabs: "1",
+      activeName: "1",
     };
   },
   components: {
     MPCard,
-    MPButton,
+    MPButton, 
   },
 };
 </script>
