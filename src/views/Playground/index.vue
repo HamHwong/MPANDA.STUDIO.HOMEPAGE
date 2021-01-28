@@ -19,7 +19,7 @@
 </template>
 
 <script>
-const imgs = require("@/static/1.1.png");
+const imgs = require("@/static/1.png");
 export default {
   name: "playground",
   mounted () {
@@ -87,11 +87,11 @@ export default {
     // 获取边框信息
     async GetCutInfo (ImageData, matrix, w, h) {
       var data = ImageData.data;
-      var CollidedArr = await this.VerticalLineCollide(ImageData, matrix, 68, 136, 187);
+      var CollidedArr = await this.VerticalLineCollide(ImageData, matrix );
       var leftX = CollidedArr[0]
       var rightX = CollidedArr[CollidedArr.length - 1]
-      var topY = this.HorizontalCollide(data, w, h, "top", 68, 136, 187);
-      var bottomY = this.HorizontalCollide(data, w, h, "bottom", 68, 136, 187);
+      var topY = this.HorizontalCollide(data, w, h, "top" );
+      var bottomY = this.HorizontalCollide(data, w, h, "bottom" );
       return { leftX, rightX, topY, bottomY };
     },
     // 初始化Matrix
