@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import {GetCutInfo,InitBinaryArr,DrawLine} from '@/utils/image'
 const imgs = require("@/static/1.png");
 export default {
   name: "playground",
@@ -54,138 +55,30 @@ export default {
         this.canvas.height = h
         this.ctx.drawImage(img, 0, 0);
         var ImageData = this.ctx.getImageData(0, 0, w, h)
-        console.log('图片高度', w)
-        console.log('图片宽度', h)
-        var matrix = this.InitBinaryArr(w, h);
-        var { leftX, rightX, topY, bottomY } = await this.GetCutInfo(ImageData, matrix, w, h)
+        var matrix =  InitBinaryArr(w, h);
+        var { leftX, rightX, topY, bottomY } = await GetCutInfo(ImageData, matrix, w, h)
         console.log({ leftX, rightX, topY, bottomY })
-        var ImageData = await this.DrawLine(
-          this.ctx.getImageData(0, 0, w, h),
-          matrix,
-          leftX,
-          rightX,
-          topY,
-          bottomY
-        );
-        
+        // var ImageData = await DrawLine(
+        //   this.ctx.getImageData(0, 0, w, h),
+        //   matrix,
+        //   leftX,
+        //   rightX,
+        //   topY,
+        //   bottomY
+        // );  
         await this.ctx.putImageData(ImageData, 0, 0);
+        var x = leftX;
+        var y = topY;
+        w = rightX-leftX;
+        h = bottomY-topY;
+        var cropImage = this.ctx.getImageData(x,y,w,h);
+        this.ctx.clearRect(x,y,w,h)
+        this.canvas.width = w
+        this.canvas.height = h
+        await this.ctx.putImageData(cropImage, 0, 0);
       };
       img.src = path;
     },
-    CutPic (ImageData, leftX, rightX, topY, bottomY) {
-      // TODO
-    },
-    // 画边框
-    async DrawLine (ImageData, matrix, leftX, rightX, topY, bottomY) {
-      var data = ImageData.data;
-      this.DrawHorizontalLine(data, matrix, topY);
-      this.DrawHorizontalLine(data, matrix, bottomY);
-      this.DrawVerticalLine(data, matrix, leftX);
-      this.DrawVerticalLine(data, matrix, rightX);
-      return ImageData;
-    },
-    // 获取边框信息
-    async GetCutInfo (ImageData, matrix, w, h) {
-      var data = ImageData.data;
-      var CollidedArr = await this.VerticalLineCollide(ImageData, matrix );
-      var leftX = CollidedArr[0]
-      var rightX = CollidedArr[CollidedArr.length - 1]
-      var topY = this.HorizontalCollide(data, w, h, "top" );
-      var bottomY = this.HorizontalCollide(data, w, h, "bottom" );
-      return { leftX, rightX, topY, bottomY };
-    },
-    // 初始化Matrix
-    InitBinaryArr (w, h) {
-      var Matrix = [];
-      for (var row = 0; row < h; row++) {
-        var rowArr = [];
-        for (var col = 0; col < w; col++) {
-          var index = row * w + col;
-          rowArr.push(index);
-        }
-        Matrix.push(rowArr);
-      }
-      return Matrix;
-    },
-    // 画横线
-    DrawHorizontalLine (data, matrix, y) {
-      var w = matrix[0].length
-      var col = 0;
-      while (col < y) {
-        col++;
-      }
-      for (var index = col * w; index < (col + 1) * w; index++) {
-        data[index * 4] = 0;
-        data[index * 4 + 1] = 0;
-        data[index * 4 + 2] = 0;
-        data[index * 4 + 3] = 255;
-      }
-    },
-    // 画竖线
-    DrawVerticalLine (data, Matrix, ColIndex) {
-      for (var rowIndex = 0; rowIndex < Matrix.length; rowIndex++) {
-        var PixelIndex = Matrix[rowIndex][ColIndex];
-        data[PixelIndex * 4] = 0;
-        data[PixelIndex * 4 + 1] = 0;
-        data[PixelIndex * 4 + 2] = 0;
-        data[PixelIndex * 4 + 3] = 255;
-      }
-    },
-    // 框出竖直边框
-    async VerticalLineCollide ({ data }, Matrix, r = 255, g = 255, b = 255) {
-      var CollidedArr = []
-      for (var X = 0; X < Matrix[0].length; X++) {
-        var arr = this.GetIndexArrOfVertical(Matrix, X)
-        var collided = arr.map(index => index * 4).some(i => {
-          return data[i] !== r && data[i + 1] !== g && data[i + 2] !== b && data[i + 3] !== 0
-        })
-        if (collided) {
-          CollidedArr.push(X)
-        }
-      }
-      return CollidedArr
-    },
-    // 获取位于图片水平方向X像素的垂直数组
-    GetIndexArrOfVertical (Matrix, X) {
-      var H = Matrix.length
-      var arr = []
-      for (var rowIndex = 0; rowIndex < H; rowIndex++) {
-        // debugger
-        arr.push(Matrix[rowIndex][X])
-      }
-      return arr
-    },
-    // 框出水平边距
-    HorizontalCollide (data, w, h, from = "top", r = 255, g = 255, b = 255) {
-      var enableSearch = true;
-      var y = 0;
-      var pixelsIndexArr = [];
-      if (from.toLowerCase() === "top") {
-        while (y < h && enableSearch) {
-          // y++;
-          for (var index = ++y * w; index < (y + 1) * w; index++) {
-            if (data[index * 4] !== r && data[index * 4 + 1] !== g && data[index * 4 + 2] !== b && data[index * 4 + 3] !== 0) {
-              enableSearch = false;
-              pixelsIndexArr.push(index * 4);
-              break;
-            }
-          }
-        }
-      } else if (from.toLowerCase() === "bottom") {
-        var y = h;
-        while (y > 0 && enableSearch) {
-          // y--;
-          for (var index = --y * w - 1; index > (y - 1) * w; index--) {
-            if (data[index * 4] !== r && data[index * 4 + 1] !== g && data[index * 4 + 2] !== b && data[index * 4 + 3] !== 0) {
-              enableSearch = false;
-              pixelsIndexArr.push(index * 4);
-              break;
-            }
-          }
-        }
-      }
-      return y;
-    }
   },
 };
 </script>
