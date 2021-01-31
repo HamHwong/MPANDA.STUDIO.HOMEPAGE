@@ -11,15 +11,15 @@ export async function DrawLine(ImageData, matrix, leftX, rightX, topY, bottomY) 
 export async function GetCutInfo(ImageData, matrix, w, h) {
   var data = ImageData.data;
   var CollidedArr = await VerticalLineCollide(ImageData, matrix);
-  var leftX = CollidedArr[0]
-  var rightX = CollidedArr[CollidedArr.length - 1]
-  var topY = HorizontalCollide(data, w, h, "top");
-  var bottomY = HorizontalCollide(data, w, h, "bottom");
+  var leftX = CollidedArr[0] -1 || 0
+  var rightX = CollidedArr[CollidedArr.length - 1] || 0
+  var topY = HorizontalCollide(data, w, h, "top")  || 0;
+  var bottomY = HorizontalCollide(data, w, h, "bottom") || 0;
   return {
-    leftX,
-    rightX,
-    topY,
-    bottomY
+      leftX,
+      rightX,
+      topY,
+      bottomY
   };
 }
 // 初始化Matrix

@@ -42,8 +42,8 @@ export default {
     // 初始化Canvas
     async initCtx (canvas) {
       this.ctx = await canvas.getContext("2d");
-      canvas.width = "10";
-      canvas.height = "10";
+      // canvas.width = "10";
+      // canvas.height = "10";
     },
     // 加载图片
     loadImage (path) {
