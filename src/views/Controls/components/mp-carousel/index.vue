@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-20 15:52:29
- * @LastEditTime: 2021-02-20 17:07:08
+ * @LastEditTime: 2021-02-20 17:29:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-carousel/index.vue
@@ -126,7 +126,8 @@ export default {
 .mpanda-Carousel {
   position: relative;
   display: flex;
-  padding: 10px 100px;
+//   margin: 10px 100px;
+  overflow: hidden;
 }
 
 .slide {
@@ -216,7 +217,7 @@ export default {
 .slide-arrow.left {
   text-align: right;
   padding-right: 10px;
-  left: -40px;
+  left: -20px;
 }
 
 .slide-arrow.left::before {
@@ -226,7 +227,7 @@ export default {
 .slide-arrow.right {
   text-align: left;
   padding-left: 10px;
-  right: -40px;
+  right: -20px;
 }
 
 .slide-arrow.right::before {
