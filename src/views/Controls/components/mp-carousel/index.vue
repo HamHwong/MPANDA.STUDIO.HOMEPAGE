@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-20 15:52:29
- * @LastEditTime: 2021-02-20 16:53:20
+ * @LastEditTime: 2021-02-20 17:07:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-carousel/index.vue
@@ -25,13 +25,13 @@
                 ? slides.length
                 : index
               : slides.length - index,
-        backgroundImage: 'url(' + i.url + ')'
+          backgroundImage: 'url(' + i.url + ')',
         }"
         @mouseover="pause = true"
         @mouseleave="pause = false"
       >
         <h1>{{ i.title }}</h1>
-        <span>{{ i.tyext }}</span> 
+        <span>{{ i.text }}</span>
       </section>
       <div @click="toLeft" class="slide-arrow left"></div>
       <div @click="toRight" class="slide-arrow right"></div>
@@ -132,7 +132,7 @@ export default {
 .slide {
   flex: 1;
   background-color: #fff;
-  box-shadow: 0px 0px 50px #838383;
+//   box-shadow: 0px 0px 50px #383838;
   border-radius: 5px;
   transition: all 0.5s;
   background-repeat: no-repeat;
@@ -140,7 +140,9 @@ export default {
   background-position: center;
   filter: blur(2px);
   /* 强制开启gpu加速 */
-  transform: translateZ(0);
+  transform: translateZ(10);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 .slide.active {
   filter: none;
