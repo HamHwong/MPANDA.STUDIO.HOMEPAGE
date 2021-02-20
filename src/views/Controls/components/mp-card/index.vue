@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-20 13:22:20
- * @LastEditTime: 2021-01-20 17:51:29
+ * @LastEditTime: 2021-02-20 14:04:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-card/index.vue
@@ -78,7 +78,7 @@ export default {
   flex-direction: column;
   transition: 0.3s box-shadow ease-in-out;
   margin-bottom: 10px;
-  overflow: hidden;
+  // overflow: hidden;
   box-sizing: border-box;
   &.default {
     background: #fff;
@@ -121,19 +121,19 @@ export default {
   }
 }
 h1{
-    &.mp-card-header {
-        display: flex;
-        justify-content: center;
-        position: relative;
-        margin: 0; 
-        line-height: 30px;
-    }
+  &.mp-card-header {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      margin: 0; 
+      line-height: 30px;
+  }
 }
 
 .mp-card-footer {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
+  position: relative;
+  bottom: -10px;
+  left: 0;
   width: 100%;
 } 
 </style>

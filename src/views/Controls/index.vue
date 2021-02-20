@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-01-21 17:41:52
+ * @LastEditTime: 2021-02-20 15:30:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -20,18 +20,23 @@
       </el-col>
     </el-row>
     <el-row :gutter="15">
-      <el-col :span="4">
+      <el-col :span="4" :xs="24">
         <MPCard type="default">
           <template v-slot:header>
-            Default <MPButton type="default"
-          /></template>
+            Default 
+            <MPButton type="default" trigger="hover">
+              <template v-slot:reference>
+                <div>ssss</div>
+              </template>
+            </MPButton> 
+          </template>
           <p>asdad</p>
           <p>asdad</p>
           <p>asdad</p>
         </MPCard>
       </el-col>
-      <el-col :span="6">
-        <MPCard type="primary" height="110px">
+      <el-col :span="6" :xs="24">
+        <MPCard type="primary" height="110px" trigger="click">
           <template v-slot:header>
             Primary <MPButton type="default"
           /></template>
@@ -47,7 +52,7 @@
           <template v-slot:footer><small>Footer</small></template>
         </MPCard>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="6" :xs="24">
         <MPCard type="success">
           <template v-slot:header>
             Success <MPButton type="success"
@@ -57,7 +62,7 @@
           <p>asdad</p>
         </MPCard>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="4" :xs="24">
         <MPCard type="danger">
           <template v-slot:header> Danger <MPButton type="danger" /></template>
           <p>asdad</p>
@@ -65,7 +70,7 @@
           <p>asdad</p>
         </MPCard>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="4" :xs="24">
         <MPCard type="dark">
           <template v-slot:header> Dark <MPButton type="dark" /></template>
           <p>asdad</p>
@@ -75,7 +80,7 @@
       </el-col>
     </el-row>
     <!-- Table -->
-    <el-row>
+    <!-- <el-row>
       <el-col :span="24">
         <MPCard>
           <el-tabs v-model="activeName"  >
@@ -133,7 +138,7 @@
         <MPCard> 
         </MPCard>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
