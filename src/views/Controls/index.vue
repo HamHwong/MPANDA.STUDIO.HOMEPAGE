@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-02-20 15:30:40
+ * @LastEditTime: 2021-02-20 15:54:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -16,6 +16,17 @@
     </el-tabs> -->
     <el-row>
       <el-col>
+        <h1>MP-Carousel</h1>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="15">
+      <el-col>
+        <MPCarousel/>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
         <h1>MP-Card</h1>
       </el-col>
     </el-row>
@@ -23,59 +34,62 @@
       <el-col :span="4" :xs="24">
         <MPCard type="default">
           <template v-slot:header>
-            Default 
+            Default
             <MPButton type="default" trigger="hover">
               <template v-slot:reference>
-                <div>ssss</div>
+                <div>Hover Dropdown</div>
               </template>
-            </MPButton> 
+            </MPButton>
           </template>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
+          <p>Sigle Line</p>
         </MPCard>
       </el-col>
       <el-col :span="6" :xs="24">
-        <MPCard type="primary" height="110px" trigger="click">
+        <MPCard type="primary" height="200px">
           <template v-slot:header>
-            Primary <MPButton type="default"
-          /></template>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
-          <template v-slot:footer><small>Footer</small></template>
+            Primary
+            <MPButton type="default" trigger="click">
+              <template v-slot:reference>
+                <div>Click Dorpdown</div>
+              </template>
+            </MPButton>
+          </template>
+          <p>Multiple Line</p>
+          <p>With el-scroller-bar</p>
+          <p>And</p>
+          <p>200px Height</p>
+          <p>U can scroll down</p>
+          <p>to see</p>
+          <p>more informations</p>
         </MPCard>
       </el-col>
       <el-col :span="6" :xs="24">
-        <MPCard type="success">
+        <MPCard type="success" height="200px">
           <template v-slot:header>
             Success <MPButton type="success"
           /></template>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
+          <p>Success</p>
+          <p>Type</p>
+          <p>With el-scroller-bar</p>
+          <p>And</p>
+          <p>200px Height</p>
+          <p>U can scroll down</p>
+          <p>to see</p>
+          <p>more informations</p>
+          <template v-slot:footer><small>With Footer</small></template>
         </MPCard>
       </el-col>
       <el-col :span="4" :xs="24">
         <MPCard type="danger">
           <template v-slot:header> Danger <MPButton type="danger" /></template>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
+          <p>Danger type</p>
+          <p>With 4 Spans</p>
         </MPCard>
       </el-col>
       <el-col :span="4" :xs="24">
         <MPCard type="dark">
           <template v-slot:header> Dark <MPButton type="dark" /></template>
-          <p>asdad</p>
-          <p>asdad</p>
-          <p>asdad</p>
+          <p>Dark Mode</p>
         </MPCard>
       </el-col>
     </el-row>
@@ -143,8 +157,9 @@
 </template>
 
 <script>
+import MPCarousel from "./components/mp-carousel";
 import MPCard from "./components/mp-card";
-import MPButton from "./components/mp-card/mp-card-button"; 
+import MPButton from "./components/mp-card/mp-card-button";
 export default {
   name: "",
   data() {
@@ -154,7 +169,8 @@ export default {
   },
   components: {
     MPCard,
-    MPButton, 
+    MPButton,
+    MPCarousel
   },
 };
 </script>
