@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-20 15:52:29
- * @LastEditTime: 2021-02-20 16:45:48
+ * @LastEditTime: 2021-02-20 16:53:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-carousel/index.vue
@@ -25,13 +25,13 @@
                 ? slides.length
                 : index
               : slides.length - index,
+        backgroundImage: 'url(' + i.url + ')'
         }"
         @mouseover="pause = true"
         @mouseleave="pause = false"
       >
         <h1>{{ i.title }}</h1>
-        <span>{{ i.tyext }}</span>
-        <figure data-img="./img.jpg"></figure>
+        <span>{{ i.tyext }}</span> 
       </section>
       <div @click="toLeft" class="slide-arrow left"></div>
       <div @click="toRight" class="slide-arrow right"></div>
@@ -48,11 +48,36 @@ export default {
   data() {
     return {
       slides: [
-        { title: "Title0", text: "Context", url: "" },
-        { title: "Title1", text: "Context", url: "" },
-        { title: "Title2", text: "Context", url: "" },
-        { title: "Title3", text: "Context", url: "" },
-        { title: "Title4", text: "Context", url: "" },
+        {
+          title: "Title0",
+          text: "Context",
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          title: "Title1",
+          text: "Context",
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          title: "Title2",
+          text: "Context",
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          title: "Title3",
+          text: "Context",
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          title: "Title4",
+          text: "Context",
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
       ],
       currentSectionPos: 0,
       pause: false,
@@ -84,14 +109,14 @@ export default {
       clearInterval(this.playTimer);
       var newPos = (this.currentSectionPos + 1) % this.slides.length;
       this.focusOn(newPos);
-      this.play()
+      this.play();
     },
     toLeft() {
       clearInterval(this.playTimer);
       var newPos =
         (this.currentSectionPos + this.slides.length - 1) % this.slides.length;
       this.focusOn(newPos);
-      this.play()
+      this.play();
     },
   },
 };
