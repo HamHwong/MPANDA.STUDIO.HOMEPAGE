@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-02-20 17:20:18
+ * @LastEditTime: 2021-02-20 17:41:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
@@ -14,10 +14,13 @@
       <el-container>
         <el-header style="box-shadow: #afb1b3 0 0 20px;"> 
           <div class="header-warpper">
-            <div>
+            <!-- <div>
               Welcome To MPanda.Studio
-            </div>
-            <img style="width:40px;height:40px;margin-left:10px" :src="require('@/static/logo.png')" />
+            </div> -->
+              <el-tooltip class="item" :manual="manual" v-model="showSlogen" effect="dark" content="Welcome To MPanda.Studio" placement="left">
+                <img style="width:40px;height:40px;margin-left:10px" :src="require('@/static/logo.png')" />
+              </el-tooltip>
+            
           </div>
         </el-header>
         <el-main>
@@ -38,7 +41,17 @@ export default {
     // HomePage,
     Aside
   },
-  mounted() {},
+  data(){
+    return {
+      showSlogen:false,
+manual:true
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.showSlogen = true
+    }, 1000);
+  },
 };
 </script>
 

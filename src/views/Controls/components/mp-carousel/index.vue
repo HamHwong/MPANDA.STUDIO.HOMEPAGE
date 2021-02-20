@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-20 15:52:29
- * @LastEditTime: 2021-02-20 17:29:14
+ * @LastEditTime: 2021-02-20 17:58:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-carousel/index.vue
@@ -30,8 +30,10 @@
         @mouseover="pause = true"
         @mouseleave="pause = false"
       >
-        <h1>{{ i.title }}</h1>
-        <span>{{ i.text }}</span>
+        <div class="text-box">
+          <h1>{{ i.title }}</h1>
+          <span v-html="i.text"></span>
+        </div>
       </section>
       <div @click="toLeft" class="slide-arrow left"></div>
       <div @click="toRight" class="slide-arrow right"></div>
@@ -49,34 +51,29 @@ export default {
     return {
       slides: [
         {
-          title: "Title0",
-          text: "Context",
+          title: "This is a 3D Image Carousel",
+          text: "With blur FX",
           url:
             "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
         },
         {
-          title: "Title1",
-          text: "Context",
+          title: "Migrated from my old controls",
+          text:
+            "View the old one from <b><a href='https://github.com/HamHwong/Mpanda.Frontend.Library/tree/master/Mpanda.Carousel'>MPanda.Carousel</a></b>",
           url:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://cdn.pixabay.com/photo/2020/12/10/10/17/jasper-national-park-5819878_1280.jpg",
         },
         {
-          title: "Title2",
-          text: "Context",
+          title: "This is for Vue3",
+          text: "But it's not full-featured",
           url:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://cdn.pixabay.com/photo/2018/06/25/00/51/sunrise-3495775_1280.jpg",
         },
         {
-          title: "Title3",
-          text: "Context",
+          title: "Why?",
+          text: "Cause I forget how I finished it.",
           url:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          title: "Title4",
-          text: "Context",
-          url:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://cdn.pixabay.com/photo/2021/01/28/03/13/person-5956897_1280.jpg",
         },
       ],
       currentSectionPos: 0,
@@ -126,14 +123,25 @@ export default {
 .mpanda-Carousel {
   position: relative;
   display: flex;
-//   margin: 10px 100px;
+  //   margin: 10px 100px;
   overflow: hidden;
+  .text-box {
+    padding: 10px;
+    background-color: #14141448;
+    color: #fff;
+  }
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    color: #fff !important;
+  }
 }
 
 .slide {
   flex: 1;
   background-color: #fff;
-//   box-shadow: 0px 0px 50px #383838;
+  //   box-shadow: 0px 0px 50px #383838;
   border-radius: 5px;
   transition: all 0.5s;
   background-repeat: no-repeat;
