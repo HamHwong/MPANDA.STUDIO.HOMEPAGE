@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 14:43:44
- * @LastEditTime: 2021-01-08 11:18:15
+ * @LastEditTime: 2021-02-20 16:58:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/router/index.js
@@ -14,7 +14,7 @@ import HomePage from '@/views/HomePage'
 import Playground from '@/views/Playground'
 import Controls from '@/views/Controls'
 const routes = [{
-  path: '/',
+  path: '/PlayGround',
   name: 'PlayGround',
   component: Playground
 }, {
@@ -22,7 +22,7 @@ const routes = [{
   name: 'Home',
   component: HomePage
 }, {
-  path: '/Controls',
+  path: '/',
   name: 'Controls',
   component: Controls
 }]

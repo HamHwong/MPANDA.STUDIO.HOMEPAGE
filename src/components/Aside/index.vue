@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-07 15:23:46
- * @LastEditTime: 2021-01-08 11:12:05
+ * @LastEditTime: 2021-02-20 16:58:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Aside/index.vue
@@ -21,13 +21,13 @@
       </template>
       <el-menu-item-group>
         <template #title>Tools</template>
-        <router-link :to="{ path: '/' }">
+        <router-link :to="{ path: '/PlayGround' }">
           <el-menu-item index="1-1"> Playground </el-menu-item>
         </router-link>
-        <router-link :to="{ path: 'Home' }">
+        <router-link :to="{ path: '/Home' }">
           <el-menu-item index="1-2"> Home </el-menu-item>
         </router-link>
-        <router-link :to="{ path: 'Controls' }">
+        <router-link :to="{ path: '/' }">
           <el-menu-item index="1-2"> 自定义控件 </el-menu-item>
         </router-link>
       </el-menu-item-group>
