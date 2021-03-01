@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-02-20 17:41:54
+ * @LastEditTime: 2021-03-01 11:11:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
@@ -12,17 +12,7 @@
       <!-- <HomePage /> -->
       <Aside/>
       <el-container>
-        <el-header style="box-shadow: #afb1b3 0 0 20px;"> 
-          <div class="header-warpper">
-            <!-- <div>
-              Welcome To MPanda.Studio
-            </div> -->
-              <el-tooltip class="item" :manual="manual" v-model="showSlogen" effect="dark" content="Welcome To MPanda.Studio" placement="left">
-                <img style="width:40px;height:40px;margin-left:10px" :src="require('@/static/logo.png')" />
-              </el-tooltip>
-            
-          </div>
-        </el-header>
+<Header/>
         <el-main>
           <router-view></router-view>
         </el-main>
@@ -35,23 +25,25 @@
 <script>
 // import HomePage from './components/HomePage'
 import Aside from './components/Aside'
+import Header from './components/Header'
 export default {
   name: "App",
   components: {
     // HomePage,
+    Header,
     Aside
   },
-  data(){
-    return {
-      showSlogen:false,
-manual:true
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.showSlogen = true
-    }, 1000);
-  },
+  // data(){
+  //   return {
+  //     showSlogen:false,
+  //     manual:true
+  //   }
+  // },
+  // mounted() {
+  //   setTimeout(() => {
+  //     this.showSlogen = true
+  //   }, 1000);
+  // },
 };
 </script>
 
@@ -74,11 +66,5 @@ manual:true
   height: 100vh;
   background-color:#f4f6f9
 }
-.header-warpper{
-  height: 100%;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: flex-end;
-}
+
 </style>

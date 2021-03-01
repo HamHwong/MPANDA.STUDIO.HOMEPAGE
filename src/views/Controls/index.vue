@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-02-20 17:43:06
+ * @LastEditTime: 2021-03-01 15:44:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -16,13 +16,30 @@
     </el-tabs> -->
     <el-row>
       <el-col>
+        <h1>MP-Radio</h1>
+      </el-col>
+    </el-row>
+    <el-row :gutter="15">
+      <el-col>
+        <MPRadio>
+          <template v-slot:default>Normal</template>
+        </MPRadio>
+      </el-col>
+      <el-col>
+        <MPRadio disabled>
+          <template v-slot:default>Disabled</template>
+        </MPRadio>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
         <h1>MP-Carousel</h1>
       </el-col>
     </el-row>
 
     <el-row :gutter="15">
       <el-col>
-        <MPCarousel/>
+        <MPCarousel />
       </el-col>
     </el-row>
     <el-row>
@@ -159,6 +176,7 @@
 <script>
 import MPCarousel from "./components/mp-carousel";
 import MPCard from "./components/mp-card";
+import MPRadio from "./components/mp-radio";
 import MPButton from "./components/mp-card/mp-card-button";
 export default {
   name: "",
@@ -170,7 +188,8 @@ export default {
   components: {
     MPCard,
     MPButton,
-    MPCarousel
+    MPCarousel,
+    MPRadio,
   },
 };
 </script>
