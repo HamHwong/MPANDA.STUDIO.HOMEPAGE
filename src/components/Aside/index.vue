@@ -1,45 +1,52 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-07 15:23:46
- * @LastEditTime: 2021-02-20 17:23:53
+ * @LastEditTime: 2021-03-03 16:32:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Aside/index.vue
 -->
 <template>
   <el-menu
-    default-active="1-4-1"
+    router
+    :default-active="route_path"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
     :collapse="isCollapse"
   >
-    <el-submenu index="1">
-      <template #title>
-        <i class="el-icon-location"></i>
-        <span>导航一</span>
-      </template>
-      <el-menu-item-group>
-        <template #title>Tools</template>
-        <router-link :to="{ path: '/' }">
-          <el-menu-item index="1-1"> 控件库 </el-menu-item>
-        </router-link>
-        <router-link :to="{ path: '/PlayGround' }">
-          <el-menu-item index="1-2"> Playground </el-menu-item>
-        </router-link>
-        <router-link :to="{ path: '/Home' }">
-          <el-menu-item index="1-3"> 上传页面 </el-menu-item>
-        </router-link>
-      </el-menu-item-group> 
-    </el-submenu> 
+    <template v-for="route in routes">
+      <el-submenu
+        v-if="route.children && route.children.length > 0"
+        :index="route_path"
+      >
+        <template #title>
+          <i class="el-icon-location"></i>
+          <span>Tools</span>
+        </template>
+        <el-menu-item v-for="croute in route.children" :index="croute.path">{{
+          croute.meta.name
+        }}</el-menu-item>
+      </el-submenu>
+
+      <el-menu-item v-else :index="route.path">
+        <i
+          :class="`${route.meta.icon ? route.meta.icon : 'el-icon-location'}`"
+        ></i> 
+        <template #title>{{ route.meta.name }}</template>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
 <script>
+import { routes } from "@/router/routes";
 export default {
   data() {
     return {
       isCollapse: true,
+      routes,
+      route_path: routes[0] ? routes[0].path : "",
     };
   },
   methods: {
@@ -48,6 +55,9 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    handleRoute(route) {
+      this.$router.push(route);
     },
   },
 };
