@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-03-01 16:52:50
+ * @LastEditTime: 2021-03-04 17:43:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -20,17 +20,17 @@
       </el-col>
     </el-row>
     <el-row :gutter="15">
-      <el-col :span="4"> 
+      <el-col :md="4" :sm="8" :xs="12"> 
         <MPRadio>
           <template v-slot:default>Normal</template>
         </MPRadio>
       </el-col>
-      <el-col :span="4">
+      <el-col :md="4" :sm="8" :xs="12">
         <MPRadio disabled>
           <template v-slot:default>Disabled</template>
         </MPRadio>
       </el-col>
-      <el-col :span="4">
+      <el-col :md="4" :sm="8" :xs="12">
         <MPRadio readonly>
           <template v-slot:default>Read-Only</template>
         </MPRadio>
