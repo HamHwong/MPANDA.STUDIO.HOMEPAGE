@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-07 15:23:46
- * @LastEditTime: 2021-03-03 16:32:57
+ * @LastEditTime: 2021-03-04 16:30:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Aside/index.vue
@@ -16,25 +16,27 @@
     :collapse="isCollapse"
   >
     <template v-for="route in routes">
-      <el-submenu
-        v-if="route.children && route.children.length > 0"
-        :index="route_path"
-      >
-        <template #title>
-          <i class="el-icon-location"></i>
-          <span>Tools</span>
-        </template>
-        <el-menu-item v-for="croute in route.children" :index="croute.path">{{
-          croute.meta.name
-        }}</el-menu-item>
-      </el-submenu>
+      <template v-if="!route.meta.hidden">
+        <el-submenu
+          v-if="route.children && route.children.length > 0"
+          :index="route_path"
+        >
+          <template #title>
+            <i class="el-icon-location"></i>
+            <span>Tools</span>
+          </template>
+          <el-menu-item v-for="croute in route.children" :index="croute.path">
+            {{croute.name}}
+          </el-menu-item>
+        </el-submenu>
 
-      <el-menu-item v-else :index="route.path">
-        <i
-          :class="`${route.meta.icon ? route.meta.icon : 'el-icon-location'}`"
-        ></i> 
-        <template #title>{{ route.meta.name }}</template>
-      </el-menu-item>
+        <el-menu-item v-else :index="route.path">
+          <i
+            :class="`${route.meta.icon ? route.meta.icon : 'el-icon-location'}`"
+          ></i> 
+          <template #title>{{ route.name }}</template>
+        </el-menu-item>
+      </template>
     </template>
   </el-menu>
 </template>

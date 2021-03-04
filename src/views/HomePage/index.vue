@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-01-07 14:51:17
+ * @LastEditTime: 2021-03-04 17:06:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
@@ -23,7 +23,6 @@ export default {
   data(){
     return {
       file:null,
-      // test:''
     }
   },
   mounted () {

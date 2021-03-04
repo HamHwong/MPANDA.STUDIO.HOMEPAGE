@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">
+    <!-- <mask id="my-mask"> -->
+        <path 
+        stroke-dashoffset="488"
+        stroke-dasharray="500"
+        d="M100,100 L400,200" stroke="red" stroke-width="40" >
+        </path>
+    <!-- </mask> -->
+    <!-- <circle cx="100" cy="100" r="100" fill="#333" mask="url(#my-mask)">
+        <animate attributeName="opacity" values="0;1;0" dur="5s" begin="0s" repeatCount="indefinite"></animate>
+    </circle> -->
+    <text x="100" y="210">
+        ss
+    </text>
+</svg>

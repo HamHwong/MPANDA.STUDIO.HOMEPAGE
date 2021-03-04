@@ -1,49 +1,49 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-03-01 11:11:16
+ * @LastEditTime: 2021-03-04 16:44:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
 -->
 <template>
   <div>
-    <el-container>
-      <!-- <HomePage /> -->
+    <!-- <el-container> 
       <Aside/>
       <el-container>
-<Header/>
+        <Header/>
         <el-main>
           <router-view></router-view>
         </el-main>
         <el-footer><small>©1994-2021 MPanda Studio. All Rights Reserved.</small></el-footer>
       </el-container>
-    </el-container>
+    </el-container> -->
+    <component :is="layout">
+      <router-view></router-view>
+    </component>
   </div>
 </template>
 
 <script>
 // import HomePage from './components/HomePage'
-import Aside from './components/Aside'
-import Header from './components/Header'
+// import Aside from './components/Aside'
+// import Header from './components/Header'
+// import layout from ''
 export default {
   name: "App",
-  components: {
-    // HomePage,
-    Header,
-    Aside
+  data(){
+    return{
+    }
   },
-  // data(){
-  //   return {
-  //     showSlogen:false,
-  //     manual:true
-  //   }
-  // },
-  // mounted() {
-  //   setTimeout(() => {
-  //     this.showSlogen = true
-  //   }, 1000);
-  // },
+  components: { 
+    // Header,
+    // Aside
+  }, 
+  computed:{
+    layout(){
+      return (this.$route.meta.layout||'default')+'-layout'
+    }
+  }
 };
 </script>
 
