@@ -1,24 +1,52 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-04 17:39:05
+ * @LastEditTime: 2021-03-19 16:38:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
 -->
 <template>
-  <div class="btn-warpper" @click="handleEnter()">
-    <a class="btn">
-      <svg>
-        <rect x="0" y="0" fill="none" width="100%" height="100%" />
-      </svg>
-      <span> Enter </span>
-    </a>
+  <div class="container">
+    <div class="text-context" :style="`
+      background: url(${ImageObj.imgUrl}) 0px 0px / cover no-repeat;
+      background-clip: text;
+      -webkit-background-clip: text;
+    `">
+      <p>Welcome To My Site</p>
+      <p>Oh Yeah</p> 
+    </div>
+    <div class="btn-warpper" @click="handleEnter()">
+      <a class="btn">
+        <svg>
+          <rect x="0" y="0" fill="none" width="100%" height="100%" />
+        </svg>
+        <span> Enter </span>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+import { Ext } from "@/api";
+import { onMounted, reactive } from "vue";
 export default {
+  setup() {
+    var ImageObj = reactive({
+      imgUrl: "",
+    });
+    onMounted(async () => {
+      const { Data, IsSuccess } = await Ext.getDailyBG();
+      if (IsSuccess) {
+        if (Data.images.length > 0) {
+          ImageObj.imgUrl = "https://www.bing.com" + Data.images[0].url;
+        }
+      }
+    });
+    return {
+      ImageObj,
+    };
+  },
   methods: {
     handleEnter() {
       setTimeout(() => {
@@ -30,6 +58,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text-context {
+  font-size: 4rem;
+  text-align: left;
+  line-height: 4rem;
+  font-weight: 800;
+  text-transform: uppercase; 
+  color: transparent; 
+  -webkit-text-fill-color: transparent;
+  p{
+    margin: 0;
+  }
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .btn-warpper {
   position: absolute;
   bottom: 20%;
@@ -67,7 +116,7 @@ export default {
         &:nth-of-type(even) {
           margin-right: 0;
         }
-      } 
+      }
     }
     @media (min-width: 600px) {
       &:nth-of-type(even) {
@@ -75,8 +124,8 @@ export default {
         &:nth-of-type(5) {
           margin-right: 0;
         }
-      } 
-    } 
+      }
+    }
     svg {
       position: absolute;
       left: 0;

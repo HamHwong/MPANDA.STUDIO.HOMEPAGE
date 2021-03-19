@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-08 11:11:22
- * @LastEditTime: 2021-03-04 17:43:16
+ * @LastEditTime: 2021-03-18 15:50:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/index.vue
@@ -114,68 +114,9 @@
           <p>Dark Mode</p>
         </MPCard>
       </el-col>
-    </el-row>
-    <!-- Table -->
-    <!-- <el-row>
-      <el-col :span="24">
-        <MPCard>
-          <el-tabs v-model="activeName"  >
-            <el-tab-pane label="用户管理" name="first">
-              <el-row>
-                <el-table style="width: 100%">
-                  <el-table-column prop="date" label="日期"> </el-table-column>
-                  <el-table-column prop="name" label="姓名" width="180">
-                  </el-table-column>
-                  <el-table-column prop="address" label="地址">
-                  </el-table-column>
-                </el-table>
-              </el-row>
-              <el-pagination 
-                :page-size="100"
-                layout="total, prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
-            </el-tab-pane>
-            <el-tab-pane label="配置管理" name="second"
-              >配置管理
-              <el-pagination
-                :page-size="100"
-                layout="total, prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
-            </el-tab-pane>
-            <el-tab-pane label="角色管理" name="third"
-              >角色管理
-              <el-pagination
-                :page-size="100"
-                layout="total, prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
-            </el-tab-pane>
-            <el-tab-pane label="定时任务补偿" name="fourth"
-              >定时任务补偿
-              <el-pagination
-                :page-size="100"
-                layout="total, prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
-            </el-tab-pane>
-          </el-tabs>
-          <template v-slot:footer> </template>
-        </MPCard>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <MPCard> 
-        </MPCard>
-      </el-col>
-    </el-row> -->
-  </div>
+    </el-row> 
+    
+    </div>
 </template>
 
 <script>
