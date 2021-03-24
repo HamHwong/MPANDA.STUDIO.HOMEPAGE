@@ -1,17 +1,20 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-24 14:34:54
+ * @LastEditTime: 2021-03-24 15:37:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
 -->
 <template>
   <div class="container">
-    <div class="text-context" :style="`
-      background: url(${ImageObj.imgUrl}) 0px 0px / cover no-repeat;
-      background-clip: text;
-      -webkit-background-clip: text;
+    <div class="text-context" 
+    @click="HandleBgTextSwitch()"
+    :style="`
+      background-image: url(${ImageObj.imgUrl});
+      background-clip:${bgClipStyle};
+      -webkit-background-clip:${bgClipStyle};
+      color:${bgTextColor}
     `">
       <p>Welcome To My Site</p>
       <p>Oh Yeah</p> 
@@ -57,11 +60,24 @@ export default {
       }
     });
     // 
-    
-
+    var bgTextColor = ref('transparent')
+    var bgClipStyle = ref('text')
+    function HandleBgTextSwitch(){
+      if(bgTextColor.value ==='transparent'){
+        bgTextColor.value = '#fff'
+        bgClipStyle.value = null
+      }else{
+        bgTextColor.value ='transparent'
+        bgClipStyle.value ='text'
+      }
+    }
+ 
     return {
       ImageObj,
-      DailyWords
+      DailyWords,
+      bgTextColor,
+      HandleBgTextSwitch, 
+      bgClipStyle
     };
   },
   methods: {
@@ -76,7 +92,13 @@ export default {
 
 <style lang="scss" scoped>
 .text-context {
-  margin: 25% 10px auto;
+  transition: ALL 1s cubic-bezier(.8,-.5,.2,1.4); 
+  min-height:70px;
+  // display:flex;
+  // flex-direction: column-reverse;
+  // min-height: 30vh;
+  // padding-top: 100px;
+  padding: 100px 20px 0 20px;
   position:relative;
   user-select: none;
   font-size: 4rem;
@@ -84,8 +106,10 @@ export default {
   line-height: 4rem;
   font-weight: 800;
   text-transform: uppercase; 
-  color: transparent; 
-  -webkit-text-fill-color: transparent;
+  background-position-x:0;
+  background-position-y:-25vh;
+  background-size: cover ;
+  background-repeat: no-repeat;
   .center{
     text-align: center;
   }
@@ -115,10 +139,10 @@ export default {
   background-size: cover;
 }
 .btn-warpper {
-  // position: absolute;
-  // bottom: calc(50% - 60px);
-  // width: 20%;
-  // left: 40%;
+  position: absolute;
+  bottom: calc(50% - 60px);
+  width: 20%;
+  left: 40%;
   & * {
     -moz-box-sizing: inherit;
     box-sizing: inherit;
