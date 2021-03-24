@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-24 15:37:40
+ * @LastEditTime: 2021-03-24 15:40:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -107,7 +107,10 @@ export default {
   font-weight: 800;
   text-transform: uppercase; 
   background-position-x:0;
-  background-position-y:-25vh;
+  background-position-y:0;
+  @media (min-width: 600px) {
+    background-position-y:-25vh;
+  }
   background-size: cover ;
   background-repeat: no-repeat;
   .center{
