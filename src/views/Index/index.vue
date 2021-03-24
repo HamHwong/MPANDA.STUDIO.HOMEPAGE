@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-24 15:40:44
+ * @LastEditTime: 2021-03-24 15:43:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -142,10 +142,11 @@ export default {
   background-size: cover;
 }
 .btn-warpper {
-  position: absolute;
-  bottom: calc(50% - 60px);
-  width: 20%;
-  left: 40%;
+  // position: absolute;
+  // bottom: calc(50% - 60px);
+  // width: 20%;
+  // left: 40%;
+  margin-top: 10px;
   & * {
     -moz-box-sizing: inherit;
     box-sizing: inherit;
