@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-19 16:38:44
+ * @LastEditTime: 2021-03-24 14:34:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -15,7 +15,12 @@
     `">
       <p>Welcome To My Site</p>
       <p>Oh Yeah</p> 
+      <div class="dailywords center">
+        <small>今日毒鸡汤: <span class="underline">{{DailyWords.text||'加载中...'}}</span></small> 
+      </div>
     </div>
+    
+    <!-- Enter Btn -->
     <div class="btn-warpper" @click="handleEnter()">
       <a class="btn">
         <svg>
@@ -29,22 +34,34 @@
 
 <script>
 import { Ext } from "@/api";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 export default {
   setup() {
     var ImageObj = reactive({
       imgUrl: "",
     });
+    var DailyWords = reactive({text:''})
+    //Vue3写法
     onMounted(async () => {
       const { Data, IsSuccess } = await Ext.getDailyBG();
       if (IsSuccess) {
         if (Data.images.length > 0) {
           ImageObj.imgUrl = "https://www.bing.com" + Data.images[0].url;
         }
+      } 
+    });
+    onMounted(async () => {
+      const {Data:{data},IsSuccess} = await Ext.getFuckingWords()
+      if(IsSuccess){
+        DailyWords.text = data
       }
     });
+    // 
+    
+
     return {
       ImageObj,
+      DailyWords
     };
   },
   methods: {
@@ -59,6 +76,9 @@ export default {
 
 <style lang="scss" scoped>
 .text-context {
+  margin: 25% 10px auto;
+  position:relative;
+  user-select: none;
   font-size: 4rem;
   text-align: left;
   line-height: 4rem;
@@ -66,8 +86,23 @@ export default {
   text-transform: uppercase; 
   color: transparent; 
   -webkit-text-fill-color: transparent;
+  .center{
+    text-align: center;
+  }
+  .underline{
+    text-decoration: underline .15rem rgba(0, 0, 0, 0.267);
+  }
   p{
     margin: 0;
+  }
+  small{ 
+    font-size: .6rem; 
+    line-height: .6rem;
+  }
+  .dailywords{
+    // position: absolute;
+    // width: 100%;
+    // bottom: calc(20% + 2em);
   }
 }
 .container {
@@ -80,10 +115,10 @@ export default {
   background-size: cover;
 }
 .btn-warpper {
-  position: absolute;
-  bottom: 20%;
-  width: 20%;
-  left: 40%;
+  // position: absolute;
+  // bottom: calc(50% - 60px);
+  // width: 20%;
+  // left: 40%;
   & * {
     -moz-box-sizing: inherit;
     box-sizing: inherit;
