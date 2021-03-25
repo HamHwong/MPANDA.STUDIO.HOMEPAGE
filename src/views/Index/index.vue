@@ -1,28 +1,36 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-24 15:43:58
+ * @LastEditTime: 2021-03-25 18:00:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
 -->
 <template>
   <div class="container">
-    <div class="text-context" 
-    @click="HandleBgTextSwitch()"
-    :style="`
+    <NavTop fixed="top"/>
+    <div
+      class="text-context"
+      @click="HandleBgTextSwitch()"
+      :style="`
       background-image: url(${ImageObj.imgUrl});
       background-clip:${bgClipStyle};
       -webkit-background-clip:${bgClipStyle};
       color:${bgTextColor}
-    `">
-      <p>Welcome To My Site</p>
-      <p>Oh Yeah</p> 
+    `"
+    >
+      <p>Welcome</p>
+      <p>To My Site</p>
       <div class="dailywords center">
-        <small>今日毒鸡汤: <span class="underline">{{DailyWords.text||'加载中...'}}</span></small> 
+        <small
+          >今日毒鸡汤:
+          <span class="underline">{{
+            DailyWords.text || "加载中..."
+          }}</span></small
+        >
       </div>
     </div>
-    
+
     <!-- Enter Btn -->
     <div class="btn-warpper" @click="handleEnter()">
       <a class="btn">
@@ -32,18 +40,24 @@
         <span> Enter </span>
       </a>
     </div>
+
+    <div>
+      <!-- <GameComponent/> -->
+    </div>
   </div>
 </template>
 
 <script>
 import { Ext } from "@/api";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, provide } from "vue";
+import GameComponent from "@/components/Game";
+import NavTop from '@/components/TopNav'
 export default {
   setup() {
     var ImageObj = reactive({
       imgUrl: "",
     });
-    var DailyWords = reactive({text:''})
+    var DailyWords = reactive({ text: "" });
     //Vue3写法
     onMounted(async () => {
       const { Data, IsSuccess } = await Ext.getDailyBG();
@@ -51,33 +65,43 @@ export default {
         if (Data.images.length > 0) {
           ImageObj.imgUrl = "https://www.bing.com" + Data.images[0].url;
         }
-      } 
+      }
     });
     onMounted(async () => {
-      const {Data:{data},IsSuccess} = await Ext.getFuckingWords()
-      if(IsSuccess){
-        DailyWords.text = data
+      const {
+        Data: { data },
+        IsSuccess,
+      } = await Ext.getFuckingWords();
+      if (IsSuccess) {
+        DailyWords.text = data;
       }
     });
-    // 
-    var bgTextColor = ref('transparent')
-    var bgClipStyle = ref('text')
-    function HandleBgTextSwitch(){
-      if(bgTextColor.value ==='transparent'){
-        bgTextColor.value = '#fff'
-        bgClipStyle.value = null
-      }else{
-        bgTextColor.value ='transparent'
-        bgClipStyle.value ='text'
+    //
+    var bgTextColor = ref("transparent");
+    var bgClipStyle = ref("text");
+    var isShowBG = ref(false)
+    provide('isShownBG',isShowBG)
+    function HandleBgTextSwitch() {
+      if (bgTextColor.value === "transparent") {
+        bgTextColor.value = "rgba(255, 255, 255, 0.800);";
+        bgClipStyle.value = null;
+        isShowBG.value = true
+      } else {
+        bgTextColor.value = "transparent";
+        bgClipStyle.value = "text";
+        isShowBG.value = false
       }
     }
- 
+
     return {
       ImageObj,
       DailyWords,
       bgTextColor,
-      HandleBgTextSwitch, 
-      bgClipStyle
+      HandleBgTextSwitch,
+      bgClipStyle,
+      GameComponent,
+      NavTop,
+      isShowBG
     };
   },
   methods: {
@@ -92,41 +116,41 @@ export default {
 
 <style lang="scss" scoped>
 .text-context {
-  transition: ALL 1s cubic-bezier(.8,-.5,.2,1.4); 
-  min-height:70px;
+  transition: ALL 1s cubic-bezier(0.8, -0.5, 0.2, 1.4);
+  min-height: 70px;
   // display:flex;
   // flex-direction: column-reverse;
   // min-height: 30vh;
   // padding-top: 100px;
   padding: 100px 20px 0 20px;
-  position:relative;
+  position: relative;
   user-select: none;
   font-size: 4rem;
   text-align: left;
   line-height: 4rem;
   font-weight: 800;
-  text-transform: uppercase; 
-  background-position-x:0;
-  background-position-y:0;
+  text-transform: uppercase;
+  background-position-x: 0;
+  background-position-y: 0;
   @media (min-width: 600px) {
-    background-position-y:-25vh;
+    background-position-y: -25vh;
   }
-  background-size: cover ;
+  background-size: cover;
   background-repeat: no-repeat;
-  .center{
+  .center {
     text-align: center;
   }
-  .underline{
-    text-decoration: underline .15rem rgba(0, 0, 0, 0.267);
+  .underline {
+    text-decoration: underline 0.15rem rgba(0, 0, 0, 0.267);
   }
-  p{
+  p {
     margin: 0;
   }
-  small{ 
-    font-size: .6rem; 
-    line-height: .6rem;
+  small {
+    font-size: 0.6rem;
+    line-height: 0.6rem;
   }
-  .dailywords{
+  .dailywords {
     // position: absolute;
     // width: 100%;
     // bottom: calc(20% + 2em);
