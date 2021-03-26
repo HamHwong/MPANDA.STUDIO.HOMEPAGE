@@ -1,23 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-03-04 16:44:26
+ * @LastEditTime: 2021-03-26 16:33:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
 -->
 <template>
   <div>
-    <!-- <el-container> 
-      <Aside/>
-      <el-container>
-        <Header/>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-        <el-footer><small>©1994-2021 MPanda Studio. All Rights Reserved.</small></el-footer>
-      </el-container>
-    </el-container> -->
     <component :is="layout">
       <router-view></router-view>
     </component>
@@ -25,19 +15,21 @@
 </template>
 
 <script>
-// import HomePage from './components/HomePage'
-// import Aside from './components/Aside'
-// import Header from './components/Header'
-// import layout from ''
+import {onMounted,provide} from 'vue'
 export default {
   name: "App",
   data(){
     return{
     }
+  }, 
+  setup(props, context,ctx){ 
+    window.addEventListener('resize',()=>{
+      //console.log(props,context)
+      //console.log(props)
+      //provide('')
+    })
   },
-  components: { 
-    // Header,
-    // Aside
+  components: {
   }, 
   computed:{
     layout(){
