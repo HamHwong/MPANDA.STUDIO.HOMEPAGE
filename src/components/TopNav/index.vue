@@ -12,37 +12,47 @@
       @mouseleave="blurMenu"
       :class="{ Nav_Bar: true, DarkMode: false, Dark: !isShownGB }"
     >
-      <div class="Nav_Menus" ref="Nav_Manus_Ref">
+      <div
+        class="Nav_Menus"
+        ref="Nav_Manus_Ref"
+      >
         <div
           class="Nav_Menus_Marker"
-          :style="`width: ${markerPosition.width}px;left: ${
-            markerPosition.left
-          }px;background-color:${isShownGB ? '#fff' : '#333'}`"
+          :style="`
+          width: ${markerLinePosition.width}px;
+          left: ${markerLinePosition.left}px;
+          background-color:${isShownGB ? '#fff' : 'rgb(29, 32, 41);'}
+          `"
         ></div>
-
+        <!-- -Nav_Manus_Options[CurrentIndex].menusHeight -->
         <div
           v-for="(menu, i) in Nav_Manus"
           @mouseover="focusMenu(i)"
           class="Nav_Menu"
         >
+
           <template v-if="menu.children.length > 0">
-            <div class="Sub_Nav_Menus_Label">{{ menu.label }}</div>
-            <div class="Sub_Nav_Menus">
-              <div v-for="submenu in menu.children" class="Sub_Nav_Menu">
-                {{ submenu.label }}
+            <div class="Nav_Menu_Label">{{ menu.label }}</div>
+            <div
+              class="Sub_Nav_Menus"
+              :style="`margin-top:${CurrentIndex.val===i?0:-100}px;opacity:${CurrentIndex.val===i?1:0}`"
+            >
+              <div
+                v-for="submenu in menu.children"
+                class="Sub_Nav_Menu"
+              >
+                <div class="Sub_Nav_Menus_Label">
+                  {{ submenu.label }}
+                </div>
               </div>
             </div>
           </template>
           <template v-else>
-            {{ menu.label }}
+            <div class="Nav_Menu_Label">
+              {{ menu.label }}
+            </div>
           </template>
         </div>
-        <!-- <div class="Nav_Menu">
-          Menu
-          <div class="Sub_Nav_Menus">
-            <div class="Sub_Nav_Menu">SubMenu</div>
-          </div> 
-        </div> -->
       </div>
     </div>
   </div>
@@ -55,37 +65,42 @@ export default {
   props: {
     fixed: {
       type: String,
-      validator(val) {
+      validator (val) {
         return ["top", "bottom", "left", "right"].includes(val.toLowerCase());
       },
     },
   },
   setup: (props, context) => {
+    var CurrentIndex = reactive({ val: -1 })
     var isShownGB = inject("isShownBG");
-    var markerPosition = reactive({
+    var markerLinePosition = reactive({
       left: 10,
       width: 10,
     });
     var Nav_Manus_Ref = ref(null);
     var Nav_Manus_Options = reactive([]);
 
-    function initManusPosition() {
+    function initManusPosition () {
       var Menus = Nav_Manus_Ref.value.querySelectorAll(".Nav_Menu");
       for (var i = 0; i < Menus.length; i++) {
         Nav_Manus_Options.push({
           width: Menus[i].offsetWidth,
           left: Menus[i].offsetLeft,
+          menusHeight: Menus[i].offsetHeight
         });
       }
     }
 
-    function focusMenu(index) {
-      markerPosition.width = Nav_Manus_Options[index].width;
-      markerPosition.left = Nav_Manus_Options[index].left;
+    function focusMenu (index) {
+      markerLinePosition.width = Nav_Manus_Options[index].width;
+      markerLinePosition.left = Nav_Manus_Options[index].left;
+      CurrentIndex.val = index;
+      console.log(CurrentIndex)
     }
-    function blurMenu() {
-      markerPosition.width = 0;
-      markerPosition.left = 0;
+    function blurMenu () {
+      markerLinePosition.width = 0;
+      markerLinePosition.left = 0;
+      CurrentIndex.val = -1
     }
 
     var Nav_Manus = reactive([]);
@@ -127,17 +142,21 @@ export default {
       initManusPosition();
     });
     return {
-      markerPosition,
+      markerLinePosition,
       isShownGB,
       Nav_Manus_Ref,
       Nav_Manus,
       focusMenu,
       blurMenu,
+      Nav_Manus_Options,
+      CurrentIndex
     };
   },
 };
 </script>
 <style lang="scss" scoped>
+$animation-cubic-bezier: cubic-bezier(0.8, -0.5, 0.2, 1.4);
+$animation-duration: 1s;
 .Nav_Bar {
   width: 100%;
   position: absolute;
@@ -147,9 +166,9 @@ export default {
   left: 0;
   z-index: 10000;
   color: #fff;
-  transition: color 1s cubic-bezier(0.8, -0.5, 0.2, 1.4);
+  transition: color 1s $animation-cubic-bezier;
   &.Dark {
-    color: #333;
+    color: rgb(29, 32, 41);
   }
   .Nav_Menus {
     margin: 0px 20px;
@@ -159,17 +178,30 @@ export default {
     align-items: flex-start;
     flex-direction: row;
     .Nav_Menus_Marker {
-      transition: left 0.8s ease-in-out,
-        width 1.2s cubic-bezier(0.8, -0.5, 0.2, 1.4);
+      transition: left 0.8s ease-in-out, width 1.2s $animation-cubic-bezier;
       height: 2px;
-      background-color: red;
       position: absolute;
     }
     .Nav_Menu {
       cursor: pointer;
-      padding: 10px 10px;
+      .Nav_Menu_Label {
+        padding: 10px 10px;
+      }
       .Sub_Nav_Menus {
+        transition: opacity .8s $animation-cubic-bezier,
+          margin-top 1s $animation-cubic-bezier;
         cursor: inherit;
+        .Sub_Nav_Menus_Label {
+          padding: 5px 10px;
+          border-radius: 5px;
+          box-sizing: border-box;
+          transition: background 0.5s $animation-cubic-bezier;
+          &:hover {
+            background-color: rgba(51, 51, 51, 0.2);
+            margin-bottom: -2px;
+            border-bottom: 2px solid #fff;
+          }
+        }
         .Sub_Nav_Menu {
           cursor: inherit;
         }

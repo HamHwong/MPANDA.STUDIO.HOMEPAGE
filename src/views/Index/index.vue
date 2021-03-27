@@ -122,6 +122,7 @@ export default {
   // flex-direction: column-reverse;
   // min-height: 30vh;
   // padding-top: 100px;
+  // text-shadow: 0px 0px 2px rgb(124, 124, 124); 
   padding: 100px 20px 0 20px;
   position: relative;
   user-select: none;
@@ -141,7 +142,10 @@ export default {
     text-align: center;
   }
   .underline {
-    text-decoration: underline 0.15rem rgba(0, 0, 0, 0.267);
+    padding-bottom: 2px;
+    // line-height: 10px;
+    border-bottom: solid .15rem rgba(0, 0, 0, 0.2);
+    // text-decoration: underline 0.15rem rgba(0, 0, 0, 0.2);
   }
   p {
     margin: 0;
