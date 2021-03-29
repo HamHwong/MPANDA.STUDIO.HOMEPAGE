@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 16:32:01
- * @LastEditTime: 2021-03-26 16:24:49
+ * @LastEditTime: 2021-03-29 16:30:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-topnav/index.vue
@@ -10,48 +10,58 @@
   <div>
     <div
       @mouseleave="blurMenu"
-      :class="{ Nav_Bar: true, DarkMode: false, Dark: !isShownGB }"
+      :class="{
+        Nav_Bar: true,
+        DarkMode: false,
+        Dark: !isShownGB,
+        Fold: Status === 'fold',
+      }"
     >
-      <div
-        class="Nav_Menus"
-        ref="Nav_Manus_Ref"
-      >
-        <div
-          class="Nav_Menus_Marker"
-          :style="`
-          width: ${markerLinePosition.width}px;
-          left: ${markerLinePosition.left}px;
-          background-color:${isShownGB ? '#fff' : 'rgb(29, 32, 41);'}
-          `"
-        ></div>
-        <!-- -Nav_Manus_Options[CurrentIndex].menusHeight -->
-        <div
-          v-for="(menu, i) in Nav_Manus"
-          @mouseover="focusMenu(i)"
-          class="Nav_Menu"
-        >
-
-          <template v-if="menu.children.length > 0">
-            <div class="Nav_Menu_Label">{{ menu.label }}</div>
-            <div
-              class="Sub_Nav_Menus"
-              :style="`margin-top:${CurrentIndex.val===i?0:-100}px;opacity:${CurrentIndex.val===i?1:0}`"
-            >
+      <lotties
+        @menu:fold="handleMenuStauts('fold')"
+        @menu:unfold="handleMenuStauts('unfold')"
+      />
+      <div class="Nav_Menus_Warp">
+        <div class="Nav_Menus" ref="Nav_Manus_Ref">
+          <div
+            class="Nav_Menus_Marker"
+            :style="
+              `
+            width: ${markerLinePosition.width}px;
+            left: ${markerLinePosition.left}px;
+            background-color:${isShownGB ? '#fff' : 'rgb(29, 32, 41);'}
+            `
+            "
+          ></div>
+          <!-- -Nav_Manus_Options[CurrentIndex].menusHeight -->
+          <div
+            v-for="(menu, i) in Nav_Manus"
+            @mouseover="focusMenu(i)"
+            class="Nav_Menu"
+          >
+            <template v-if="menu.children.length > 0">
+              <div class="Nav_Menu_Label">{{ menu.label }}</div>
               <div
-                v-for="submenu in menu.children"
-                class="Sub_Nav_Menu"
+                class="Sub_Nav_Menus"
+                :style="
+                  `margin-top:${CurrentIndex.val === i ? 0 : -100}px;opacity:${
+                    CurrentIndex.val === i ? 1 : 0
+                  }`
+                "
               >
-                <div class="Sub_Nav_Menus_Label">
-                  {{ submenu.label }}
+                <div v-for="submenu in menu.children" class="Sub_Nav_Menu">
+                  <div class="Sub_Nav_Menus_Label">
+                    {{ submenu.label }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="Nav_Menu_Label">
-              {{ menu.label }}
-            </div>
-          </template>
+            </template>
+            <template v-else>
+              <div class="Nav_Menu_Label">
+                {{ menu.label }}
+              </div>
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -60,47 +70,51 @@
 
 <script>
 import { ref, inject, reactive, onMounted } from "vue";
+import Lotties from "./components/Lotties";
+// import * as animationData from '@/assets/Lotties/menu.json';
 export default {
   name: "topNav",
   props: {
     fixed: {
       type: String,
-      validator (val) {
+      validator(val) {
         return ["top", "bottom", "left", "right"].includes(val.toLowerCase());
       },
     },
   },
+  components: {
+    Lotties,
+  },
   setup: (props, context) => {
-    var CurrentIndex = reactive({ val: -1 })
+    var CurrentIndex = reactive({ val: -1 });
     var isShownGB = inject("isShownBG");
+    var Status = ref("fold");
     var markerLinePosition = reactive({
-      left: 10,
-      width: 10,
+      left: 0,
+      width: 0,
     });
     var Nav_Manus_Ref = ref(null);
     var Nav_Manus_Options = reactive([]);
-
-    function initManusPosition () {
+    function initManusPosition() {
       var Menus = Nav_Manus_Ref.value.querySelectorAll(".Nav_Menu");
       for (var i = 0; i < Menus.length; i++) {
         Nav_Manus_Options.push({
           width: Menus[i].offsetWidth,
           left: Menus[i].offsetLeft,
-          menusHeight: Menus[i].offsetHeight
+          menusHeight: Menus[i].offsetHeight,
         });
       }
     }
 
-    function focusMenu (index) {
+    function focusMenu(index) {
       markerLinePosition.width = Nav_Manus_Options[index].width;
       markerLinePosition.left = Nav_Manus_Options[index].left;
       CurrentIndex.val = index;
-      console.log(CurrentIndex)
     }
-    function blurMenu () {
+    function blurMenu() {
       markerLinePosition.width = 0;
       markerLinePosition.left = 0;
-      CurrentIndex.val = -1
+      CurrentIndex.val = -1;
     }
 
     var Nav_Manus = reactive([]);
@@ -141,6 +155,10 @@ export default {
     onMounted(() => {
       initManusPosition();
     });
+
+    function handleMenuStauts(status) {
+      Status.value = status;
+    }
     return {
       markerLinePosition,
       isShownGB,
@@ -149,7 +167,9 @@ export default {
       focusMenu,
       blurMenu,
       Nav_Manus_Options,
-      CurrentIndex
+      CurrentIndex,
+      handleMenuStauts,
+      Status,
     };
   },
 };
@@ -167,43 +187,60 @@ $animation-duration: 1s;
   z-index: 10000;
   color: #fff;
   transition: color 1s $animation-cubic-bezier;
+  overflow: hidden;
   &.Dark {
     color: rgb(29, 32, 41);
   }
-  .Nav_Menus {
-    margin: 0px 20px;
-    position: relative;
-    user-select: none;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    .Nav_Menus_Marker {
-      transition: left 0.8s ease-in-out, width 1.2s $animation-cubic-bezier;
-      height: 2px;
-      position: absolute;
-    }
-    .Nav_Menu {
-      cursor: pointer;
-      .Nav_Menu_Label {
-        padding: 10px 10px;
+
+  &.Fold {
+    .Nav_Menus_Warp {
+      .Nav_Menus {
+        left: -100vw;
       }
-      .Sub_Nav_Menus {
-        transition: opacity .8s $animation-cubic-bezier,
-          margin-top 1s $animation-cubic-bezier;
-        cursor: inherit;
-        .Sub_Nav_Menus_Label {
-          padding: 5px 10px;
-          border-radius: 5px;
-          box-sizing: border-box;
-          transition: background 0.5s $animation-cubic-bezier;
-          &:hover {
-            background-color: rgba(51, 51, 51, 0.2);
-            margin-bottom: -2px;
-            border-bottom: 2px solid #fff;
-          }
-        }
-        .Sub_Nav_Menu {
+    }
+  }
+  .Nav_Menus_Warp {
+    margin: 0px 20px;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    .Nav_Menus {
+      position: relative;
+      left: 0;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: row;
+      transition: left 1.5s $animation-cubic-bezier;
+      .Nav_Menus_Marker {
+        transition: left 0.8s ease-in-out, width 1.2s $animation-cubic-bezier;
+        height: 2px;
+        position: absolute;
+      }
+      .Nav_Menu {
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 10px 10px;
+        .Sub_Nav_Menus {
+          transition: opacity 0.8s $animation-cubic-bezier,
+            margin-top 1s $animation-cubic-bezier;
           cursor: inherit;
+          .Sub_Nav_Menus_Label {
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: background 0.5s $animation-cubic-bezier;
+            &:hover {
+              background-color: rgba(51, 51, 51, 0.2);
+              margin-bottom: -2px;
+              border-bottom: 2px solid #fff;
+            }
+          }
+          .Sub_Nav_Menu {
+            font-weight: normal;
+            font-size: 0.5rem;
+            cursor: inherit;
+          }
         }
       }
     }

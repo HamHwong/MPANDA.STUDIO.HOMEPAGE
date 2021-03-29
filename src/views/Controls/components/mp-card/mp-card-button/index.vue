@@ -91,8 +91,7 @@ export default {
       },
     },
     referencePositionOptions: {
-      get() {
-        console.log(this.$refs);
+      get() { 
         return {
           // left:'-100px'
         };
