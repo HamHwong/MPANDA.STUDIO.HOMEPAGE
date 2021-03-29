@@ -96,7 +96,7 @@ export default {
       GameComponent,
       NavTop,
       isShowBG,
-      svgBotton
+      svgBotton, 
     };
   },
   methods: {
@@ -110,6 +110,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$fontSize_Desktop:4rem;
+$fontSize_Mobile:2.5rem;
 .text-context {
   transition: ALL 1s cubic-bezier(0.8, -0.5, 0.2, 1.4);
   min-height: 70px;
@@ -121,15 +123,17 @@ export default {
   padding: 80px 20px 0 20px;
   position: relative;
   user-select: none;
-  font-size: 4rem;
   text-align: left;
-  line-height: 4rem;
+  font-size: $fontSize_Mobile;
+  line-height: $fontSize_Mobile;
   font-weight: 800;
   text-transform: uppercase;
   background-position-x: 0;
   background-position-y: 0;
   @media (min-width: 600px) {
     background-position-y: -25vh;
+    font-size: $fontSize_Desktop;
+    line-height: $fontSize_Desktop;
   }
   background-size: cover;
   background-repeat: no-repeat;
@@ -156,7 +160,12 @@ export default {
   }
 }
 .container {
-  width: 100vw;
+  
+    width: 100vw;
+  // @media (min-width: 600px) {
+  //   width: 100vw;
+  // }
+  //   width: unset;
   height: 100vh;
   position: absolute;
   top: 0;

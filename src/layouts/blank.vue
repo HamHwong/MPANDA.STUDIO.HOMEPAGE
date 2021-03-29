@@ -7,9 +7,9 @@
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/layout/blank.vue
 -->
 <template>
-  <fragement>
+  <div>
       <slot />
-  </fragement>
+  </div>
 </template>
 
 <script>

@@ -6,8 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/layout/default.vue
 -->
-<template>
-  <fragment>
+<template> 
     <el-container>
       <!-- <HomePage /> -->
       <Aside />
@@ -20,8 +19,7 @@
           <small>©1994-2021 MPanda Studio. All Rights Reserved.</small>
         </el-footer>
       </el-container>
-    </el-container>
-  </fragment>
+    </el-container> 
 </template>
 
 <script>

@@ -11,12 +11,18 @@
 <script>
 import lottie from "lottie-web";
 // import { replaceColor ,getColors} from 'lottie-colorify';
-import { onMounted, ref, reactive, watch } from "vue";
+import { onMounted, ref, reactive, watch, toRef } from "vue";
 import lottieApi from 'lottie-api'
 import { inject } from 'vue'
 import animation from "@/assets/Lotties/menu.json";
 export default {
   name: "Lotties",
+  props: {
+    value: {
+      type: Boolean,
+      default: () => false
+    }
+  },
   setup (props, context) {
     var container = ref(null);
     var lottieObj = ref(null);
@@ -24,6 +30,8 @@ export default {
     var options = reactive({
       status: "fold",
     });
+    var propValue = toRef(context.props.value)
+    console.log(propValue.value)
     onMounted(function () {
       lottieObj = initAnimation(animation)
     });
@@ -54,33 +62,40 @@ export default {
       })
       var curFrame = 0
       if (options.status == "fold") {
-        console.log('Fold1')
         curFrame = 0 + Math.random() * 0.00001
         // lottieObj.goToAndStop(curFrame,false) 
         lottieObj.playSegments([0, 1], true);
       } else {
-        console.log('UnFold1')
         curFrame = 70 + Math.random() * 0.00001
         // lottieObj.goToAndStop(curFrame,false) 
         lottieObj.playSegments([69, 70], true);
       }
     }
-    function goToAndStop (value, isFrame) {
-      lottieObj.goToAndStop(value, isFrame);
+    function goToAndStop (val, isFrame) {
+      lottieObj.goToAndStop(val, isFrame);
     }
-    function goToAndPlay (value, isFrame) {
-      lottieObj.goToAndPlay(value, isFrame);
+    function goToAndPlay (val, isFrame) {
+      lottieObj.goToAndPlay(val, isFrame);
     }
     function fold () {
       context.emit('menu:fold')
-      options.status = 'fold'
-      lottieObj.playSegments([70, 140], false);
     }
     function unfold () {
       context.emit('menu:unfold')
-      options.status = 'unfold'
-      lottieObj.playSegments([0, 70], false);
     }
+    watch(props, ({ value }) => {
+      if (value) {
+        // unfold()
+        options.status = 'unfold'
+        lottieObj.playSegments([0, 70], false);
+        context.emit('update:value', true)
+      } else {
+        // fold()
+        options.status = 'fold'
+        lottieObj.playSegments([70, 140], false);
+        context.emit('update:value', false)
+      }
+    })
     function stop () {
       fold();
     }
@@ -89,9 +104,9 @@ export default {
     }
     function switchStatus () {
       if (options.status == "fold") {
-        unfold();
+        unfold(); 
       } else {
-        fold();
+        fold(); 
       }
     }
 

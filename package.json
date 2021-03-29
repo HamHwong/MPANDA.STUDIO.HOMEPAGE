@@ -11,10 +11,11 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.1-beta.14",
+    "is-mobile": "^3.0.0",
     "lottie-api": "^1.0.3",
     "lottie-colorify": "^0.8.0",
     "lottie-web": "^5.7.7",
-    "vue": "^3.0.0", 
+    "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuedraggable": "^2.24.3"
   },

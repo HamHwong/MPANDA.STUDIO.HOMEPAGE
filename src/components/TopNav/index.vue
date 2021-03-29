@@ -14,14 +14,15 @@
         Nav_Bar: true,
         DarkMode: false,
         Dark: !isShownGB,
-        Fold: Status === 'fold',
+        Fold: !IsUnfold,
       }"
     >
-      <lotties
-        @menu:fold="handleMenuStauts('fold')"
-        @menu:unfold="handleMenuStauts('unfold')"
-      />
-      <div class="Nav_Menus_Warp">
+      <Lotties
+        @menu:fold="handleMenuUnFold(false)"
+        @menu:unfold="handleMenuUnFold(true)"
+        v-model:value="IsUnfold" 
+      /> 
+      <div class="Nav_Menus_Warp" v-if="!isMobile()">
         <div class="Nav_Menus" ref="Nav_Manus_Ref">
           <div
             class="Nav_Menus_Marker"
@@ -63,14 +64,22 @@
             </template>
           </div>
         </div>
-      </div>
-    </div>
+      </div> 
+      <AsideNav  
+        v-else
+        v-model="IsUnfold"
+        size="70%"
+        :before-close="()=>IsUnfold = false"
+      />
+    </div> 
   </div>
 </template>
 
 <script>
 import { ref, inject, reactive, onMounted } from "vue";
+import AsideNav from '@/components/AsideNav'
 import Lotties from "./components/Lotties";
+import isMobile from 'is-mobile'
 // import * as animationData from '@/assets/Lotties/menu.json';
 export default {
   name: "topNav",
@@ -84,11 +93,12 @@ export default {
   },
   components: {
     Lotties,
+    AsideNav
   },
   setup: (props, context) => {
     var CurrentIndex = reactive({ val: -1 });
     var isShownGB = inject("isShownBG");
-    var Status = ref("fold");
+    var IsUnfold = ref(false);
     var markerLinePosition = reactive({
       left: 0,
       width: 0,
@@ -153,12 +163,12 @@ export default {
     ];
 
     onMounted(() => {
-      initManusPosition();
+      !isMobile()&& initManusPosition();
     });
 
-    function handleMenuStauts(status) {
-      Status.value = status;
-    }
+    function handleMenuUnFold(status) { 
+      IsUnfold.value = status;
+    }  
     return {
       markerLinePosition,
       isShownGB,
@@ -168,8 +178,9 @@ export default {
       blurMenu,
       Nav_Manus_Options,
       CurrentIndex,
-      handleMenuStauts,
-      Status,
+      handleMenuUnFold,
+      IsUnfold,
+      isMobile,  
     };
   },
 };
