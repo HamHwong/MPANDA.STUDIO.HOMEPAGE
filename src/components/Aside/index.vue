@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-07 15:23:46
- * @LastEditTime: 2021-03-29 14:21:15
+ * @LastEditTime: 2021-03-30 16:17:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Aside/index.vue
@@ -29,7 +29,6 @@
             {{croute.name}}
           </el-menu-item>
         </el-submenu>
-
         <el-menu-item v-else :index="route.path">
           <i
             :class="`${route.meta.icon ? route.meta.icon : 'el-icon-location'}`"

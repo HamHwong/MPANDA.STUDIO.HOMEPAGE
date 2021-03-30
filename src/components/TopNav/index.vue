@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 16:32:01
- * @LastEditTime: 2021-03-29 16:30:29
+ * @LastEditTime: 2021-03-30 16:16:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-topnav/index.vue
@@ -230,7 +230,7 @@ $animation-duration: 1s;
       .Nav_Menu {
         cursor: pointer;
         font-size: 0.8rem;
-        font-weight: bold;
+        font-weight: normal;
         padding: 10px 10px;
         .Sub_Nav_Menus {
           transition: opacity 0.8s $animation-cubic-bezier,
