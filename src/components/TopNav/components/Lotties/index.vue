@@ -30,8 +30,7 @@ export default {
     var options = reactive({
       status: "fold",
     });
-    var propValue = toRef(context.props.value)
-    console.log(propValue.value)
+    // var propValue = toRef(context.props.value)
     onMounted(function () {
       lottieObj = initAnimation(animation)
     });
