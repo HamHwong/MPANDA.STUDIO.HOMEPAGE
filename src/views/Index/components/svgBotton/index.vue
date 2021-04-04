@@ -1,16 +1,25 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-29 14:13:20
- * @LastEditTime: 2021-03-29 14:15:22
+ * @LastEditTime: 2021-04-04 22:20:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/components/svgBotton/index.vue
 -->
 <template>
-  <div class="btn-warpper" v-bind="$attrs">
-    <a class="btn">
+  <div class="btn-warpper">
+    <a
+      class="btn"
+      v-bind="$attrs"
+    >
       <svg>
-        <rect x="0" y="0" fill="none" width="100%" height="100%" />
+        <rect
+          x="0"
+          y="0"
+          fill="none"
+          width="100%"
+          height="100%"
+        />
       </svg>
       <span> Enter </span>
     </a>

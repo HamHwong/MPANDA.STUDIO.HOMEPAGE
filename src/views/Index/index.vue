@@ -1,41 +1,39 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-03-30 16:17:58
+ * @LastEditTime: 2021-04-04 22:21:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
 -->
 <template>
   <div class="container">
-    <NavTop fixed="top"/>
+    <NavTop fixed="top" />
     <div
       class="text-context"
-      @click="HandleBgTextSwitch()"
       :style="`
       background-image: url(${ImageObj.imgUrl});
       background-clip:${bgClipStyle};
       -webkit-background-clip:${bgClipStyle};
       color:${bgTextColor}
     `"
+      @click="HandleBgTextSwitch()"
     >
       <p>Welcome</p>
       <p>To</p>
       <p>MPanda.Studio</p>
       <div class="dailywords center">
-        <small
-          >今日毒鸡汤:
+        <small>今日毒鸡汤:
           <span class="underline">{{
             DailyWords.text || "加载中..."
-          }}</span></small
-        >
+          }}</span></small>
       </div>
     </div>
 
     <!-- Enter Btn -->
-    <svgBotton  @click="handleEnter()"/>
+    <svgBotton @click="handleEnter()" />
     <div>
-      <GameComponent/>
+      <GameComponent />
     </div>
   </div>
 </template>

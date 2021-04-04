@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 16:32:01
- * @LastEditTime: 2021-03-30 16:16:41
+ * @LastEditTime: 2021-04-04 23:30:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-topnav/index.vue
@@ -9,21 +9,27 @@
 <template>
   <div>
     <div
-      @mouseleave="blurMenu"
       :class="{
         Nav_Bar: true,
         DarkMode: false,
         Dark: !isShownGB,
         Fold: !IsUnfold,
       }"
+      @mouseleave="blurMenu"
     >
       <Lotties
+        v-model:value="IsUnfold"
         @menu:fold="handleMenuUnFold(false)"
         @menu:unfold="handleMenuUnFold(true)"
-        v-model:value="IsUnfold" 
-      /> 
-      <div class="Nav_Menus_Warp" v-if="!isMobile()">
-        <div class="Nav_Menus" ref="Nav_Manus_Ref">
+      />
+      <div
+        v-if="!isMobile()"
+        class="Nav_Menus_Warp"
+      >
+        <div
+          ref="Nav_Manus_Ref"
+          class="Nav_Menus"
+        >
           <div
             class="Nav_Menus_Marker"
             :style="
@@ -33,142 +39,140 @@
             background-color:${isShownGB ? '#fff' : 'rgb(29, 32, 41);'}
             `
             "
-          ></div>
-          <!-- -Nav_Manus_Options[CurrentIndex].menusHeight -->
-          <div
+          />
+          <template
             v-for="(menu, i) in Nav_Manus"
-            @mouseover="focusMenu(i)"
-            class="Nav_Menu"
+            :key="menu.name"
           >
-            <template v-if="menu.children.length > 0">
-              <div class="Nav_Menu_Label">{{ menu.label }}</div>
-              <div
-                class="Sub_Nav_Menus"
-                :style="
-                  `margin-top:${CurrentIndex.val === i ? 0 : -100}px;opacity:${
-                    CurrentIndex.val === i ? 1 : 0
-                  }`
-                "
-              >
-                <div v-for="submenu in menu.children" class="Sub_Nav_Menu">
-                  <div class="Sub_Nav_Menus_Label">
-                    {{ submenu.label }}
+            <!-- {{ Nav_Manus[i] }} -->
+            <div
+              v-if="isCurrentPage(menu)"
+              class="Nav_Menu"
+              @mouseover="focusMenu(i)"
+            >
+              <template v-if="menu.children && menu.children.length > 0">
+                <div class="Nav_Menu_Label">
+                  {{ menu.name }}
+                </div>
+                <div
+                  class="Sub_Nav_Menus"
+                  :style="
+                    `margin-top:${
+                      CurrentIndex.val === i ? 0 : -100
+                    }px;opacity:${CurrentIndex.val === i ? 1 : 0}`
+                  "
+                >
+                  <div
+                    v-for="submenu in menu.children"
+                    class="Sub_Nav_Menu"
+                  >
+                    <div
+                      class="Sub_Nav_Menus_Label"
+                      @click="To(submenu)"
+                    >
+                      {{ submenu.label }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </template>
-            <template v-else>
-              <div class="Nav_Menu_Label">
-                {{ menu.label }}
-              </div>
-            </template>
-          </div>
+              </template>
+              <template v-else>
+                <div
+                  class="Nav_Menu_Label"
+                  @click="To(menu)"
+                >
+                  {{ menu.name }}
+                </div>
+              </template>
+            </div>
+          </template>
         </div>
-      </div> 
-      <AsideNav  
+      </div>
+      <AsideNav
         v-else
         v-model="IsUnfold"
         size="70%"
-        :before-close="()=>IsUnfold = false"
+        :before-close="() => (IsUnfold = false)"
       />
-    </div> 
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, inject, reactive, onMounted } from "vue";
+import { ref, inject, reactive, onMounted } from 'vue'
 import AsideNav from '@/components/AsideNav'
-import Lotties from "./components/Lotties";
+import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
+import { routes } from '@/router/routes'
+import { useRouter } from 'vue-router'
+
 // import * as animationData from '@/assets/Lotties/menu.json';
 export default {
-  name: "topNav",
+  name: 'TopNav',
+  components: {
+    Lotties,
+    AsideNav,
+  },
   props: {
     fixed: {
       type: String,
       validator(val) {
-        return ["top", "bottom", "left", "right"].includes(val.toLowerCase());
+        return ['top', 'bottom', 'left', 'right'].includes(val.toLowerCase())
       },
     },
   },
-  components: {
-    Lotties,
-    AsideNav
-  },
   setup: (props, context) => {
-    var CurrentIndex = reactive({ val: -1 });
-    var isShownGB = inject("isShownBG");
-    var IsUnfold = ref(false);
+    var CurrentIndex = reactive({ val: -1 })
+    var isShownGB = inject('isShownBG')
+    var IsUnfold = ref(false)
     var markerLinePosition = reactive({
       left: 0,
       width: 0,
-    });
-    var Nav_Manus_Ref = ref(null);
-    var Nav_Manus_Options = reactive([]);
+    })
+    var Nav_Manus_Ref = ref(null)
+    var Nav_Manus_Options = reactive([])
     function initManusPosition() {
-      var Menus = Nav_Manus_Ref.value.querySelectorAll(".Nav_Menu");
+      var Menus = Nav_Manus_Ref.value.querySelectorAll('.Nav_Menu')
       for (var i = 0; i < Menus.length; i++) {
         Nav_Manus_Options.push({
           width: Menus[i].offsetWidth,
           left: Menus[i].offsetLeft,
           menusHeight: Menus[i].offsetHeight,
-        });
+        })
       }
+      // Nav_Manus_Options = Nav_Manus_Options.filter(menu=>isCurrentPage(menu))
     }
 
     function focusMenu(index) {
-      markerLinePosition.width = Nav_Manus_Options[index].width;
-      markerLinePosition.left = Nav_Manus_Options[index].left;
-      CurrentIndex.val = index;
+      markerLinePosition.width = Nav_Manus_Options[index].width
+      markerLinePosition.left = Nav_Manus_Options[index].left
+      CurrentIndex.val = index
     }
     function blurMenu() {
-      markerLinePosition.width = 0;
-      markerLinePosition.left = 0;
-      CurrentIndex.val = -1;
+      markerLinePosition.width = 0
+      markerLinePosition.left = 0
+      CurrentIndex.val = -1
+    }
+    function To(menu) {
+      this.$router.push({ path: menu.path })
+    } 
+    var Nav_Manus = routes.filter((item) => isCurrentPage(item))
+    onMounted(() => {
+      !isMobile() && initManusPosition()
+    })
+
+    function handleMenuUnFold(status) {
+      IsUnfold.value = status
     }
 
-    var Nav_Manus = reactive([]);
-    Nav_Manus = [
-      {
-        name: "",
-        label: "Menu1",
-        path: "",
-        children: [
-          {
-            name: "",
-            label: "Long Menu Label",
-            path: "",
-            children: [],
-          },
-          {
-            name: "",
-            label: "Menu3",
-            path: "",
-            children: [],
-          },
-        ],
-      },
-      {
-        name: "",
-        label: "Long Menu Label",
-        path: "",
-        children: [],
-      },
-      {
-        name: "",
-        label: "Menu3",
-        path: "",
-        children: [],
-      },
-    ];
-
-    onMounted(() => {
-      !isMobile()&& initManusPosition();
-    });
-
-    function handleMenuUnFold(status) { 
-      IsUnfold.value = status;
-    }  
+    function isCurrentPage(route) {
+      var pageLimit = route.meta && route.meta.page ? route.meta.page : null
+      if (!pageLimit) return false
+      var currentRouteName = useRouter().currentRoute.value.name
+      if (pageLimit instanceof Array) {
+        return pageLimit.includes(currentRouteName)
+      }
+      return pageLimit === currentRouteName
+    }
     return {
       markerLinePosition,
       isShownGB,
@@ -180,10 +184,13 @@ export default {
       CurrentIndex,
       handleMenuUnFold,
       IsUnfold,
-      isMobile,  
-    };
+      isMobile,
+      isCurrentPage,
+      To,
+      // routes
+    }
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 $animation-cubic-bezier: cubic-bezier(0.8, -0.5, 0.2, 1.4);

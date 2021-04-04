@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-22 23:36:22
- * @LastEditTime: 2021-03-26 16:33:54
+ * @LastEditTime: 2021-04-04 22:19:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/App.vue
@@ -9,7 +9,7 @@
 <template>
   <div>
     <component :is="layout">
-      <router-view></router-view>
+      <router-view />
     </component>
   </div>
 </template>
@@ -18,18 +18,15 @@
 import {onMounted,provide} from 'vue'
 export default {
   name: "App",
+  components: {
+  }, 
+  setup(props, context,ctx){ 
+    window.addEventListener('resize',()=>{ 
+    })
+  },
   data(){
     return{
     }
-  }, 
-  setup(props, context,ctx){ 
-    window.addEventListener('resize',()=>{
-      //console.log(props,context)
-      //console.log(props)
-      //provide('')
-    })
-  },
-  components: {
   }, 
   computed:{
     layout(){

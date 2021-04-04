@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-07 15:23:46
- * @LastEditTime: 2021-03-30 16:17:18
+ * @LastEditTime: 2021-04-04 22:38:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Aside/index.vue
@@ -11,9 +11,9 @@
     router
     :default-active="route_path"
     class="el-menu-vertical-demo"
+    :collapse="isCollapse"
     @open="handleOpen"
     @close="handleClose"
-    :collapse="isCollapse"
   >
     <template v-for="route in routes">
       <template v-if="!route.meta.hidden">
@@ -22,18 +22,26 @@
           :index="route_path"
         >
           <template #title>
-            <i class="el-icon-location"></i>
+            <i class="el-icon-location" />
             <span>Tools</span>
           </template>
-          <el-menu-item v-for="croute in route.children" :index="croute.path">
-            {{croute.name}}
+          <el-menu-item
+            v-for="croute in route.children"
+            :index="croute.path"
+          >
+            {{ croute.name }}
           </el-menu-item>
         </el-submenu>
-        <el-menu-item v-else :index="route.path">
+        <el-menu-item
+          v-else
+          :index="route.path"
+        >
           <i
             :class="`${route.meta.icon ? route.meta.icon : 'el-icon-location'}`"
-          ></i> 
-          <template #title>{{ route.name }}</template>
+          /> 
+          <template #title>
+            {{ route.name }}
+          </template>
         </el-menu-item>
       </template>
     </template>

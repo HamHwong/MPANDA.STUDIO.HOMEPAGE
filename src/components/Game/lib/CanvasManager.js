@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-03-30 17:28:14
+ * @LastEditTime: 2021-04-03 21:01:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -11,6 +11,7 @@
 // } from './enums'
 import * as actions from './actions'
 import keyMapping  from './keymap'
+import {EventManager} from "./eventManager";
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
@@ -23,15 +24,14 @@ export class CanvasManager {
         this.AnimationFrameTimer = null
         this.pause = false
         this.FPS = 0.5
+        this.EventManager = new EventManager()
     }
-    init({
+    async init({
         width = 800,
         height = 500
-    }) {
-        //console.log('Canvas Init Start!',this.canvas)
+    }) { 
         this.canvas.height = height
         this.canvas.width = width
-        //this.AnimationFrameTimer = setInterval(this.draw.bind(this),Math.ceil(1000/this.FPS))
         this.reloadKeyMapping()
         return this
     }  
@@ -39,15 +39,17 @@ export class CanvasManager {
         this.AnimationFrameTimer = this.draw()
     }
     initKeyboardEvents(document) {
+        console.log(this.EventManager)
         this.document = document || window.document
-        this.document.addEventListener('keyup', e => {
-            this.invoke(this.keyMapping[e.code])
+        this.document.addEventListener('keyup', e => { 
+            this.invoke(this.keyMapping[e.code.trim()])
         }, true)
     }
     removeKeyboardEvents() {
         this.document.removeKeyboardEvents('keyup')
     }
     invoke(eventName, ...args) {
+        console.log(this.eventsPool,eventName)
         if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, ...args)
     }
     register(key, func) {
@@ -79,9 +81,17 @@ export class CanvasManager {
     }
     addInstance(instance){ 
         instance.ctx = this.ctx
+        instance.CanvasManager = this 
         this.sprints.push(instance)
     }
     removeInstance(id){
         this.sprints = this.sprints.filter(sprint=>sprint.id===id)
+    }
+    registerEvent(instance,$event,callback){
+        this.EventManager.subscribe($event,callback.bind(instance))
+    }
+    broadcast($event){
+        // console.log('broadcast($event)')
+        this.EventManager.trigger($event)
     }
 }

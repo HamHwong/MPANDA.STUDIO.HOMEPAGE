@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-03-30 17:01:58
+ * @LastEditTime: 2021-04-03 20:32:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -24,9 +24,12 @@ export class Instance {
         this.status = ''
         this.pause = false
         this.ctx = null
+        this.CanvasManager = null
     }
     draw() {}
+    check() {}
     on($event,callback){
-        
+        this.CanvasManager.registerEvent(this,$event,callback)
     }
+    update(){}
 }
