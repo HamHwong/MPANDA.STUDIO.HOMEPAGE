@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-03 20:05:30
- * @LastEditTime: 2021-04-04 22:18:40
+ * @LastEditTime: 2021-04-07 16:18:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\eventManager\index.js
@@ -32,10 +32,9 @@ export class EventManager{
       return true
     }
   }
-  trigger($event){ 
-    this.subscribers[$event].map(function(callback){ 
-      // console.log(callback)
-      callback()
+  trigger($event,data){ 
+    this.subscribers[$event].map(function(callback){
+      callback(data)
     })
   }
 }

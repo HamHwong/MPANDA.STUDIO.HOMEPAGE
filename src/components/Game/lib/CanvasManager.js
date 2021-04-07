@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-03 21:01:49
+ * @LastEditTime: 2021-04-07 16:44:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -39,7 +39,7 @@ export class CanvasManager {
         this.AnimationFrameTimer = this.draw()
     }
     initKeyboardEvents(document) {
-        console.log(this.EventManager)
+        console.log('CanvasManager.initKeyboardEvents:',this.EventManager)
         this.document = document || window.document
         this.document.addEventListener('keyup', e => { 
             this.invoke(this.keyMapping[e.code.trim()])
@@ -49,7 +49,7 @@ export class CanvasManager {
         this.document.removeKeyboardEvents('keyup')
     }
     invoke(eventName, ...args) {
-        console.log(this.eventsPool,eventName)
+        if(eventName)console.log('CanvasManager.invoke:',eventName)
         if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, ...args)
     }
     register(key, func) {
@@ -62,7 +62,7 @@ export class CanvasManager {
         if (!this.pause) {
             this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
             this.sprints.map(sprint=>{
-                sprint.draw()
+                sprint._update()
             })
         }
         return window.requestAnimationFrame(this.draw.bind(this),1000/this.FPS)
@@ -90,8 +90,7 @@ export class CanvasManager {
     registerEvent(instance,$event,callback){
         this.EventManager.subscribe($event,callback.bind(instance))
     }
-    broadcast($event){
-        // console.log('broadcast($event)')
-        this.EventManager.trigger($event)
+    broadcast($event, datas){ 
+        this.EventManager.trigger($event, datas)
     }
 }

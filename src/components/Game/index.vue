@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-03 20:53:48
+ * @LastEditTime: 2021-04-07 15:36:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
 -->
 <template>
   <div>
-    <canvas ref="GameBoardCanvas"></canvas>
+    <canvas ref="GameBoardCanvas" />
   </div>
 </template>
 
