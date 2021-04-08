@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-08 16:58:41
+ * @LastEditTime: 2021-04-08 17:41:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -12,6 +12,7 @@ import {
 import {
     frame
 } from '../../frame' 
+import { load } from '../../utils/assetsLoader'
 // import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
 export class Instance {
     constructor() {
@@ -87,12 +88,22 @@ export class Instance {
         this.load()
     }
     async _loadImgs() {
-        // try{
-        //     var s = require(__dirname+'/frames.json')
-        //     console.log(s)
-        // }catch(e){
-        //     console.log(e)
-        // }
+        try{
+            var actions = require('./frames.json')[this.name]
+            for(var actionName in actions){ 
+                Promise.all(actions[actionName].map(async imgUrl=>{ 
+                    var path = require('../../../static/'+imgUrl)
+                    var f = new frame()
+                    f.img = await load(path)
+                    return f
+                })).then((res)=>{
+                    this.frames[actionName] = res
+                })
+            }
+            console.log(actions)
+        }catch(e){
+            console.log(e)
+        }
     }
     load() {
 

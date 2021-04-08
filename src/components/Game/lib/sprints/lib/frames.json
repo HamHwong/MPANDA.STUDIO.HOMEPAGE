@@ -1,3 +1,8 @@
 {
-  
+  "Ball":{
+    "init":[
+      "characters/char1/static/actions/init/char1-init-1.png",
+      "characters/char1/static/actions/init/char1-init-2.png"
+    ]
+  }
 }
