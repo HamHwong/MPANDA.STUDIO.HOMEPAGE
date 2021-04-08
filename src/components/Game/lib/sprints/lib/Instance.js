@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-08 15:21:33
+ * @LastEditTime: 2021-04-08 16:58:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -11,10 +11,7 @@ import {
 } from 'uuid'
 import {
     frame
-} from '../../frame'
-import {
-    load
-} from '../../utils/assetsLoader'
+} from '../../frame' 
 // import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
 export class Instance {
     constructor() {
@@ -80,8 +77,8 @@ export class Instance {
         this.beforeInit()
     }
     beforeInit() {}
-    _init() {
-
+    _init() { 
+        this.name = this.constructor.name
         this.init()
         this._load()
     }
@@ -90,15 +87,12 @@ export class Instance {
         this.load()
     }
     async _loadImgs() {
-        const arr = []
-        const frame1 = new frame()
-        frame1.img = await load(require('../../../static/characters/char1/init/char1-init-1.png'))
-        const frame2 = new frame()
-        frame2.img = await load(require('../../../static/characters/char1/init/char1-init-2.png'))
-        arr.push(frame1)
-        arr.push(frame2)
-        this.addStatusFrames('init', arr)
-
+        // try{
+        //     var s = require(__dirname+'/frames.json')
+        //     console.log(s)
+        // }catch(e){
+        //     console.log(e)
+        // }
     }
     load() {
 

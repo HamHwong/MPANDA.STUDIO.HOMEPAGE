@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-08 11:05:40
+ * @LastEditTime: 2021-04-08 17:03:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -23,7 +23,7 @@ export class CanvasManager {
         this.sprints = []
         this.AnimationFrameTimer = null
         this.pause = false
-        this.FPS = 0.5
+        this.FPS = 120
         this.EventManager = new EventManager()
     }
     async init({
@@ -34,6 +34,8 @@ export class CanvasManager {
         this.canvas.width = width
         this.reloadKeyMapping()
         this.initKeyboardEvents()
+        
+        console.log(this)
         return this
     }  
     start(){
@@ -57,14 +59,17 @@ export class CanvasManager {
         if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, ...args)
         return this
     } 
-    draw() {
-        if (!this.pause) {
-            this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
-            this.sprints.map(sprint=>{
-                sprint._update()
-            })
-        }
-        return window.requestAnimationFrame(this.draw.bind(this),1000/this.FPS)
+    draw() { 
+        setTimeout(() => {
+            var timer = window.requestAnimationFrame(this.draw.bind(this))
+            if(!this.AnimationFrameTimer) this.AnimationFrameTimer = timer
+            if (!this.pause) {
+                this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+                this.sprints.map(sprint=>{
+                    sprint._update()
+                })
+            }
+        }, 1000/this.FPS); 
     }
     
     mappingKey(key, action) {

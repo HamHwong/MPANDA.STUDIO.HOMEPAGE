@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-08 13:45:11
- * @LastEditTime: 2021-04-08 14:54:08
+ * @LastEditTime: 2021-04-08 15:31:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/utils/assetsLoader.js
@@ -16,8 +16,7 @@ export async function load(path) {
     }).then((response) => {
       const fr = new FileReader();
       const data = response.data
-      fr.onload = () => {
-        // console.log(fr.result) 
+      fr.onload = () => { 
         var img = new Image();
         img.onload=()=>{
           res(img)

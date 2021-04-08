@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-08 11:07:00
+ * @LastEditTime: 2021-04-08 16:44:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -15,7 +15,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { GamePadFactory } from "./lib/load";
-import {Ball} from './lib/sprints/models/ball' 
+import {Ball} from './lib/sprints/models/Ball/index.js' 
 export default {
   setup() {
     var GameBoardCanvas = ref(null); 
