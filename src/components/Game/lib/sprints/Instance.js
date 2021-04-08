@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-07 17:17:59
+ * @LastEditTime: 2021-04-08 10:57:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -29,7 +29,17 @@ export class Instance {
         this.sprit = ''
         this.frames = {}
         this.currentFrame = 0
-        this.status = ''
+        this._status = 'init'
+        this.debugMode = false
+        Object.defineProperty(this,'status',{
+            get:function(){
+                return this._status
+            },
+            set:function(val){
+                this.$emit('$event.emit.data',{status:val})
+                this._status = val
+            }
+        })
         this.pause = false
         this.ctx = null
         this._CanvasManager = null
@@ -62,6 +72,13 @@ export class Instance {
     beforeInit() {}
     _init() {
         this.init()
+        this._load()
+    }
+    _load(){
+        this.load()
+    }
+    load(){
+
     }
     init() {}
     _afterInit() {
@@ -88,15 +105,42 @@ export class Instance {
         this.y += this.yv * vy
         this.z += this.zv * vz
         var currentFrame = this.frames[this.status]?this.frames[this.status].length:0
-        this.currentFrame=++this.currentFrame%currentFrame
-        // console.log(currentFrame)
+        this.currentFrame=++this.currentFrame%currentFrame 
         this.updating()
     }
     updating() {}
     _draw() {
-        this.draw()
+        var actionFrames = this.frames[this.status]
+        var actionFrame = null;
+        if(actionFrames instanceof Array){
+            actionFrame = actionFrames[this.currentFrame]
+        }else if (actionFrames instanceof Function){
+            actionFrame = actionFrames
+        }
+        this.draw(actionFrame)
     }
-    draw() {}
+    draw(actionFrame) {
+        if(actionFrame instanceof Array){ 
+            this.ctx.drawImage(actionFrame.img,this.x,this.y,this.w,this.h); 
+        }else if (actionFrame instanceof Function){ 
+            actionFrame.bind(this)(this.ctx)
+        }
+        if(this.debugMode){
+            this.debug()
+        }
+    }
+    debug(){
+        var fontsize = 8;
+        this.ctx.font=`${fontsize}px Verdana`;
+        this.ctx.fillStyle = '#333'
+        this.ctx.fillText("currentFrame:"+this.currentFrame,this.x-this.w,this.y+this.h);
+    }
+    enableDebug(){
+        this.debugMode = true
+    }
+    disDebug(){
+        this.debugMode = false
+    }
     _beforeUpdate() {
         this.beforeUpdate()
     }
@@ -105,6 +149,11 @@ export class Instance {
         this.updated()
     }
     updated() {}
+    $emit($event,TargetId,data){
+        data.originId = this.id
+        data.TargetId = TargetId
+        this.CanvasManager.broadcast($event,data)
+    }
     on($event, callback) {
         if (!this.CanvasManager) {
             this.eventsLoop.push({
@@ -114,5 +163,8 @@ export class Instance {
         } else {
             this.CanvasManager.registerEvent(this, $event, callback)
         }
+    }
+    addStatusFrames(status,frames){
+        this.frames[status] = frames
     }
 }
