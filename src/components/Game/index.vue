@@ -15,7 +15,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { GamePadFactory } from "./lib/load";
-import {Ball} from './lib/sprints/ball' 
+import {Ball} from './lib/sprints/models/ball' 
 export default {
   setup() {
     var GameBoardCanvas = ref(null); 

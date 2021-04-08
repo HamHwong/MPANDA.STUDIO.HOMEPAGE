@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-08 10:57:12
+ * @LastEditTime: 2021-04-08 15:21:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -9,10 +9,18 @@
 import {
     v4
 } from 'uuid'
+import {
+    frame
+} from '../../frame'
+import {
+    load
+} from '../../utils/assetsLoader'
+// import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
 export class Instance {
     constructor() {
         this._beforeInit()
         this.id = v4()
+        this.name = ''
         this.type = ''
         this.pic = ''
         this.x = 0
@@ -31,12 +39,14 @@ export class Instance {
         this.currentFrame = 0
         this._status = 'init'
         this.debugMode = false
-        Object.defineProperty(this,'status',{
-            get:function(){
+        Object.defineProperty(this, 'status', {
+            get: function () {
                 return this._status
             },
-            set:function(val){
-                this.$emit('$event.emit.data',{status:val})
+            set: function (val) {
+                this.$emit('$event.emit.data', {
+                    status: val
+                })
                 this._status = val
             }
         })
@@ -71,13 +81,26 @@ export class Instance {
     }
     beforeInit() {}
     _init() {
+
         this.init()
         this._load()
     }
-    _load(){
+    _load() {
+        this._loadImgs()
         this.load()
     }
-    load(){
+    async _loadImgs() {
+        const arr = []
+        const frame1 = new frame()
+        frame1.img = await load(require('../../../static/characters/char1/init/char1-init-1.png'))
+        const frame2 = new frame()
+        frame2.img = await load(require('../../../static/characters/char1/init/char1-init-2.png'))
+        arr.push(frame1)
+        arr.push(frame2)
+        this.addStatusFrames('init', arr)
+
+    }
+    load() {
 
     }
     init() {}
@@ -104,41 +127,42 @@ export class Instance {
         this.x += this.xv * vx
         this.y += this.yv * vy
         this.z += this.zv * vz
-        var currentFrame = this.frames[this.status]?this.frames[this.status].length:0
-        this.currentFrame=++this.currentFrame%currentFrame 
+        var frameCount = this.frames[this.status] ? this.frames[this.status].length || 1 : 1
+        this.currentFrame += 1
+        this.currentFrame = this.currentFrame % frameCount
         this.updating()
     }
     updating() {}
     _draw() {
         var actionFrames = this.frames[this.status]
         var actionFrame = null;
-        if(actionFrames instanceof Array){
+        if (actionFrames instanceof Array) {
             actionFrame = actionFrames[this.currentFrame]
-        }else if (actionFrames instanceof Function){
+        } else if (actionFrames instanceof Function) {
             actionFrame = actionFrames
         }
         this.draw(actionFrame)
     }
     draw(actionFrame) {
-        if(actionFrame instanceof Array){ 
-            this.ctx.drawImage(actionFrame.img,this.x,this.y,this.w,this.h); 
-        }else if (actionFrame instanceof Function){ 
+        if (actionFrame instanceof frame) {
+            this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
+        } else if (actionFrame instanceof Function) {
             actionFrame.bind(this)(this.ctx)
         }
-        if(this.debugMode){
+        if (this.debugMode) {
             this.debug()
         }
     }
-    debug(){
+    debug() {
         var fontsize = 8;
-        this.ctx.font=`${fontsize}px Verdana`;
+        this.ctx.font = `${fontsize}px Verdana`;
         this.ctx.fillStyle = '#333'
-        this.ctx.fillText("currentFrame:"+this.currentFrame,this.x-this.w,this.y+this.h);
+        this.ctx.fillText(`currentFrame:${this.currentFrame};x:${this.x};y:${this.y};w:${this.w};h:${this.h}`, this.x - this.w, this.y + this.h);
     }
-    enableDebug(){
+    enableDebug() {
         this.debugMode = true
     }
-    disDebug(){
+    disDebug() {
         this.debugMode = false
     }
     _beforeUpdate() {
@@ -149,10 +173,10 @@ export class Instance {
         this.updated()
     }
     updated() {}
-    $emit($event,TargetId,data){
+    $emit($event, TargetId, data) {
         data.originId = this.id
         data.TargetId = TargetId
-        this.CanvasManager.broadcast($event,data)
+        this.CanvasManager.broadcast($event, data)
     }
     on($event, callback) {
         if (!this.CanvasManager) {
@@ -164,7 +188,7 @@ export class Instance {
             this.CanvasManager.registerEvent(this, $event, callback)
         }
     }
-    addStatusFrames(status,frames){
+    addStatusFrames(status, frames) {
         this.frames[status] = frames
     }
 }
