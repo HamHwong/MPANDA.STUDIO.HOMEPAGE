@@ -1,8 +1,36 @@
-{
+{ 
   "Ball":{
     "init":[
-      "characters/char1/static/actions/init/char1-init-1.png",
-      "characters/char1/static/actions/init/char1-init-2.png"
+      "characters/char1/static/actions/init/player_idle.png"],
+    "walk":[
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk1.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png",
+      "characters/char1/static/actions/walk/player_walk2.png"
+    ],
+    "stand":[ 
+      "characters/char1/static/actions/stand/player_stand.png"
     ]
   }
+
 }

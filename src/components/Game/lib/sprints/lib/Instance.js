@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-08 17:41:02
+ * @LastEditTime: 2021-04-09 17:15:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -11,8 +11,10 @@ import {
 } from 'uuid'
 import {
     frame
-} from '../../frame' 
-import { load } from '../../utils/assetsLoader'
+} from '../../frame'
+import {
+    load
+} from '../../utils/assetsLoader'
 // import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
 export class Instance {
     constructor() {
@@ -26,8 +28,8 @@ export class Instance {
         this.z = 0
         this.w = 0
         this.h = 0
-        this.xv = 1
-        this.yv = 1
+        this.xv = 0
+        this.yv = 0
         this.zv = 0
         this.vector = [1, 1, 0]
         this.groupId = null
@@ -78,7 +80,7 @@ export class Instance {
         this.beforeInit()
     }
     beforeInit() {}
-    _init() { 
+    _init() {
         this.name = this.constructor.name
         this.init()
         this._load()
@@ -88,20 +90,25 @@ export class Instance {
         this.load()
     }
     async _loadImgs() {
-        try{
+        try {
             var actions = require('./frames.json')[this.name]
-            for(var actionName in actions){ 
-                Promise.all(actions[actionName].map(async imgUrl=>{ 
-                    var path = require('../../../static/'+imgUrl)
-                    var f = new frame()
-                    f.img = await load(path)
-                    return f
-                })).then((res)=>{
-                    this.frames[actionName] = res
-                })
+            for (var actionName in actions) {
+                ((name) => {
+                    Promise.all(actions[name].map(async imgUrl => {
+                        console.log(imgUrl)
+                        var path = require('../../../static/' + imgUrl)
+                        var f = new frame()
+                        f.img = await load(path)
+                        return f
+                    })).then((res) => {
+                        this.frames[name] = res
+                    }).catch(e => {
+                        console.log(e)
+                    })
+                })(actionName)
+
             }
-            console.log(actions)
-        }catch(e){
+        } catch (e) {
             console.log(e)
         }
     }
@@ -179,8 +186,10 @@ export class Instance {
     }
     updated() {}
     $emit($event, TargetId, data) {
-        data.originId = this.id
-        data.TargetId = TargetId
+        if(data){
+            data.originId = this.id
+            data.TargetId = TargetId
+        }
         this.CanvasManager.broadcast($event, data)
     }
     on($event, callback) {

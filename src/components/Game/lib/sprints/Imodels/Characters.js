@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-04-08 15:13:57
- * @LastEditTime: 2021-04-08 17:43:55
+ * @LastEditTime: 2021-04-09 14:18:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/character.js
  */
-import { frame } from '../../frame'
-import { load } from '../../utils/assetsLoader'
+// import { frame } from '../../frame'
+// import { load } from '../../utils/assetsLoader'
 import {
   Instance
 } from '../lib/Instance'

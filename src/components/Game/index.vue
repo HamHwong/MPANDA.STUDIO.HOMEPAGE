@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-08 16:44:06
+ * @LastEditTime: 2021-04-09 11:00:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -26,7 +26,6 @@ export default {
           width:800,
           height:500
       })
-      // GameManager.initKeyboardEvents(window.document)
       GameManager.addInstance(new Ball()) 
       GameManager.start()
     });

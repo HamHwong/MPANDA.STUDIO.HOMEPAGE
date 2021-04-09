@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-08 17:03:20
+ * @LastEditTime: 2021-04-09 17:57:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -45,12 +45,19 @@ export class CanvasManager {
     initKeyboardEvents(document) {
         console.log('CanvasManager.initKeyboardEvents:',this.EventManager)
         this.document = document || window.document
-        this.document.addEventListener('keyup', e => { 
+        this.document.addEventListener('keydown', e => { 
+            console.log('Key has been pressed:',e.code.trim())
             this.invoke(this.keyMapping[e.code.trim()])
+        }, true)
+        this.document.addEventListener('keyup', e => { 
+            console.log('Key up:',e.code.trim())
+            // this.invoke(this.keyMapping[e.code.trim()])
+            this.broadcast('$keyup',e.code.trim())
         }, true)
         return this
     }
     removeKeyboardEvents() {
+        this.document.removeKeyboardEvents('keydown')
         this.document.removeKeyboardEvents('keyup')
         return this
     }
