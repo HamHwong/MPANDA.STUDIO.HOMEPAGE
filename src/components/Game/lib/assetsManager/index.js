@@ -1,15 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-04-10 22:26:31
- * @LastEditTime: 2021-04-13 17:20:40
+ * @LastEditTime: 2021-04-13 21:25:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\assetsManager\index.js
  */
-import Status from './status.enums'
-import {
-  pic
-} from '../sprints/assets'
+import Status from './status.enums' 
 import {
   init
 } from '../../../../api/Game'
@@ -25,8 +22,7 @@ export class AssetsManager {
     var _this = this
     return new Promise((res, rej) => {
       var DBConnect = this.open()
-      DBConnect.onsuccess = (ev) => {
-        console.log('Connect Succeed!', pic)
+      DBConnect.onsuccess = (ev) => { 
         this.status = Status.CONNECTED
         res(this)
       }

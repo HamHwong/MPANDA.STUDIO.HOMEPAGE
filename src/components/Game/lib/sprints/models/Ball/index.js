@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-10 22:17:42
+ * @LastEditTime: 2021-04-13 22:20:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
@@ -20,19 +20,26 @@ export class Ball extends Characters {
             this.xv = -this.xv
             this.yv = -this.yv
         })
-        this.on('$keyup',(keyCode)=>{
-            switch(keyCode){ 
+        this.on('$keyup', (keyCode) => {
+            switch (keyCode) {
                 case 'KeyA':
                 case 'KeyD':
-                    this.status = 'init'    
+                    this.status = 'init'
+                    this.xa = -0.5
                     break;
             }
         })
-        this.on('$walk.left', (datas) => {
-            this.status='walk.left' 
+        this.on('$walk.left', (data) => { 
+            this.status = 'walk.left' 
+            this.xa = 0
+            this.xv = 10
+            this.vector[0] = -1
         })
-        this.on('$walk.right', (datas) => {
-            this.status='walk.right' 
+        this.on('$walk.right', (data) => {
+            this.status = 'walk.right' 
+            this.xa = 0
+            this.xv = 10 
+            this.vector[0] = 1
         })
         this.w = 80
         this.h = 110
