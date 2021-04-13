@@ -1,5 +1,5 @@
 // webpack.config.js
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
   module: {
     rules: [
@@ -26,19 +26,5 @@ module.exports = {
         ],
       },
     ],
-  },
-  plugins: [
-    new UglifyJsPlugin({
-        uglifyOptions: {
-            compress: {
-                warnings: false
-            },
-            keep_classnames: false,
-            mangle: true,
-            output: {
-                beautify: true
-            }
-        }
-    })
-]
+  }
 }
