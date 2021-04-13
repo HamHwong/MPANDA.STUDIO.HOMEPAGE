@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 09:46:43
- * @LastEditTime: 2021-04-13 23:37:23
+ * @LastEditTime: 2021-04-13 23:39:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/vue.config.js
@@ -36,16 +36,14 @@ module.exports = {
     .alias
     .set('@', resolve('./src'))
 
-    config => {
-      config.optimization
-        .minimizer('terser')
-        .tap(args => {
-          const { terserOptions } = args[0]
-          terserOptions.keep_classnames = true
-          terserOptions.keep_fnames = true
-          return args
-        })
-    }
+    config.optimization
+      .minimizer('terser')
+      .tap(args => {
+        const { terserOptions } = args[0]
+        terserOptions.keep_classnames = true
+        terserOptions.keep_fnames = true
+        return args
+      }) 
 
     config
     .module
