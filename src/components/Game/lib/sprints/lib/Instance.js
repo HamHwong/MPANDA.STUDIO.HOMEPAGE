@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-09 17:15:13
+ * @LastEditTime: 2021-04-13 17:37:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -68,6 +68,7 @@ export class Instance {
                         }) => this.on($event, callback))
                         this.eventsLoop = []
                     }
+                    this._loadImgs()
                     this._afterBind()
                 }
             }
@@ -86,27 +87,38 @@ export class Instance {
         this._load()
     }
     _load() {
-        this._loadImgs()
+        
         this.load()
     }
     async _loadImgs() {
         try {
             var actions = require('./frames.json')[this.name]
             for (var actionName in actions) {
-                ((name) => {
-                    Promise.all(actions[name].map(async imgUrl => {
-                        console.log(imgUrl)
-                        var path = require('../../../static/' + imgUrl)
-                        var f = new frame()
-                        f.img = await load(path)
-                        return f
-                    })).then((res) => {
-                        this.frames[name] = res
-                    }).catch(e => {
-                        console.log(e)
-                    })
-                })(actionName)
-
+                // ((name) => {
+                //     Promise.all(actions[name].map(async imgUrl => {
+                //         console.log(imgUrl)
+                //         var path = require('../../../static/' + imgUrl)
+                //         var f = new frame()
+                //         f.img = await load(path)
+                // console.log(f.img)
+                //         return f
+                //     })).then((res) => {
+                //         this.frames[name] = res
+                //     }).catch(e => {
+                //         console.log(e)
+                //     })
+                // })(actionName)
+                var id = `${this.type}.${this.name}.actions.${actionName}`
+                this.CanvasManager.AssetsManager.setTableName('Frames') 
+                const {base64} = await this.CanvasManager.AssetsManager.get('ID',id)
+                console.log(base64)
+                this.frames[actionName] = base64.map(bs64=>{
+                    var f = new frame()
+                    var img = new Image()
+                    img.src = bs64
+                    f.img  = img 
+                    return f
+                })   
             }
         } catch (e) {
             console.log(e)

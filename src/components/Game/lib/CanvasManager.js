@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-10 23:35:22
+ * @LastEditTime: 2021-04-13 17:15:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -38,11 +38,11 @@ export class CanvasManager {
         this.initKeyboardEvents() 
         this.AssetsManager = new AssetsManager()
         await this.AssetsManager.init()
-        this.AssetsManager.setTableName('Frames')
-        await this.AssetsManager.add({obj:{asset_name:'1',bytes:'2'}})
-        const a = await this.AssetsManager.get({index:'AssetsName',value:1})
-        console.log('>>>>>>>>>>>>>>',a)
-        console.log(this)
+        // this.AssetsManager.setTableName('Frames')
+        // await this.AssetsManager.add({asset_name:'1',bytes:'2'})
+        // const a = await this.AssetsManager.get('AssetsName',1)
+        // console.log('>>>>>>>>>>>>>>',a)
+        // console.log(this)
         return this
     }  
     start(){
