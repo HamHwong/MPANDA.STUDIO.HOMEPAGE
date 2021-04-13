@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 09:46:43
- * @LastEditTime: 2021-04-13 23:13:56
+ * @LastEditTime: 2021-04-13 23:33:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/vue.config.js
  */
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 function resolve(dir) {
   return path.join(__dirname, dir) //path.join(__dirname)设置绝对路径
 }
@@ -50,20 +50,20 @@ module.exports = {
     })
     .end()
   }, 
-  configureWebpack:{
-    plugins: [
-      new UglifyJsPlugin({
-          uglifyOptions: {
-              compress: {
-                  warnings: false
-              },
-              keep_classnames: true,
-              mangle: true,
-              output: {
-                  beautify: true
-              }
-          }
-      })
-  ]
-  }
+  // configureWebpack:{
+  //   plugins: [
+  //     new UglifyJsPlugin({
+  //         uglifyOptions: {
+  //             compress: {
+  //                 warnings: false
+  //             },
+  //             keep_classnames: true,
+  //             mangle: true,
+  //             output: {
+  //                 beautify: true
+  //             }
+  //         }
+  //     })
+  // ]
+  // }
 }
