@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 09:46:43
- * @LastEditTime: 2021-04-13 23:39:12
+ * @LastEditTime: 2021-04-13 23:40:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/vue.config.js
@@ -41,7 +41,7 @@ module.exports = {
       .tap(args => {
         const { terserOptions } = args[0]
         terserOptions.keep_classnames = true
-        terserOptions.keep_fnames = true
+        // terserOptions.keep_fnames = true
         return args
       }) 
 
