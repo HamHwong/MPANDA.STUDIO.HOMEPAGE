@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-13 22:40:25
+ * @LastEditTime: 2021-04-13 22:56:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -86,7 +86,11 @@ export class Instance {
     }
     beforeInit() {}
     _init() {
-        this.name = this.constructor.name
+        let t=new class{
+            getConstructorName(){return this.constructor.name}
+        };
+        this.name = t.getConstructorName()
+        // this.constructor.name
         this.init()
         this._load()
     }
