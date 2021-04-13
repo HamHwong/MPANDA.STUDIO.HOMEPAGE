@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-09 17:57:47
+ * @LastEditTime: 2021-04-10 23:35:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -12,6 +12,7 @@
 import * as actions from './actions'
 import keyMapping  from './keymap'
 import {EventManager} from "./eventManager";
+import {AssetsManager} from './assetsManager'
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
@@ -25,6 +26,7 @@ export class CanvasManager {
         this.pause = false
         this.FPS = 120
         this.EventManager = new EventManager()
+        this.AssetsManager = null
     }
     async init({
         width = 800,
@@ -33,8 +35,13 @@ export class CanvasManager {
         this.canvas.height = height
         this.canvas.width = width
         this.reloadKeyMapping()
-        this.initKeyboardEvents()
-        
+        this.initKeyboardEvents() 
+        this.AssetsManager = new AssetsManager()
+        await this.AssetsManager.init()
+        this.AssetsManager.setTableName('Frames')
+        await this.AssetsManager.add({obj:{asset_name:'1',bytes:'2'}})
+        const a = await this.AssetsManager.get({index:'AssetsName',value:1})
+        console.log('>>>>>>>>>>>>>>',a)
         console.log(this)
         return this
     }  

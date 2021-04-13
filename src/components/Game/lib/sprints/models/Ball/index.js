@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-09 17:51:23
+ * @LastEditTime: 2021-04-10 22:17:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
@@ -28,8 +28,11 @@ export class Ball extends Characters {
                     break;
             }
         })
-        this.on('$walk', (datas) => {
-            this.status='walk' 
+        this.on('$walk.left', (datas) => {
+            this.status='walk.left' 
+        })
+        this.on('$walk.right', (datas) => {
+            this.status='walk.right' 
         })
         this.w = 80
         this.h = 110

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:20:48
- * @LastEditTime: 2021-04-09 17:55:13
+ * @LastEditTime: 2021-04-10 22:17:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/actions/index.js
@@ -16,10 +16,10 @@ export function reset(){
     this.broadcast('$myevent',12)
 }
 export function walkLeft(){
-    this.broadcast('$walk') 
+    this.broadcast('$walk.left') 
 }
 export function walkRight(){
-    this.broadcast('$walk')  
+    this.broadcast('$walk.right')  
 }
 export function keyup(){
     
