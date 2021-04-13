@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-13 17:37:44
+ * @LastEditTime: 2021-04-13 17:59:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -94,20 +94,7 @@ export class Instance {
         try {
             var actions = require('./frames.json')[this.name]
             for (var actionName in actions) {
-                // ((name) => {
-                //     Promise.all(actions[name].map(async imgUrl => {
-                //         console.log(imgUrl)
-                //         var path = require('../../../static/' + imgUrl)
-                //         var f = new frame()
-                //         f.img = await load(path)
-                // console.log(f.img)
-                //         return f
-                //     })).then((res) => {
-                //         this.frames[name] = res
-                //     }).catch(e => {
-                //         console.log(e)
-                //     })
-                // })(actionName)
+                console.log('Loading',actionName)
                 var id = `${this.type}.${this.name}.actions.${actionName}`
                 this.CanvasManager.AssetsManager.setTableName('Frames') 
                 const {base64} = await this.CanvasManager.AssetsManager.get('ID',id)
