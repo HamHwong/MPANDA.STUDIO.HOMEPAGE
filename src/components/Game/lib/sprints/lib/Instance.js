@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-13 22:39:11
+ * @LastEditTime: 2021-04-13 22:40:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -97,7 +97,7 @@ export class Instance {
     async _loadImgs() {
         try {
             var actions = frames_config[this.name] 
-            console.log(frames_config)
+            console.log(frames_config,this.name)
             console.log(actions)
             for(var i = 0 ; i<actions.length;i++){
                 var actionName = actions[i] 
