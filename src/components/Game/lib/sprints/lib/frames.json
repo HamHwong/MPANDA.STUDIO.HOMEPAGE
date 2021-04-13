@@ -1,9 +1,0 @@
-{
-  "Ball": [
-    "init",
-    "walk.left",
-    "walk.right",
-    "stand"
-  ]
-
-}
