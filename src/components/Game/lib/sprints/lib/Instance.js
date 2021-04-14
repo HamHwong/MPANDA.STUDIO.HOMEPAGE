@@ -1,11 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
-<<<<<<< HEAD
- * @LastEditTime: 2021-04-13 17:59:18
-=======
- * @LastEditTime: 2021-04-13 22:58:03
->>>>>>> 779e955f776755183c59f45f1b4665813b890862
+ * @LastEditTime: 2021-04-14 09:44:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -100,17 +96,11 @@ export class Instance {
     }
     async _loadImgs() {
         try {
-<<<<<<< HEAD
-            var actions = require('./frames.json')[this.name]
-            for (var actionName in actions) {
-                console.log('Loading',actionName)
-=======
             var actions = frames_config[this.name] 
             console.log(frames_config,this.name)
             console.log(actions)
             for(var i = 0 ; i<actions.length;i++){
                 var actionName = actions[i] 
->>>>>>> 779e955f776755183c59f45f1b4665813b890862
                 var id = `${this.type}.${this.name}.actions.${actionName}`
                 this.CanvasManager.AssetsManager.setTableName('Frames')
                 const {
