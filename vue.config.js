@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 09:46:43
- * @LastEditTime: 2021-01-07 14:48:59
+ * @LastEditTime: 2021-04-13 23:44:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/vue.config.js
  */
 const path = require('path');
-
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 function resolve(dir) {
   return path.join(__dirname, dir) //path.join(__dirname)设置绝对路径
 }
@@ -36,6 +36,15 @@ module.exports = {
     .alias
     .set('@', resolve('./src'))
 
+    config.optimization
+      .minimizer('terser')
+      .tap(args => {
+        const { terserOptions } = args[0]
+        terserOptions.keep_classnames = true
+        terserOptions.keep_fnames = true
+        return args
+      }) 
+
     config
     .module
     .rule("images")
@@ -50,4 +59,20 @@ module.exports = {
     })
     .end()
   }, 
+  // configureWebpack:{
+  //   plugins: [
+  //     new UglifyJsPlugin({
+  //         uglifyOptions: {
+  //             compress: {
+  //                 warnings: false
+  //             },
+  //             keep_classnames: true,
+  //             mangle: true,
+  //             output: {
+  //                 beautify: true
+  //             }
+  //         }
+  //     })
+  // ]
+  // }
 }

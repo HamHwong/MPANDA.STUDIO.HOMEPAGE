@@ -1,7 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
+<<<<<<< HEAD
  * @LastEditTime: 2021-04-13 17:59:18
+=======
+ * @LastEditTime: 2021-04-13 22:58:03
+>>>>>>> 779e955f776755183c59f45f1b4665813b890862
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -12,9 +16,10 @@ import {
 import {
     frame
 } from '../../frame'
-import {
-    load
-} from '../../utils/assetsLoader'
+import frames_config from './frames.config.js'
+// import {
+//     load
+// } from '../../utils/assetsLoader'
 // import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
 export class Instance {
     constructor() {
@@ -31,6 +36,9 @@ export class Instance {
         this.xv = 0
         this.yv = 0
         this.zv = 0
+        this.xa = 0
+        this.ya = 0
+        this.za = 0
         this.vector = [1, 1, 0]
         this.groupId = null
         this.rotation = 0
@@ -81,31 +89,40 @@ export class Instance {
         this.beforeInit()
     }
     beforeInit() {}
-    _init() {
+    _init() { 
         this.name = this.constructor.name
         this.init()
         this._load()
     }
     _load() {
-        
+
         this.load()
     }
     async _loadImgs() {
         try {
+<<<<<<< HEAD
             var actions = require('./frames.json')[this.name]
             for (var actionName in actions) {
                 console.log('Loading',actionName)
+=======
+            var actions = frames_config[this.name] 
+            console.log(frames_config,this.name)
+            console.log(actions)
+            for(var i = 0 ; i<actions.length;i++){
+                var actionName = actions[i] 
+>>>>>>> 779e955f776755183c59f45f1b4665813b890862
                 var id = `${this.type}.${this.name}.actions.${actionName}`
-                this.CanvasManager.AssetsManager.setTableName('Frames') 
-                const {base64} = await this.CanvasManager.AssetsManager.get('ID',id)
-                console.log(base64)
-                this.frames[actionName] = base64.map(bs64=>{
+                this.CanvasManager.AssetsManager.setTableName('Frames')
+                const {
+                    base64
+                } = await this.CanvasManager.AssetsManager.get('ID', id)
+                this.frames[actionName] = base64.map(bs64 => {
                     var f = new frame()
                     var img = new Image()
                     img.src = bs64
-                    f.img  = img 
+                    f.img = img
                     return f
-                })   
+                })
             }
         } catch (e) {
             console.log(e)
@@ -134,10 +151,25 @@ export class Instance {
         this._updated()
     }
     _updating() {
-        var [vx, vy, vz] = this.vector
-        this.x += this.xv * vx
-        this.y += this.yv * vy
-        this.z += this.zv * vz
+        var [vx, vy, vz] = this.vector 
+        var currXV = this.xv = this.xv + this.xa
+        var currYV = this.yv = this.yv + this.ya
+        var currZV = this.zv = this.zv + this.za
+        if(currXV<=0){
+            currXV = 0
+            this.xa = 0
+        }
+        if(currYV<=0){
+            currYV = 0
+            this.ya = 0
+        }
+        if(currZV<=0){
+            currZV = 0
+            this.za = 0
+        } 
+        this.x += currXV * vx
+        this.y += currYV * vy
+        this.z += currZV * vz
         var frameCount = this.frames[this.status] ? this.frames[this.status].length || 1 : 1
         this.currentFrame += 1
         this.currentFrame = this.currentFrame % frameCount
@@ -185,7 +217,7 @@ export class Instance {
     }
     updated() {}
     $emit($event, TargetId, data) {
-        if(data){
+        if (data) {
             data.originId = this.id
             data.TargetId = TargetId
         }
