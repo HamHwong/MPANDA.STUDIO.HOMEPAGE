@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-14 09:44:00
+ * @LastEditTime: 2021-04-15 16:22:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -36,11 +36,15 @@ export class Instance {
         this.ya = 0
         this.za = 0
         this.vector = [1, 1, 0]
+        this.FramesDurationOfEachFrame = 1
         this.groupId = null
         this.rotation = 0
         this.sprit = ''
         this.frames = {}
+        this.sprintCount = 0
         this.currentFrame = 0
+        this._currentFrame = 0
+        this._frameCounter = 0
         this._status = 'init'
         this.debugMode = false
         Object.defineProperty(this, 'status', {
@@ -51,6 +55,10 @@ export class Instance {
                 this.$emit('$event.emit.data', {
                     status: val
                 })
+                // this.sprintCount = 0
+                // this.currentFrame = 0
+                // this._currentFrame = 0
+                // this._frameCounter = 0
                 this._status = val
             }
         })
@@ -85,7 +93,7 @@ export class Instance {
         this.beforeInit()
     }
     beforeInit() {}
-    _init() { 
+    _init() {
         this.name = this.constructor.name
         this.init()
         this._load()
@@ -96,11 +104,11 @@ export class Instance {
     }
     async _loadImgs() {
         try {
-            var actions = frames_config[this.name] 
-            console.log(frames_config,this.name)
+            var actions = frames_config[this.name]
+            console.log(frames_config, this.name)
             console.log(actions)
-            for(var i = 0 ; i<actions.length;i++){
-                var actionName = actions[i] 
+            for (var i = 0; i < actions.length; i++) {
+                var actionName = actions[i]
                 var id = `${this.type}.${this.name}.actions.${actionName}`
                 this.CanvasManager.AssetsManager.setTableName('Frames')
                 const {
@@ -141,28 +149,39 @@ export class Instance {
         this._updated()
     }
     _updating() {
-        var [vx, vy, vz] = this.vector 
+        var [vx, vy, vz] = this.vector
         var currXV = this.xv = this.xv + this.xa
         var currYV = this.yv = this.yv + this.ya
         var currZV = this.zv = this.zv + this.za
-        if(currXV<=0){
+        if (currXV <= 0) {
             currXV = 0
             this.xa = 0
         }
-        if(currYV<=0){
+        if (currYV <= 0) {
             currYV = 0
             this.ya = 0
         }
-        if(currZV<=0){
+        if (currZV <= 0) {
             currZV = 0
             this.za = 0
-        } 
+        }
         this.x += currXV * vx
         this.y += currYV * vy
         this.z += currZV * vz
-        var frameCount = this.frames[this.status] ? this.frames[this.status].length || 1 : 1
-        this.currentFrame += 1
-        this.currentFrame = this.currentFrame % frameCount
+
+        this.sprintCount = this.frames[this.status] ? this.frames[this.status].length || 1 : 1
+        this._frameCounter += 1
+        if (this.sprintCount > this.CanvasManager.FPS) {
+            this.currentFrame += 1
+            this.currentFrame = this._frameCounter % this.sprintCount
+        } else {
+            if ((this._frameCounter / this.FramesDurationOfEachFrame) > 1) {
+                this._currentFrame += 1
+                this._currentFrame = this._currentFrame % this.sprintCount
+                this.currentFrame = this._currentFrame
+                this._frameCounter = 0
+            }
+        }
         this.updating()
     }
     updating() {}
@@ -170,7 +189,7 @@ export class Instance {
         var actionFrames = this.frames[this.status]
         var actionFrame = null;
         if (actionFrames instanceof Array) {
-            actionFrame = actionFrames[this.currentFrame]
+            actionFrame = actionFrames[this.currentFrame%actionFrames.length]
         } else if (actionFrames instanceof Function) {
             actionFrame = actionFrames
         }
