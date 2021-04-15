@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-13 22:19:12
+ * @LastEditTime: 2021-04-15 17:13:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -36,13 +36,15 @@ export class CanvasManager {
         this.canvas.width = width
         this.reloadKeyMapping()
         this.initKeyboardEvents() 
-        this.AssetsManager = new AssetsManager()
-        await this.AssetsManager.init()
-        // this.AssetsManager.setTableName('Frames')
-        // await this.AssetsManager.add({asset_name:'1',bytes:'2'})
-        // const a = await this.AssetsManager.get('AssetsName',1)
-        // console.log('>>>>>>>>>>>>>>',a)
-        // console.log(this)
+        await new Promise((res,rej)=>{
+            try{
+                this.AssetsManager = new AssetsManager()
+                this.AssetsManager.init().then(()=>res())
+                // res()
+            }catch(e){
+                rej( new Error(e))
+            }
+        })
         return this
     }  
     start(){

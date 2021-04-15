@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-15 16:13:13
+ * @LastEditTime: 2021-04-15 16:46:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
@@ -45,16 +45,5 @@ export class Ball extends Characters {
         this.h = 110
         this.FramesDurationOfEachFrame = 12
         this.enableDebug()
-    }
-    load() {
-        // this.addStatusFrames('init', function (ctx) {
-        //     ctx.fillStyle = "#FF0000";
-        //     ctx.beginPath();
-        //     this.w = 15 * 2;
-        //     this.h = 15 * 2
-        //     ctx.arc(this.x, this.y, this.w / 2, 0, Math.PI * 2, true);
-        //     ctx.closePath();
-        //     ctx.fill();
-        // })
     }
 }

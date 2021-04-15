@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-15 16:22:20
+ * @LastEditTime: 2021-04-15 17:14:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -80,6 +80,7 @@ export class Instance {
                         }) => this.on($event, callback))
                         this.eventsLoop = []
                     }
+                    this._preRender()
                     this._loadImgs()
                     this._afterBind()
                 }
@@ -98,22 +99,21 @@ export class Instance {
         this.init()
         this._load()
     }
-    _load() {
-
+    _load() { 
         this.load()
     }
-    async _loadImgs() {
-        try {
+    _preRender(){
+        console.log('preRender')
+        this.CanvasManager.preRenderSprints.push(this._loadImgs.bind(this))
+    }
+    async _loadImgs() { 
             var actions = frames_config[this.name]
-            console.log(frames_config, this.name)
-            console.log(actions)
             for (var i = 0; i < actions.length; i++) {
                 var actionName = actions[i]
                 var id = `${this.type}.${this.name}.actions.${actionName}`
                 this.CanvasManager.AssetsManager.setTableName('Frames')
-                const {
-                    base64
-                } = await this.CanvasManager.AssetsManager.get('ID', id)
+                const o= await this.CanvasManager.AssetsManager.get('ID', id) 
+                var base64 = o.base64
                 this.frames[actionName] = base64.map(bs64 => {
                     var f = new frame()
                     var img = new Image()
@@ -122,9 +122,7 @@ export class Instance {
                     return f
                 })
             }
-        } catch (e) {
-            console.log(e)
-        }
+        
     }
     load() {
 

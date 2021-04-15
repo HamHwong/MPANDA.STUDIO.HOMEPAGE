@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-10 22:26:31
- * @LastEditTime: 2021-04-13 21:25:51
+ * @LastEditTime: 2021-04-15 17:04:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\assetsManager\index.js
@@ -61,6 +61,7 @@ export class AssetsManager {
         await this.add(obj)
       } 
     })
+    console.log('Downloaded!')
     this.status = Status.CONNECTED
   }
   open() {
@@ -103,8 +104,12 @@ export class AssetsManager {
         getTransation.index(index)
         var result = getTransation.get(value)
         result.onsuccess = function (event) {
-          console.log('数据读取成功', event.target.result);
-          res(event.target.result)
+          if(event.target.result){
+            console.log('数据读取成功', event.target.result);
+            res(event.target.result)
+          }else{
+            rej('未获取到数据!',index, value)
+          }
         };
         result.onerror = function (ev) {
           rej(JSON.stringify(ev))
