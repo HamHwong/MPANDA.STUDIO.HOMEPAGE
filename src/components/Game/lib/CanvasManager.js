@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-16 15:32:52
+ * @LastEditTime: 2021-04-16 17:20:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -12,7 +12,8 @@
 import * as actions from './actions'
 import keyMapping  from './keymap'
 import {EventManager} from "./eventManager";
-import {AssetsManager} from './assetsManager'
+import {AssetsManager} from './assetsManager';
+import {WSManager} from './WSManager';
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
@@ -30,6 +31,7 @@ export class CanvasManager {
         this.AssetsManager = null
         this.Debug = false
         this.Player = null
+        this.WSManager = null
     }
     async init({
         width = 800,
@@ -46,6 +48,9 @@ export class CanvasManager {
         await this.AssetsManager.init() 
         // console.log('init Completed!',this.preRenderSprints)
         this.preloadSprints() 
+        this.WSManager = new WSManager()
+        this.WSManager.Connect()
+        this.WSManager.CanvasManager = this
         return this
     }  
     start(){
