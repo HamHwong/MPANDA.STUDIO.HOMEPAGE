@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-15 17:14:15
+ * @LastEditTime: 2021-04-16 15:40:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -55,10 +55,6 @@ export class Instance {
                 this.$emit('$event.emit.data', {
                     status: val
                 })
-                // this.sprintCount = 0
-                // this.currentFrame = 0
-                // this._currentFrame = 0
-                // this._frameCounter = 0
                 this._status = val
             }
         })
@@ -73,7 +69,7 @@ export class Instance {
                 if (!this._CanvasManager) {
                     this._beforeBind()
                     this._CanvasManager = val
-                    if (this.eventsLoop.length > 0) {
+                    if (this._CanvasManager.Player === this&& this.eventsLoop.length > 0) {
                         this.eventsLoop.map(({
                             $event,
                             callback
@@ -81,7 +77,6 @@ export class Instance {
                         this.eventsLoop = []
                     }
                     this._preRender()
-                    this._loadImgs()
                     this._afterBind()
                 }
             }
@@ -103,7 +98,6 @@ export class Instance {
         this.load()
     }
     _preRender(){
-        console.log('preRender')
         this.CanvasManager.preRenderSprints.push(this._loadImgs.bind(this))
     }
     async _loadImgs() { 
@@ -223,10 +217,12 @@ export class Instance {
         this.updated()
     }
     updated() {}
-    $emit($event, TargetId, data) {
-        if (data) {
-            data.originId = this.id
+    $emit($event, data,TargetId) {
+        data.OriginId = this.id
+        if (TargetId) { 
             data.TargetId = TargetId
+        }else{
+            data.TargetId = this.id
         }
         this.CanvasManager.broadcast($event, data)
     }
@@ -237,6 +233,7 @@ export class Instance {
                 callback
             })
         } else {
+            if(this.CanvasManager.Player===this)
             this.CanvasManager.registerEvent(this, $event, callback)
         }
     }

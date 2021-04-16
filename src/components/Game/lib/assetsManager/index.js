@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-10 22:26:31
- * @LastEditTime: 2021-04-15 17:04:21
+ * @LastEditTime: 2021-04-16 14:16:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\assetsManager\index.js
@@ -11,40 +11,40 @@ import {
   init
 } from '../../../../api/Game'
 export class AssetsManager {
-  constructor() {
+  constructor(CanvasManager) {
     this.loadQueue = []
     this.status = Status.INIT
     this.dbName = '$MPANDA.GAME.ASSETS'
     this.dbVersion = 1
     this.tableName = null
+    this.CanvasManager = CanvasManager
   }
   async init() {
+    var DBConnect = this.open()
     var _this = this
-    return new Promise((res, rej) => {
-      var DBConnect = this.open()
-      DBConnect.onsuccess = (ev) => { 
-        this.status = Status.CONNECTED
-        res(this)
+    DBConnect.onsuccess = (ev) => { 
+      this.status = Status.CONNECTED
+      _this.CanvasManager.preloadSprints()
+    }
+    DBConnect.onupgradeneeded = async function (ev) {
+      console.log('Upgraded!')
+      if (!ev.target.result.objectStoreNames.contains('Frames')) {
+        var createStore = ev.target.result.createObjectStore('Frames', {
+          keyPath:'id',
+          autoIncrement: true
+        })
+        createStore.createIndex('ID', 'id', {
+          unique: true
+        })
+        createStore.createIndex('Base64', 'base64', {
+          unique: false
+        })
       }
-      DBConnect.onupgradeneeded = async function (ev) {
-        console.log('Upgraded!')
-        if (!ev.target.result.objectStoreNames.contains('Frames')) {
-          var createStore = ev.target.result.createObjectStore('Frames', {
-            keyPath:'id',
-            autoIncrement: true
-          })
-          createStore.createIndex('ID', 'id', {
-            unique: true
-          })
-          createStore.createIndex('Base64', 'base64', {
-            unique: false
-          })
-        }
-        await _this.download()
-        this.status = Status.UPGRADED
-        res(this)
-      }
-    })
+      await _this.download()
+      _this.CanvasManager.preloadSprints()
+      _this.status = Status.UPGRADED
+    }
+    return this
   }
   async download() {
     this.status = Status.DOWNLOADING
@@ -61,7 +61,6 @@ export class AssetsManager {
         await this.add(obj)
       } 
     })
-    console.log('Downloaded!')
     this.status = Status.CONNECTED
   }
   open() {
@@ -86,7 +85,7 @@ export class AssetsManager {
         .objectStore(tableName)
         .add(obj)
       addTransation.onsuccess = function (ev) {
-        console.log('数据写入成功！', ev)
+        // console.log('数据写入成功！', ev)
       }
       addTransation.onerror = function (ev) {
         throw new Error(JSON.stringify(ev))
@@ -105,10 +104,10 @@ export class AssetsManager {
         var result = getTransation.get(value)
         result.onsuccess = function (event) {
           if(event.target.result){
-            console.log('数据读取成功', event.target.result);
+            // console.log('数据读取成功', event.target.result);
             res(event.target.result)
           }else{
-            rej('未获取到数据!',index, value)
+            rej(`未获取到数据! index:${index}, value: ${value}`)
           }
         };
         result.onerror = function (ev) {
@@ -117,9 +116,4 @@ export class AssetsManager {
       }
     })
   }
-  // goDownload() {
-  //   this.status = Status.DOWNLOADING
-  // }
-  // getAssets() {}
-
 }

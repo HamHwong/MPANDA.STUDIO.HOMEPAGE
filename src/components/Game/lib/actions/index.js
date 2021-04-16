@@ -12,9 +12,9 @@ export function switchStatus() {
     else
         this.pause = true
 }
-export function reset(){  
-    this.broadcast('$myevent',12)
-}
+// export function reset(){  
+//     this.broadcast('$myevent',12)
+// }
 export function walkLeft(){
     this.broadcast('$walk.left') 
 }

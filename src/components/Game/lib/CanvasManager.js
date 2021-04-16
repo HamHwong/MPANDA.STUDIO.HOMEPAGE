@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-15 17:13:15
+ * @LastEditTime: 2021-04-16 15:32:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -22,29 +22,30 @@ export class CanvasManager {
         this.eventsPool = actions
         this.messageBus = []
         this.sprints = []
+        this.preRenderSprints = []
         this.AnimationFrameTimer = null
         this.pause = false
         this.FPS = 120
         this.EventManager = new EventManager()
         this.AssetsManager = null
+        this.Debug = false
+        this.Player = null
     }
     async init({
         width = 800,
-        height = 500
+        height = 500,
+        debug=false
     }) { 
         this.canvas.height = height
         this.canvas.width = width
+        this.Debug = debug
         this.reloadKeyMapping()
-        this.initKeyboardEvents() 
-        await new Promise((res,rej)=>{
-            try{
-                this.AssetsManager = new AssetsManager()
-                this.AssetsManager.init().then(()=>res())
-                // res()
-            }catch(e){
-                rej( new Error(e))
-            }
-        })
+        this.initKeyboardEvents()
+        this.AssetsManager = new AssetsManager(this)
+        // this.AssetsManager.CanvasManager = this
+        await this.AssetsManager.init() 
+        // console.log('init Completed!',this.preRenderSprints)
+        this.preloadSprints() 
         return this
     }  
     start(){
@@ -55,12 +56,12 @@ export class CanvasManager {
         console.log('CanvasManager.initKeyboardEvents:',this.EventManager)
         this.document = document || window.document
         this.document.addEventListener('keydown', e => { 
-            console.log('Key has been pressed:',e.code.trim())
+            if(this.Debug)console.log('Key has been pressed:',e.code.trim())
             e.preventDefault()
             this.invoke(this.keyMapping[e.code.trim()])
         }, true)
         this.document.addEventListener('keyup', e => { 
-            console.log('Key up:',e.code.trim())
+            if(this.Debug)console.log('Key up:',e.code.trim())
             e.preventDefault() 
             this.broadcast('$keyup',e.code.trim())
         }, true)
@@ -71,11 +72,19 @@ export class CanvasManager {
         this.document.removeKeyboardEvents('keyup')
         return this
     }
-    invoke(eventName, ...args) {
-        if(eventName)console.log('CanvasManager.invoke:',eventName)
-        if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, ...args)
+    // Keyboard Trigger Broadcast// By user self
+    invoke(eventName, {...args}) {
+        if(eventName&&this.Debug)console.log('CanvasManager.invoke:',eventName)
+        if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, {
+            OriginId : this.id,
+            TargetId : this.id,
+            ...args
+        })
         return this
     } 
+    preloadSprints (){ 
+        this.preRenderSprints.map(func=>func())
+    }
     draw() { 
         setTimeout(() => {
             var timer = window.requestAnimationFrame(this.draw.bind(this))
@@ -117,6 +126,19 @@ export class CanvasManager {
         return this
     }
     broadcast($event, data){ 
+        if(!data){
+            data = {}
+        }
+        if(typeof data === 'string'){
+            var value = data
+            data = {
+                value
+            }
+        }
+        data.OriginId = this.Player.id
+        data.TargetId = this.Player.id
+        // data.OriginId = this.id
+        // data.TargetId  = data.TargetId || this.id 
         this.EventManager.trigger($event, data)
         return this
     }
