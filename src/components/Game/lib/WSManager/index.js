@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-16 17:36:42
+ * @LastEditTime: 2021-04-17 15:04:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
  */
 export class WSManager{
   constructor(){
-    this.WSUrl = `${location.protocol==='https:'?'wss':'ws'}://${location.hostname}:8101`
+    this.WSUrl = `${location.protocol==='https:'?'wss':'ws'}://${location.hostname}:8111`
     this.WS = null
     this.CanvasManager = null
   }
