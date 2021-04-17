@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-16 15:40:54
+ * @LastEditTime: 2021-04-17 22:59:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -12,6 +12,10 @@ import {
 import {
     frame
 } from '../../frame'
+import {
+    defaultEvent
+} from '../../WSManager/default.event.class'
+import EVENTS from '../../WSManager/default.event'
 import frames_config from './frames.config.js'
 // import {
 //     load
@@ -46,6 +50,7 @@ export class Instance {
         this._currentFrame = 0
         this._frameCounter = 0
         this._status = 'init'
+        this._sync_timer = null
         this.debugMode = false
         Object.defineProperty(this, 'status', {
             get: function () {
@@ -69,7 +74,7 @@ export class Instance {
                 if (!this._CanvasManager) {
                     this._beforeBind()
                     this._CanvasManager = val
-                    if (this._CanvasManager.Player === this&& this.eventsLoop.length > 0) {
+                    if (this._CanvasManager.Player === this && this.eventsLoop.length > 0) {
                         this.eventsLoop.map(({
                             $event,
                             callback
@@ -94,29 +99,29 @@ export class Instance {
         this.init()
         this._load()
     }
-    _load() { 
+    _load() {
         this.load()
     }
-    _preRender(){
+    _preRender() {
         this.CanvasManager.preRenderSprints.push(this._loadImgs.bind(this))
     }
-    async _loadImgs() { 
-            var actions = frames_config[this.name]
-            for (var i = 0; i < actions.length; i++) {
-                var actionName = actions[i]
-                var id = `${this.type}.${this.name}.actions.${actionName}`
-                this.CanvasManager.AssetsManager.setTableName('Frames')
-                const o= await this.CanvasManager.AssetsManager.get('ID', id) 
-                var base64 = o.base64
-                this.frames[actionName] = base64.map(bs64 => {
-                    var f = new frame()
-                    var img = new Image()
-                    img.src = bs64
-                    f.img = img
-                    return f
-                })
-            }
-        
+    async _loadImgs() {
+        var actions = frames_config[this.name]
+        for (var i = 0; i < actions.length; i++) {
+            var actionName = actions[i]
+            var id = `${this.type}.${this.name}.actions.${actionName}`
+            this.CanvasManager.AssetsManager.setTableName('Frames')
+            const o = await this.CanvasManager.AssetsManager.get('ID', id)
+            var base64 = o.base64
+            this.frames[actionName] = base64.map(bs64 => {
+                var f = new frame()
+                var img = new Image()
+                img.src = bs64
+                f.img = img
+                return f
+            })
+        }
+
     }
     load() {
 
@@ -137,8 +142,36 @@ export class Instance {
     _update() {
         this._beforeUpdate()
         this._updating()
+        this._update_to_all()
         this._draw()
         this._updated()
+
+    }
+    _update_to_all() {
+        if (this._sync_timer) return
+        this._sync_timer = setTimeout(() => {
+            var o = {
+                x: this.x,
+                y: this.y,
+                z: this.z,
+                w: this.w,
+                h: this.h,
+                xv: this.xv,
+                yv: this.yv,
+                zv: this.zv,
+                xa: this.xa,
+                ya: this.ya,
+                za: this.za,
+                vector: this.vector,
+                currentFrame: this.currentFrame,
+                _status: this._status,
+            }
+            this.CanvasManager.WSManager.Send(new defaultEvent({
+                $event: EVENTS.UPDATE,
+                data: o
+            }))
+            this._sync_timer = null
+        }, 300);
     }
     _updating() {
         var [vx, vy, vz] = this.vector
@@ -181,7 +214,7 @@ export class Instance {
         var actionFrames = this.frames[this.status]
         var actionFrame = null;
         if (actionFrames instanceof Array) {
-            actionFrame = actionFrames[this.currentFrame%actionFrames.length]
+            actionFrame = actionFrames[this.currentFrame % actionFrames.length]
         } else if (actionFrames instanceof Function) {
             actionFrame = actionFrames
         }
@@ -217,11 +250,11 @@ export class Instance {
         this.updated()
     }
     updated() {}
-    $emit($event, data,TargetId) {
+    $emit($event, data, TargetId) {
         data.OriginId = this.id
-        if (TargetId) { 
+        if (TargetId) {
             data.TargetId = TargetId
-        }else{
+        } else {
             data.TargetId = this.id
         }
         this.CanvasManager.broadcast($event, data)
@@ -233,8 +266,8 @@ export class Instance {
                 callback
             })
         } else {
-            if(this.CanvasManager.Player===this)
-            this.CanvasManager.registerEvent(this, $event, callback)
+            if (this.CanvasManager.Player === this)
+                this.CanvasManager.registerEvent(this, $event, callback)
         }
     }
     addStatusFrames(status, frames) {
