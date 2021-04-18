@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-17 23:16:23
+ * @LastEditTime: 2021-04-18 13:45:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
@@ -13,7 +13,8 @@ import { WSEventsManager } from './WSEventsManager'
 
 export class WSManager{
   constructor(){
-    this.WSUrl = `${location.protocol==='https:'?'wss':'ws'}://${location.hostname}:8110`
+    var port = process.env.NODE_ENV===`production`?8111:8110;
+    this.WSUrl = `${location.protocol==='https:'?'wss':'ws'}://${location.hostname}:${port}`
     this.WS = null
     this.CanvasManager = null
     this.WSEventsManager = new WSEventsManager(this)
