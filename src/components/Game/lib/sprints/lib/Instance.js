@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-18 20:58:28
+ * @LastEditTime: 2021-04-18 21:57:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -15,7 +15,7 @@ import {
 import {
     defaultEvent
 } from '../../WSManager/default.event.class'
-import STATUS from './type.enums'
+import STATUS from './status.enums'
 import EVENTS from '../../WSManager/default.event.status'
 import frames_config from './frames.config.js'
 // import {
@@ -53,7 +53,6 @@ export class Instance {
         this._status = STATUS.INIT
         this._sync_timer = null
         this.debugMode = false
-        this.saysomething = null
         Object.defineProperty(this, 'status', {
             get: function () {
                 return this._status
@@ -337,15 +336,7 @@ export class Instance {
         } else if (actionFrames instanceof Function) {
             actionFrame = actionFrames
         }
-        this.draw(actionFrame)
-    }
-    /**
-     * 画
-     *
-     * @param {*} actionFrame
-     * @memberof Instance
-     */
-    draw(actionFrame) {
+
         if (actionFrame instanceof frame) {
             this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
         } else if (actionFrame instanceof Function) {
@@ -354,6 +345,16 @@ export class Instance {
         if (this.debugMode) {
             this.debug()
         }
+        // this.draw(actionFrame)
+    }
+    /**
+     * 画
+     *
+     * @param {*} actionFrame
+     * @memberof Instance
+     */
+    draw(actionFrame) {
+
     }
     /**
      * 绘制Debug信息
@@ -416,5 +417,6 @@ export class Instance {
             if (this.CanvasManager.Player === this)
                 this.CanvasManager.registerEvent(this, $event, callback)
         }
-    } 
+    }
+    
 }

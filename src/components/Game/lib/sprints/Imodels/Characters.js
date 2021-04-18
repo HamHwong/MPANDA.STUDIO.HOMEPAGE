@@ -16,5 +16,6 @@ export class Characters extends Instance{
   constructor(){
     super()
     this.type = 'characters'
+    this.saysomething = null
   } 
 }
