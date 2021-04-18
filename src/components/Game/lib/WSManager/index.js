@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-18 13:45:39
+ * @LastEditTime: 2021-04-18 13:53:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
@@ -17,6 +17,7 @@ export class WSManager{
     this.WSUrl = `${location.protocol==='https:'?'wss':'ws'}://${location.hostname}:${port}`
     this.WS = null
     this.CanvasManager = null
+    this.ISCONNECTED = false
     this.WSEventsManager = new WSEventsManager(this)
   }
   Init(CanvasManager){
@@ -29,6 +30,7 @@ export class WSManager{
       this.Send(new defaultEvent({$event:EVENTS.LEAVE})) 
     }
     this.WS.onopen=()=>{  
+      this.ISCONNECTED = true
       this.Send(new defaultEvent({$event:EVENTS.NEWBORN}))
     }
     this.CanvasManager = CanvasManager

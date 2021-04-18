@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-18 13:50:09
+ * @LastEditTime: 2021-04-18 13:54:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -147,7 +147,7 @@ export class Instance {
         this._updated()
     }
     _update_to_all() {
-        if (this._sync_timer||this.id !== this.CanvasManager.Player.id) return
+        if (this._sync_timer||this.id !== this.CanvasManager.Player.id||!this.CanvasManager.WSManager.ISCONNECTED) return
         this._sync_timer = setTimeout(() => {
             var o = {
                 x: this.x,
