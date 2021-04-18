@@ -1,18 +1,18 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-18 13:24:27
+ * @LastEditTime: 2021-04-18 21:12:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
  */
-import Events from '../default.event'
+import Events from '../default.event.status'
 import {
   defaultEvent
 } from '../default.event.class'
 import {
   Ball
-} from '../../sprints/models/Ball'
+} from '../../sprints/models/Player'
 export class WSEventsManager {
   constructor(WSManager) {
     this.WSManager = WSManager
@@ -29,7 +29,7 @@ export class WSEventsManager {
         case Events.NEWBORN:
           var ball = new Ball()
           ball.id = from
-          console.log(from,'进来了')
+          // console.log(from,'进来了')
           this.WSManager.CanvasManager.addInstance(ball)
           this.WSManager.Send(new defaultEvent({
             $event: Events.UPDATE_USERS,
@@ -74,7 +74,7 @@ export class WSEventsManager {
           })
           break
         case Events.UPDATE_USERS:
-          console.log('from',from,this.WSManager.CanvasManager.Player.id)
+          // console.log('from',from,this.WSManager.CanvasManager.Player.id)
           if (from&&from !== this.WSManager.CanvasManager.Player.id) {
             // console.log()
             var b = new Ball();
@@ -83,7 +83,7 @@ export class WSEventsManager {
           }
           break;
         case Events.LEAVE:
-          console.log('Events.LEAVE',Events.LEAVE,from)
+          // console.log('Events.LEAVE',Events.LEAVE,from)
           this.WSManager.CanvasManager.sprints= this.WSManager.CanvasManager.sprints.filter(o => o.id !== from)
           break
         default:

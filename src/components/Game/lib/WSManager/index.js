@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-18 13:53:58
+ * @LastEditTime: 2021-04-18 20:57:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
  */
-import EVENTS from './default.event'
+import EVENTS from './default.event.status'
 import { defaultEvent } from './default.event.class'
 import { WSEventsManager } from './WSEventsManager'
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-18 14:09:01
+ * @LastEditTime: 2021-04-18 14:10:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Enter Btn -->
-    <svgBotton @click="handleEnter()" />
+    <svgBotton @click="handleEnter" />
     <div>
       <GameComponent />
     </div>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-18 13:54:18
+ * @LastEditTime: 2021-04-18 20:58:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -15,7 +15,8 @@ import {
 import {
     defaultEvent
 } from '../../WSManager/default.event.class'
-import EVENTS from '../../WSManager/default.event'
+import STATUS from './type.enums'
+import EVENTS from '../../WSManager/default.event.status'
 import frames_config from './frames.config.js'
 // import {
 //     load
@@ -49,9 +50,10 @@ export class Instance {
         this.currentFrame = 0
         this._currentFrame = 0
         this._frameCounter = 0
-        this._status = 'init'
+        this._status = STATUS.INIT
         this._sync_timer = null
         this.debugMode = false
+        this.saysomething = null
         Object.defineProperty(this, 'status', {
             get: function () {
                 return this._status
@@ -90,21 +92,99 @@ export class Instance {
         this._init()
         this._afterInit()
     }
+    /**
+     * 初始化Instance前执行(内部)
+     *
+     * @memberof Instance
+     */
     _beforeInit() {
         this.beforeInit()
     }
+    /**
+     * 初始化Instance前执行(可重写)
+     *
+     * @memberof Instance
+     */
     beforeInit() {}
+    /**
+     * 初始化Instance末尾执行(内部)
+     *
+     * @memberof Instance
+     */
     _init() {
         this.name = this.constructor.name
         this.init()
         this._load()
     }
+    /**
+     * 初始化Instance末尾执行(可重写)
+     *
+     * @memberof Instance
+     */
+    init() {}
+
+    /**
+     * 初始化Instance后执行(内部)
+     *
+     * @memberof Instance
+     */
     _load() {
         this.load()
     }
+    /**
+     * 初始化Instance后执行(可重写)
+     *
+     * @memberof Instance
+     */
+    load() {
+
+    }
+    _afterInit() {
+        this.afterInit()
+    }
+    afterInit() {}
+    /**
+     * 在Instance.ManagerCanvas赋值前执行(内部)
+     *
+     * @memberof Instance
+     */
+    _beforeBind() {
+        this.beforeBind()
+    }
+    /**
+     * 在Instance.ManagerCanvas赋值前执行(可重写)
+     *
+     * @memberof Instance
+     */
+    beforeBind() {}
+    /**
+     * 在Instance.ManagerCanvas赋值后执行(内部)
+     *
+     * @memberof Instance
+     */
+    _afterBind() {
+        this.afterBind()
+    }
+    /**
+     * 在Instance.ManagerCanvas赋值后执行(可重写)
+     *
+     * @memberof Instance
+     */
+    afterBind() {}
+    /**
+     * 预加载素材Sprints图
+     * 要CanvasManager完成初始化后渲染
+     *
+     * @memberof Instance
+     */
     _preRender() {
         this.CanvasManager.preRenderSprints.push(this._loadImgs.bind(this))
     }
+    /**
+     * 加载Sprints帧图
+     * CanvasManager初始化完成后渲染
+     * @memberof Instance
+     */
     async _loadImgs() {
         var actions = frames_config[this.name]
         for (var i = 0; i < actions.length; i++) {
@@ -121,57 +201,40 @@ export class Instance {
                 return f
             })
         }
+    }
 
-    }
-    load() {
-
-    }
-    init() {}
-    _afterInit() {
-        this.afterInit()
-    }
-    afterInit() {}
-    _beforeBind() {
-        this.beforeBind()
-    }
-    beforeBind() {}
-    _afterBind() {
-        this.afterBind()
-    }
-    afterBind() {}
+    /**
+     * 每1000/CanvasManager.FPS 毫秒执行一次(内部)
+     *
+     * @memberof Instance
+     */
     _update() {
         this._beforeUpdate()
         this._updating()
-        this._update_to_all()
+        this._sync_to_all()
         this._draw()
         this._updated()
     }
-    _update_to_all() {
-        if (this._sync_timer||this.id !== this.CanvasManager.Player.id||!this.CanvasManager.WSManager.ISCONNECTED) return
-        this._sync_timer = setTimeout(() => {
-            var o = {
-                x: this.x,
-                y: this.y,
-                z: this.z,
-                w: this.w,
-                h: this.h,
-                xv: this.xv,
-                yv: this.yv,
-                zv: this.zv,
-                xa: this.xa,
-                ya: this.ya,
-                za: this.za,
-                vector: this.vector,
-                currentFrame: this.currentFrame,
-                _status: this._status,
-            }
-            this.CanvasManager.WSManager.Send(new defaultEvent({
-                $event: EVENTS.UPDATE,
-                data: o
-            }))
-            this._sync_timer = null
-        }, process.env.VUE_APP_WS_SPEED);
+
+    /**
+     * 更新前执行(内部)
+     *
+     * @memberof Instance
+     */
+    _beforeUpdate() {
+        this.beforeUpdate()
     }
+    /**
+     * 更新前执行(可重写)
+     *
+     * @memberof Instance
+     */
+    beforeUpdate() {}
+    /**
+     * 状态位置更新(内部)
+     *
+     * @memberof Instance
+     */
     _updating() {
         var [vx, vy, vz] = this.vector
         var currXV = this.xv = this.xv + this.xa
@@ -208,7 +271,64 @@ export class Instance {
         }
         this.updating()
     }
-    updating() {}
+    /**
+     * 状态位置更新(可重写)
+     *
+     * @memberof Instance
+     */
+    updating() {
+
+    }
+    /**
+     *更新后执行(内部)
+     *
+     * @memberof Instance
+     */
+    _updated() {
+        this.updated()
+    }
+    /**
+     *更新后执行(可重写)
+     *
+     * @memberof Instance
+     */
+    updated() {}
+    /**
+     * 同步到其他玩家(内部)
+     *
+     * @memberof Instance
+     */
+    _sync_to_all() {
+        if (this._sync_timer || this.id !== this.CanvasManager.Player.id || !this.CanvasManager.WSManager.ISCONNECTED) return
+        this._sync_timer = setTimeout(() => {
+            var o = {
+                x: this.x,
+                y: this.y,
+                z: this.z,
+                w: this.w,
+                h: this.h,
+                xv: this.xv,
+                yv: this.yv,
+                zv: this.zv,
+                xa: this.xa,
+                ya: this.ya,
+                za: this.za,
+                vector: this.vector,
+                currentFrame: this.currentFrame,
+                _status: this._status,
+            }
+            this.CanvasManager.WSManager.Send(new defaultEvent({
+                $event: EVENTS.UPDATE,
+                data: o
+            }))
+            this._sync_timer = null
+        }, process.env.VUE_APP_WS_SPEED);
+    }
+    /**
+     * 画
+     *
+     * @memberof Instance
+     */
     _draw() {
         var actionFrames = this.frames[this.status]
         var actionFrame = null;
@@ -219,6 +339,12 @@ export class Instance {
         }
         this.draw(actionFrame)
     }
+    /**
+     * 画
+     *
+     * @param {*} actionFrame
+     * @memberof Instance
+     */
     draw(actionFrame) {
         if (actionFrame instanceof frame) {
             this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
@@ -229,26 +355,41 @@ export class Instance {
             this.debug()
         }
     }
+    /**
+     * 绘制Debug信息
+     *
+     * @memberof Instance
+     */
     debug() {
         var fontsize = 8;
         this.ctx.font = `${fontsize}px Verdana`;
         this.ctx.fillStyle = '#333'
         this.ctx.fillText(`currentFrame:${this.currentFrame};x:${this.x};y:${this.y};w:${this.w};h:${this.h}`, this.x - this.w, this.y + this.h);
     }
+    /**
+     * 开启Debug
+     *
+     * @memberof Instance
+     */
     enableDebug() {
         this.debugMode = true
     }
-    disDebug() {
+    /**
+     * 关闭Debug
+     *
+     * @memberof Instance
+     */
+    disableDebug() {
         this.debugMode = false
     }
-    _beforeUpdate() {
-        this.beforeUpdate()
-    }
-    beforeUpdate() {}
-    _updated() {
-        this.updated()
-    }
-    updated() {}
+    /**
+     * 发起事件
+     *
+     * @param {*} $event
+     * @param {*} data
+     * @param {*} TargetId
+     * @memberof Instance
+     */
     $emit($event, data, TargetId) {
         data.OriginId = this.id
         if (TargetId) {
@@ -258,6 +399,13 @@ export class Instance {
         }
         this.CanvasManager.broadcast($event, data)
     }
+    /**
+     * 响应事件
+     *
+     * @param {*} $event
+     * @param {*} callback
+     * @memberof Instance
+     */
     on($event, callback) {
         if (!this.CanvasManager) {
             this.eventsLoop.push({
@@ -268,8 +416,5 @@ export class Instance {
             if (this.CanvasManager.Player === this)
                 this.CanvasManager.registerEvent(this, $event, callback)
         }
-    }
-    addStatusFrames(status, frames) {
-        this.frames[status] = frames
-    }
+    } 
 }

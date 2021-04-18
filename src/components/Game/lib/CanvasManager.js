@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-18 13:26:12
+ * @LastEditTime: 2021-04-18 21:17:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -49,6 +49,7 @@ export class CanvasManager {
         this.Debug = debug
         this.reloadKeyMapping()
         this.initKeyboardEvents()
+        this.initCursor()
         this.AssetsManager = new AssetsManager(this)
         await this.AssetsManager.init()
         this.preloadSprints()
@@ -61,19 +62,27 @@ export class CanvasManager {
         return this
     }
     initKeyboardEvents(document) {
-        console.log('CanvasManager.initKeyboardEvents:', this.EventManager)
+        // console.log('CanvasManager.initKeyboardEvents:', this.EventManager)
         this.document = document || window.document
         this.document.addEventListener('keydown', e => {
             if (this.Debug) console.log('Key has been pressed:', e.code.trim())
-            e.preventDefault()
+            // e.preventDefault()
             this.invoke(this.keyMapping[e.code.trim()])
         }, true)
         this.document.addEventListener('keyup', e => {
             if (this.Debug) console.log('Key up:', e.code.trim())
-            e.preventDefault()
+            // e.preventDefault()
             this.broadcast('$keyup', e.code.trim())
         }, true)
         return this
+    }
+    initCursor(){
+        this.canvas.addEventListener('mousemove',(e)=>{
+            e.preventDefault();
+            //offsetX
+            //offsetY
+            console.log(e.offsetX,e.offsetY)
+        })
     }
     removeKeyboardEvents() {
         this.document.removeKeyboardEvents('keydown')
@@ -101,9 +110,11 @@ export class CanvasManager {
             if (!this.AnimationFrameTimer) this.AnimationFrameTimer = timer
             if (!this.pause) {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+                // 画角色
                 this.sprints.map(sprint => {
                     sprint._update()
                 })
+                
             }
         }, 1000 / this.FPS);
     }
@@ -129,7 +140,7 @@ export class CanvasManager {
             this.sprints.push(instance)
             this.preloadSprints()
         }
-        console.log(this.sprints)
+        // console.log(this.sprints)
         return this
     }
     removeInstance(id) {
