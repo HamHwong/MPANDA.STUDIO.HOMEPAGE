@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-18 13:31:52
+ * @LastEditTime: 2021-04-18 13:50:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -170,7 +170,7 @@ export class Instance {
                 data: o
             }))
             this._sync_timer = null
-        }, 10);
+        }, process.env.VUE_APP_WS_SPEED);
     }
     _updating() {
         var [vx, vy, vz] = this.vector
