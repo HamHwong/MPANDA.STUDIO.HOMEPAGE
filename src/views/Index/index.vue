@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-04 22:21:33
+ * @LastEditTime: 2021-04-18 14:09:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -98,7 +98,8 @@ export default {
     };
   },
   methods: {
-    handleEnter() {
+    handleEnter(e) {
+      e.stopPropagation();
       setTimeout(() => {
         this.$router.push("/Controls");
       }, 700);
