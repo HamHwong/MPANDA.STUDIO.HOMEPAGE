@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-17 22:04:17
+ * @LastEditTime: 2021-04-18 13:26:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -122,10 +122,14 @@ export class CanvasManager {
         return this
     }
     addInstance(instance) {
+        // debugger
         instance.ctx = this.ctx
         instance.CanvasManager = this
-        this.sprints.push(instance)
-        this.preloadSprints()
+        if(!this.sprints.find(i=>i.id===instance.id)){
+            this.sprints.push(instance)
+            this.preloadSprints()
+        }
+        console.log(this.sprints)
         return this
     }
     removeInstance(id) {

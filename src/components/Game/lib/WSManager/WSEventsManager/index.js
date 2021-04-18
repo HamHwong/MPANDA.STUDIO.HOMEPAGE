@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-17 23:16:03
+ * @LastEditTime: 2021-04-18 13:24:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -29,6 +29,7 @@ export class WSEventsManager {
         case Events.NEWBORN:
           var ball = new Ball()
           ball.id = from
+          console.log(from,'进来了')
           this.WSManager.CanvasManager.addInstance(ball)
           this.WSManager.Send(new defaultEvent({
             $event: Events.UPDATE_USERS,
@@ -73,9 +74,11 @@ export class WSEventsManager {
           })
           break
         case Events.UPDATE_USERS:
-          if (data.from !== this.WSManager.CanvasManager.Player.id) {
+          console.log('from',from,this.WSManager.CanvasManager.Player.id)
+          if (from&&from !== this.WSManager.CanvasManager.Player.id) {
+            // console.log()
             var b = new Ball();
-            b.id = data.from
+            b.id = from
             this.WSManager.CanvasManager.addInstance(b)
           }
           break;
