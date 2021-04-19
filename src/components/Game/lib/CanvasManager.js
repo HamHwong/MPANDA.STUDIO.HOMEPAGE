@@ -1,32 +1,27 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-18 21:17:21
+ * @LastEditTime: 2021-04-19 15:31:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
- */
-// import {
-//     action
-// } from './enums'
-import * as actions from './actions'
-import keyMapping from './keymap'
+ */ 
 import {
     EventManager
-} from "./eventManager";
+} from "./EventManager";
 import {
     AssetsManager
-} from './assetsManager';
+} from './AssetsManager';
 import {
     WSManager
 } from './WSManager';
+import { KeyboardManager } from './KeyboardManager';
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
-        this.document = null
-        this.keyMapping = keyMapping
-        this.eventsPool = actions
+        // this.offscreenCanvas = null
+        // this.offscreenCtx = null 
         this.messageBus = []
         this.sprints = []
         this.preRenderSprints = []
@@ -35,6 +30,7 @@ export class CanvasManager {
         this.FPS = 120
         this.EventManager = new EventManager()
         this.AssetsManager = null
+        this.KeyboardManager = new KeyboardManager()
         this.Debug = false
         this.Player = null
         this.WSManager = null
@@ -43,12 +39,17 @@ export class CanvasManager {
         width = 800,
         height = 500,
         debug = false
-    }) {
-        this.canvas.height = height
+    }) { 
+        this.canvas.height = height 
         this.canvas.width = width
+
+        // this.offscreenCanvas = this.document.createElement('canvas')
+        // this.offscreenCanvas.height = height
+        // this.offscreenCanvas.width = width
+        // this.offscreenCtx = this.offscreenCanvas.getContext('2d')
+        
         this.Debug = debug
-        this.reloadKeyMapping()
-        this.initKeyboardEvents()
+        this.KeyboardManager.init(this) 
         this.initCursor()
         this.AssetsManager = new AssetsManager(this)
         await this.AssetsManager.init()
@@ -60,22 +61,7 @@ export class CanvasManager {
     start() {
         this.AnimationFrameTimer = this.draw()
         return this
-    }
-    initKeyboardEvents(document) {
-        // console.log('CanvasManager.initKeyboardEvents:', this.EventManager)
-        this.document = document || window.document
-        this.document.addEventListener('keydown', e => {
-            if (this.Debug) console.log('Key has been pressed:', e.code.trim())
-            // e.preventDefault()
-            this.invoke(this.keyMapping[e.code.trim()])
-        }, true)
-        this.document.addEventListener('keyup', e => {
-            if (this.Debug) console.log('Key up:', e.code.trim())
-            // e.preventDefault()
-            this.broadcast('$keyup', e.code.trim())
-        }, true)
-        return this
-    }
+    } 
     initCursor(){
         this.canvas.addEventListener('mousemove',(e)=>{
             e.preventDefault();
@@ -83,24 +69,7 @@ export class CanvasManager {
             //offsetY
             console.log(e.offsetX,e.offsetY)
         })
-    }
-    removeKeyboardEvents() {
-        this.document.removeKeyboardEvents('keydown')
-        this.document.removeKeyboardEvents('keyup')
-        return this
-    }
-    // Keyboard Trigger Broadcast// By user self
-    invoke(eventName, {
-        ...args
-    }) {
-        if (eventName && this.Debug) console.log('CanvasManager.invoke:', eventName)
-        if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this, {
-            OriginId: this.id,
-            TargetId: this.id,
-            ...args
-        })
-        return this
-    }
+    } 
     preloadSprints() {
         this.preRenderSprints.map(func => func())
     }
@@ -117,30 +86,13 @@ export class CanvasManager {
                 
             }
         }, 1000 / this.FPS);
-    }
-
-    mappingKey(key, action) {
-        for (var i in this.keyMapping) {
-            if (this.keyMapping[i] === action) this.keyMapping[i] = null
-        }
-        this.keyMapping[key] = action
-        return this
-    }
-    reloadKeyMapping() {
-        for (var i in this.keyMapping) {
-            this.mappingKey(i, this.keyMapping[i])
-        }
-        return this
-    }
-    addInstance(instance) {
-        // debugger
-        instance.ctx = this.ctx
+    } 
+    addInstance(instance) { 
         instance.CanvasManager = this
         if(!this.sprints.find(i=>i.id===instance.id)){
             this.sprints.push(instance)
             this.preloadSprints()
-        }
-        // console.log(this.sprints)
+        } 
         return this
     }
     removeInstance(id) {
@@ -162,9 +114,7 @@ export class CanvasManager {
             }
         }
         data.OriginId = this.Player.id
-        data.TargetId = this.Player.id
-        // data.OriginId = this.id
-        // data.TargetId  = data.TargetId || this.id 
+        data.TargetId = this.Player.id 
         this.EventManager.trigger($event, data)
         return this
     }

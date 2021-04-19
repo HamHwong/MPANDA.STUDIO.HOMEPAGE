@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-18 21:12:34
+ * @LastEditTime: 2021-04-19 15:12:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -11,8 +11,8 @@ import {
   defaultEvent
 } from '../default.event.class'
 import {
-  Ball
-} from '../../sprints/models/Player'
+  Player
+} from '../../Sprints/models/Player'
 export class WSEventsManager {
   constructor(WSManager) {
     this.WSManager = WSManager
@@ -27,9 +27,8 @@ export class WSEventsManager {
       } = e
       switch ($event) {
         case Events.NEWBORN:
-          var ball = new Ball()
-          ball.id = from
-          // console.log(from,'进来了')
+          var ball = new Player(from) 
+          console.log(ball.id,from)
           this.WSManager.CanvasManager.addInstance(ball)
           this.WSManager.Send(new defaultEvent({
             $event: Events.UPDATE_USERS,
@@ -39,7 +38,6 @@ export class WSEventsManager {
           }))
           break
         case Events.UPDATE:
-          // console.log('this.WSManager.CanvasManager.sprints',this.WSManager.CanvasManager.sprints.length)
           this.WSManager.CanvasManager.sprints.filter(o => o.id === from).map(i => {
             const {
               x,
@@ -73,12 +71,9 @@ export class WSEventsManager {
             i._status = _status
           })
           break
-        case Events.UPDATE_USERS:
-          // console.log('from',from,this.WSManager.CanvasManager.Player.id)
-          if (from&&from !== this.WSManager.CanvasManager.Player.id) {
-            // console.log()
-            var b = new Ball();
-            b.id = from
+        case Events.UPDATE_USERS: 
+          if (from&&from !== this.WSManager.CanvasManager.Player.id) { 
+            var b = new Player(from); 
             this.WSManager.CanvasManager.addInstance(b)
           }
           break;

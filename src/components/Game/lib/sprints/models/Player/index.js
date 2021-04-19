@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-18 21:58:52
+ * @LastEditTime: 2021-04-19 15:07:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
@@ -10,9 +10,9 @@ import {
     Characters
 } from '../../Imodels/Characters'
 
-export class Ball extends Characters {
-    constructor() {
-        super()
+export class Player extends Characters {
+    constructor(id) {
+        super(id)
     }
     init() { 
         this.on('$keyup', ({value:keyCode}) => {

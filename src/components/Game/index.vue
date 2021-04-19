@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-18 21:12:14
+ * @LastEditTime: 2021-04-19 15:11:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -13,34 +13,40 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { GamePadFactory } from "./lib/load";
-import { Ball } from './lib/sprints/models/Player/index.js'
+import { Player } from './lib/Sprints/models/Player'
 import { useRoute } from 'vue-router';
 export default {
   setup () {
     var GameBoardCanvas = ref(null);
+    let GameManager = reactive({})
     onMounted(async () => {
-      const GameManager = GamePadFactory.getCanvasManager(GameBoardCanvas.value);
+      GameManager = GamePadFactory.getCanvasManager(GameBoardCanvas.value);
 
       await GameManager.init({
         width: 800,
         height: 500,
-        debug: true
+        debug: true,
+        document:window.document
       })
-      var player = new Ball()
+      var player = new Player()
       GameManager.Player = player
       GameManager.addInstance(player)
       GameManager.start()
     });
+
+    let route = useRoute()
+    watch(route,()=>{
+      console.log('change route')
+      GameManager.WSManager.Close()
+    })
+
+
     return {
       GameBoardCanvas,
+      GameManager
     };
-  },
-  watch: {
-    $route () {
-      console.log('gogogo')
-    }
   }
 };
 </script>

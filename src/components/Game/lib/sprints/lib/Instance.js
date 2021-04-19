@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-18 21:57:57
+ * @LastEditTime: 2021-04-19 15:44:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -16,24 +16,18 @@ import {
     defaultEvent
 } from '../../WSManager/default.event.class'
 import STATUS from './status.enums'
-import EVENTS from '../../WSManager/default.event.status'
-import frames_config from './frames.config.js'
-// import {
-//     load
-// } from '../../utils/assetsLoader'
-// import * as sprint from '../../static/characters/char1/init/char1-init-1.png'
+import EVENTS from '../../WSManager/default.event.status' 
 export class Instance {
-    constructor() {
+    constructor(id) {
         this._beforeInit()
-        this.id = v4()
-        this.name = ''
-        this.type = ''
-        this.pic = ''
+        this.id = id||v4()
+        this.name = this.constructor.name
+        this.type = '' 
         this.x = 0
         this.y = 0
         this.z = 0
         this.w = 0
-        this.h = 0
+        this.h = 0 
         this.xv = 0
         this.yv = 0
         this.zv = 0
@@ -50,7 +44,7 @@ export class Instance {
         this.currentFrame = 0
         this._currentFrame = 0
         this._frameCounter = 0
-        this._status = STATUS.INIT
+        this._status = STATUS[this.name]?STATUS[this.name].INIT:null
         this._sync_timer = null
         this.debugMode = false
         Object.defineProperty(this, 'status', {
@@ -66,6 +60,8 @@ export class Instance {
         })
         this.pause = false
         this.ctx = null
+        this.offscreenCanvas = null
+        this.offscreenCtx = null
         this._CanvasManager = null
         Object.defineProperty(this, 'CanvasManager', {
             get: function () {
@@ -81,7 +77,8 @@ export class Instance {
                             callback
                         }) => this.on($event, callback))
                         this.eventsLoop = []
-                    }
+                    } 
+                    this.ctx = this._CanvasManager.ctx 
                     this._preRender()
                     this._afterBind()
                 }
@@ -90,6 +87,12 @@ export class Instance {
         this.eventsLoop = []
         this._init()
         this._afterInit()
+    }
+    _generateOffscreenCanvas (){
+        this.offscreenCanvas = window.document.createElement('canvas')
+        this.offscreenCanvas.height = this.CanvasManager.canvas.height
+        this.offscreenCanvas.width = this.CanvasManager.canvas.width
+        this.offscreenCtx = this.offscreenCanvas.getContext('2d')
     }
     /**
      * 初始化Instance前执行(内部)
@@ -111,7 +114,7 @@ export class Instance {
      * @memberof Instance
      */
     _init() {
-        this.name = this.constructor.name
+        // this.name = this.constructor.name
         this.init()
         this._load()
     }
@@ -185,9 +188,9 @@ export class Instance {
      * @memberof Instance
      */
     async _loadImgs() {
-        var actions = frames_config[this.name]
-        for (var i = 0; i < actions.length; i++) {
-            var actionName = actions[i]
+        var actions = STATUS[this.name]
+        for (var actionKey in actions) {
+            var actionName = actions[actionKey]
             var id = `${this.type}.${this.name}.actions.${actionName}`
             this.CanvasManager.AssetsManager.setTableName('Frames')
             const o = await this.CanvasManager.AssetsManager.get('ID', id)
@@ -338,6 +341,8 @@ export class Instance {
         }
 
         if (actionFrame instanceof frame) {
+            // this.ctx.globalCompositeOperation="source-in";
+            // this.offscreenCtx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
             this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
         } else if (actionFrame instanceof Function) {
             actionFrame.bind(this)(this.ctx)
@@ -345,7 +350,7 @@ export class Instance {
         if (this.debugMode) {
             this.debug()
         }
-        // this.draw(actionFrame)
+        //this.draw()
     }
     /**
      * 画
@@ -353,8 +358,8 @@ export class Instance {
      * @param {*} actionFrame
      * @memberof Instance
      */
-    draw(actionFrame) {
-
+    draw() {
+        
     }
     /**
      * 绘制Debug信息

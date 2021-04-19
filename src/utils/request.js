@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 00:23:48
- * @LastEditTime: 2021-04-18 13:33:48
+ * @LastEditTime: 2021-04-19 09:23:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /homepage/src/utils/request.js
@@ -9,8 +9,8 @@
 import axios from 'axios';
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 const service = axios.create({
-  // baseURL:'http://localhost:8100',
-  baseURL:'https://api.mpanda.studio/',
+  baseURL:'http://localhost:8100',
+  // baseURL:'https://api.mpanda.studio/',
   // 超时
   timeout: 10000
 }) 
