@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-19 15:12:11
+ * @LastEditTime: 2021-04-19 16:51:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -27,8 +27,7 @@ export class WSEventsManager {
       } = e
       switch ($event) {
         case Events.NEWBORN:
-          var ball = new Player(from) 
-          console.log(ball.id,from)
+          var ball = new Player(from)  
           this.WSManager.CanvasManager.addInstance(ball)
           this.WSManager.Send(new defaultEvent({
             $event: Events.UPDATE_USERS,
@@ -51,6 +50,7 @@ export class WSEventsManager {
               xa,
               ya,
               za,
+              rotation,
               vector,
               currentFrame,
               _status,
@@ -66,6 +66,7 @@ export class WSEventsManager {
             i.xa = xa
             i.ya = ya
             i.za = za
+            i.rotation = rotation
             i.vector = vector
             i.currentFrame = currentFrame
             i._status = _status

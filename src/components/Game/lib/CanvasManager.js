@@ -1,11 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-19 15:31:53
+ * @LastEditTime: 2021-04-19 17:58:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
- */ 
+ */
 import {
     EventManager
 } from "./EventManager";
@@ -15,7 +15,9 @@ import {
 import {
     WSManager
 } from './WSManager';
-import { KeyboardManager } from './KeyboardManager';
+import {
+    KeyboardManager
+} from './KeyboardManager';
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
@@ -27,29 +29,44 @@ export class CanvasManager {
         this.preRenderSprints = []
         this.AnimationFrameTimer = null
         this.pause = false
+        this.devicePixelRatio = window.devicePixelRatio || 1;
+        this.backingStoreRatio = this.ctx.webkitBackingStorePixelRatio ||
+            this.ctx.mozBackingStorePixelRatio ||
+            this.ctx.msBackingStorePixelRatio ||
+            this.ctx.oBackingStorePixelRatio ||
+            this.ctx.backingStorePixelRatio || 1;
+        this.ratio = this.devicePixelRatio / this.backingStoreRatio
         this.FPS = 120
         this.EventManager = new EventManager()
         this.AssetsManager = null
         this.KeyboardManager = new KeyboardManager()
+        this.WSManager = null
         this.Debug = false
         this.Player = null
-        this.WSManager = null
     }
     async init({
         width = 800,
         height = 500,
         debug = false
-    }) { 
+    }) {
+        // this.canvas.style.height = height
+        // this.canvas.style.width = width
+        // this.canvas.height = height *this.ratio
+        // this.canvas.width = width *this.ratio
+
         this.canvas.height = height 
-        this.canvas.width = width
+        this.canvas.width = width  
+        // this.ctx.scale(this.ratio, this.ratio);
+        // this.ctx.translate(1/this.ratio,1/this.ratio);
+        console.log(this.devicePixelRatio,this.backingStoreRatio)
 
         // this.offscreenCanvas = this.document.createElement('canvas')
         // this.offscreenCanvas.height = height
         // this.offscreenCanvas.width = width
         // this.offscreenCtx = this.offscreenCanvas.getContext('2d')
-        
+
         this.Debug = debug
-        this.KeyboardManager.init(this) 
+        this.KeyboardManager.init(this)
         this.initCursor()
         this.AssetsManager = new AssetsManager(this)
         await this.AssetsManager.init()
@@ -61,15 +78,15 @@ export class CanvasManager {
     start() {
         this.AnimationFrameTimer = this.draw()
         return this
-    } 
-    initCursor(){
-        this.canvas.addEventListener('mousemove',(e)=>{
+    }
+    initCursor() {
+        this.canvas.addEventListener('mousemove', (e) => {
             e.preventDefault();
             //offsetX
             //offsetY
-            console.log(e.offsetX,e.offsetY)
+            console.log(e.offsetX, e.offsetY)
         })
-    } 
+    }
     preloadSprints() {
         this.preRenderSprints.map(func => func())
     }
@@ -83,16 +100,15 @@ export class CanvasManager {
                 this.sprints.map(sprint => {
                     sprint._update()
                 })
-                
             }
         }, 1000 / this.FPS);
-    } 
-    addInstance(instance) { 
+    }
+    addInstance(instance) {
         instance.CanvasManager = this
-        if(!this.sprints.find(i=>i.id===instance.id)){
+        if (!this.sprints.find(i => i.id === instance.id)) {
             this.sprints.push(instance)
             this.preloadSprints()
-        } 
+        }
         return this
     }
     removeInstance(id) {
@@ -114,7 +130,7 @@ export class CanvasManager {
             }
         }
         data.OriginId = this.Player.id
-        data.TargetId = this.Player.id 
+        data.TargetId = this.Player.id
         this.EventManager.trigger($event, data)
         return this
     }

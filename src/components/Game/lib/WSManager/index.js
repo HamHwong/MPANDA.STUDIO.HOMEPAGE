@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-19 14:52:47
+ * @LastEditTime: 2021-04-19 16:51:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
@@ -22,8 +22,7 @@ export class WSManager{
   }
   Init(CanvasManager){
     this.WS.onmessage = (val)=>{
-      const {data} = val
-      // console.log('说:',data)
+      const {data} = val 
       this.WSEventsManager.handleEvents(data)
     }
     this.WS.onclose=()=>{

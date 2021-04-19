@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-19 15:44:53
+ * @LastEditTime: 2021-04-19 16:48:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -34,13 +34,13 @@ export class Instance {
         this.xa = 0
         this.ya = 0
         this.za = 0
+        //方向矢量
         this.vector = [1, 1, 0]
         this.FramesDurationOfEachFrame = 1
         this.groupId = null
-        this.rotation = 0
-        this.sprit = ''
-        this.frames = {}
-        this.sprintCount = 0
+        this.rotation = 0 
+        this.actionsFrames = {}
+        this.framesCount = 0
         this.currentFrame = 0
         this._currentFrame = 0
         this._frameCounter = 0
@@ -195,7 +195,7 @@ export class Instance {
             this.CanvasManager.AssetsManager.setTableName('Frames')
             const o = await this.CanvasManager.AssetsManager.get('ID', id)
             var base64 = o.base64
-            this.frames[actionName] = base64.map(bs64 => {
+            this.actionsFrames[actionName] = base64.map(bs64 => {
                 var f = new frame()
                 var img = new Image()
                 img.src = bs64
@@ -258,15 +258,15 @@ export class Instance {
         this.y += currYV * vy
         this.z += currZV * vz
 
-        this.sprintCount = this.frames[this.status] ? this.frames[this.status].length || 1 : 1
+        this.framesCount = this.actionsFrames[this.status] ? this.actionsFrames[this.status].length || 1 : 1
         this._frameCounter += 1
-        if (this.sprintCount > this.CanvasManager.FPS) {
+        if (this.framesCount > this.CanvasManager.FPS) {
             this.currentFrame += 1
-            this.currentFrame = this._frameCounter % this.sprintCount
+            this.currentFrame = this._frameCounter % this.framesCount
         } else {
             if ((this._frameCounter / this.FramesDurationOfEachFrame) > 1) {
                 this._currentFrame += 1
-                this._currentFrame = this._currentFrame % this.sprintCount
+                this._currentFrame = this._currentFrame % this.framesCount
                 this.currentFrame = this._currentFrame
                 this._frameCounter = 0
             }
@@ -315,6 +315,7 @@ export class Instance {
                 xa: this.xa,
                 ya: this.ya,
                 za: this.za,
+                rotation:this.rotation,
                 vector: this.vector,
                 currentFrame: this.currentFrame,
                 _status: this._status,
@@ -332,7 +333,7 @@ export class Instance {
      * @memberof Instance
      */
     _draw() {
-        var actionFrames = this.frames[this.status]
+        var actionFrames = this.actionsFrames[this.status]
         var actionFrame = null;
         if (actionFrames instanceof Array) {
             actionFrame = actionFrames[this.currentFrame % actionFrames.length]
@@ -343,6 +344,7 @@ export class Instance {
         if (actionFrame instanceof frame) {
             // this.ctx.globalCompositeOperation="source-in";
             // this.offscreenCtx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
+            this.ctx.rotate(this.rotation * Math.PI / 180);
             this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
         } else if (actionFrame instanceof Function) {
             actionFrame.bind(this)(this.ctx)
