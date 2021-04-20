@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-18 14:10:26
+ * @LastEditTime: 2021-04-20 13:50:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -45,7 +45,7 @@ import GameComponent from "@/components/Game";
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
 export default {
-  setup() {
+  setup () {
     var ImageObj = reactive({
       imgUrl: "",
     });
@@ -72,8 +72,8 @@ export default {
     var bgTextColor = ref("transparent");
     var bgClipStyle = ref("text");
     var isShowBG = ref(false)
-    provide('isShownBG',isShowBG)
-    function HandleBgTextSwitch() {
+    provide('isShownBG', isShowBG)
+    function HandleBgTextSwitch () {
       if (bgTextColor.value === "transparent") {
         bgTextColor.value = "rgba(255, 255, 255, 0.900);";
         bgClipStyle.value = null;
@@ -94,11 +94,11 @@ export default {
       GameComponent,
       NavTop,
       isShowBG,
-      svgBotton, 
+      svgBotton,
     };
   },
   methods: {
-    handleEnter(e) {
+    handleEnter (e) {
       e.stopPropagation();
       setTimeout(() => {
         this.$router.push("/Controls");
@@ -109,8 +109,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$fontSize_Desktop:4rem;
-$fontSize_Mobile:2.5rem;
+$fontSize_Desktop: 4rem;
+$fontSize_Mobile: 2.5rem;
 .text-context {
   transition: ALL 1s cubic-bezier(0.8, -0.5, 0.2, 1.4);
   min-height: 70px;
@@ -118,7 +118,7 @@ $fontSize_Mobile:2.5rem;
   // flex-direction: column-reverse;
   // min-height: 30vh;
   // padding-top: 100px;
-  // text-shadow: 0px 0px 2px rgb(124, 124, 124); 
+  // text-shadow: 0px 0px 2px rgb(124, 124, 124);
   padding: 80px 20px 0 20px;
   position: relative;
   user-select: none;
@@ -142,7 +142,7 @@ $fontSize_Mobile:2.5rem;
   .underline {
     padding-bottom: 2px;
     // line-height: 10px;
-    border-bottom: solid .15rem rgba(0, 0, 0, 0.2);
+    border-bottom: solid 0.15rem rgba(0, 0, 0, 0.2);
     // text-decoration: underline 0.15rem rgba(0, 0, 0, 0.2);
   }
   p {
@@ -159,17 +159,17 @@ $fontSize_Mobile:2.5rem;
   }
 }
 .container {
-  
-    width: 100vw;
+  width: 100vw;
   // @media (min-width: 600px) {
   //   width: 100vw;
   // }
   //   width: unset;
+  overflow: hidden;
   height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
   background-repeat: no-repeat;
   background-size: cover;
-} 
+}
 </style>

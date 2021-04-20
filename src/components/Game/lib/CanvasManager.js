@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-19 17:58:11
+ * @LastEditTime: 2021-04-20 10:28:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -49,13 +49,13 @@ export class CanvasManager {
         height = 500,
         debug = false
     }) {
-        // this.canvas.style.height = height
-        // this.canvas.style.width = width
-        // this.canvas.height = height *this.ratio
-        // this.canvas.width = width *this.ratio
+        this.canvas.style.height = height
+        this.canvas.style.width = width
+        this.canvas.height = height * this.ratio
+        this.canvas.width = width * this.ratio
 
-        this.canvas.height = height 
-        this.canvas.width = width  
+        // this.canvas.height = height 
+        // this.canvas.width = width  
         // this.ctx.scale(this.ratio, this.ratio);
         // this.ctx.translate(1/this.ratio,1/this.ratio);
         console.log(this.devicePixelRatio,this.backingStoreRatio)
