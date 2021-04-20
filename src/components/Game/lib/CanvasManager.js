@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-20 10:28:37
+ * @LastEditTime: 2021-04-20 14:29:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -45,25 +45,16 @@ export class CanvasManager {
         this.Player = null
     }
     async init({
-        width = 800,
+        width = document.documentElement.clientWidth,
         height = 500,
         debug = false
     }) {
-        this.canvas.style.height = height
-        this.canvas.style.width = width
+        //HiDPI
         this.canvas.height = height * this.ratio
         this.canvas.width = width * this.ratio
-
-        // this.canvas.height = height 
-        // this.canvas.width = width  
-        // this.ctx.scale(this.ratio, this.ratio);
-        // this.ctx.translate(1/this.ratio,1/this.ratio);
-        console.log(this.devicePixelRatio,this.backingStoreRatio)
-
-        // this.offscreenCanvas = this.document.createElement('canvas')
-        // this.offscreenCanvas.height = height
-        // this.offscreenCanvas.width = width
-        // this.offscreenCtx = this.offscreenCanvas.getContext('2d')
+        this.canvas.style.height = height+'px'
+        this.canvas.style.width = width+'px'
+        this.ctx.scale(this.ratio, this.ratio);
 
         this.Debug = debug
         this.KeyboardManager.init(this)

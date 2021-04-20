@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-20 13:50:38
+ * @LastEditTime: 2021-04-20 14:49:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -29,7 +29,32 @@
           }}</span></small>
       </div>
     </div>
+    <el-row
+      type="flex"
+      style="margin:30px 10px 0 10px"
+      :gutter="30"
+    >
+      <el-col
+        :md="8"
+        :sm="24"
+      >
+        <MPRank />
+      </el-col>
 
+      <el-col
+        :md="8"
+        :sm="24"
+      >
+        <MPRank type="primary" />
+      </el-col>
+
+      <el-col
+        :md="8"
+        :sm="24"
+      >
+        <MPRank type="success" />
+      </el-col>
+    </el-row>
     <!-- Enter Btn -->
     <svgBotton @click="handleEnter" />
     <div>
@@ -44,6 +69,7 @@ import { onMounted, reactive, ref, provide } from "vue";
 import GameComponent from "@/components/Game";
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
+import MPRank from '@/components/mp-rank'
 export default {
   setup () {
     var ImageObj = reactive({
@@ -95,6 +121,7 @@ export default {
       NavTop,
       isShowBG,
       svgBotton,
+      MPRank
     };
   },
   methods: {
@@ -164,7 +191,9 @@ $fontSize_Mobile: 2.5rem;
   //   width: 100vw;
   // }
   //   width: unset;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100vh;
   position: absolute;
   top: 0;
