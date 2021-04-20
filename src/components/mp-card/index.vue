@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-01-20 13:22:20
- * @LastEditTime: 2021-02-20 14:04:13
+ * @LastEditTime: 2021-04-20 15:49:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-card/index.vue
@@ -31,6 +31,11 @@
 
 <script>
 export default {
+  provide: function () {
+    return {
+      cardType: this.type
+    }
+  },
   props: {
     type: {
       type: String,
@@ -49,14 +54,9 @@ export default {
       default: () => "",
     },
   },
-  provide:function(){
-      return {
-          cardType:this.type
-      }
-  },
   computed: {
     typeClass: {
-      get() {
+      get () {
         var obj = {
           "mp-card-warpper": true,
         };
@@ -91,7 +91,7 @@ export default {
     color: #fff;
     &:hover {
       box-shadow: 0 0 15px #d9dbe9;
-    } 
+    }
   }
   &.dark {
     background: #181d23;
@@ -114,19 +114,19 @@ export default {
       box-shadow: 0 0 15px #d9dbe9;
     }
   }
-  .mp-card-content{
+  .mp-card-content {
     //   background-color: #fff;
-    margin:0 -10px -10px -10px ;
+    margin: 0 -10px -10px -10px;
     padding: 0px 15px;
   }
 }
-h1{
+h1 {
   &.mp-card-header {
-      display: flex;
-      justify-content: center;
-      position: relative;
-      margin: 0; 
-      line-height: 30px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 0;
+    line-height: 30px;
   }
 }
 
@@ -135,5 +135,5 @@ h1{
   bottom: -10px;
   left: 0;
   width: 100%;
-} 
+}
 </style>

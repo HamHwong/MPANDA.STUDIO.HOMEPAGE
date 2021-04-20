@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-20 14:29:39
+ * @LastEditTime: 2021-04-20 15:52:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -9,6 +9,9 @@
 <template>
   <div>
     <canvas ref="GameBoardCanvas" />
+    <el-button @click="handleUpdate">
+      更新数据
+    </el-button>
   </div>
 </template>
 
@@ -41,10 +44,14 @@ export default {
       GameManager.WSManager.Close()
     })
 
-
+    function handleUpdate(){
+      GameManager.AssetsManager.dropDB()
+      location.reload()
+    }
     return {
       GameBoardCanvas,
-      GameManager
+      GameManager,
+      handleUpdate
     };
   }
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:20:48
- * @LastEditTime: 2021-04-10 22:17:19
+ * @LastEditTime: 2021-04-20 15:47:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/actions/index.js
@@ -23,4 +23,8 @@ export function walkRight(){
 }
 export function keyup(){
     
+}
+export function updateDB(){
+    this.AssetsManager.dropDB()
+    location.reload()
 }

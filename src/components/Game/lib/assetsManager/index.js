@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-10 22:26:31
- * @LastEditTime: 2021-04-16 14:16:21
+ * @LastEditTime: 2021-04-20 15:49:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\assetsManager\index.js
@@ -9,7 +9,7 @@
 import Status from './status.enums' 
 import {
   init
-} from '../../../../api/Game'
+} from '@/api/Game'
 export class AssetsManager {
   constructor(CanvasManager) {
     this.loadQueue = []
@@ -22,8 +22,8 @@ export class AssetsManager {
   async init() {
     var DBConnect = this.open()
     var _this = this
-    DBConnect.onsuccess = (ev) => { 
-      this.status = Status.CONNECTED
+    DBConnect.onsuccess = async (ev) => { 
+      this.status = Status.CONNECTED 
       _this.CanvasManager.preloadSprints()
     }
     DBConnect.onupgradeneeded = async function (ev) {
@@ -115,5 +115,8 @@ export class AssetsManager {
         }
       }
     })
+  }
+  async dropDB(){
+    window.indexedDB.deleteDatabase(this.dbName)
   }
 }
