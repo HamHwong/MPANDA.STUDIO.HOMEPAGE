@@ -1,17 +1,17 @@
 <template>
   <div class="warpper">
     <div
-      @click="switchStatus"
-      class="container"
       ref="container"
-    ></div>
+      class="container"
+      @click="switchStatus"
+    />
   </div>
 </template>
 
 <script>
 import lottie from "lottie-web";
 // import { replaceColor ,getColors} from 'lottie-colorify';
-import { onMounted, ref, reactive, watch, toRef } from "vue";
+import { onMounted, ref, reactive, watch } from "vue";
 import lottieApi from 'lottie-api'
 import { inject } from 'vue'
 import animation from "@/assets/Lotties/menu.json";
@@ -103,9 +103,9 @@ export default {
     }
     function switchStatus () {
       if (options.status == "fold") {
-        unfold(); 
+        unfold();
       } else {
-        fold(); 
+        fold();
       }
     }
 

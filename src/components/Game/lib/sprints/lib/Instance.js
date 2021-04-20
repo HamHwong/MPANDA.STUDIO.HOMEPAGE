@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-19 16:48:39
+ * @LastEditTime: 2021-04-20 16:56:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -320,7 +320,7 @@ export class Instance {
                 currentFrame: this.currentFrame,
                 _status: this._status,
             }
-            this.CanvasManager.WSManager.Send(new defaultEvent({
+            this.CanvasManager.WSManager&&this.CanvasManager.WSManager.Send(new defaultEvent({
                 $event: EVENTS.UPDATE,
                 data: o
             }))

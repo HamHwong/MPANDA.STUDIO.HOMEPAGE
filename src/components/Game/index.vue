@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-20 15:52:34
+ * @LastEditTime: 2021-04-20 16:51:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -39,9 +39,8 @@ export default {
     });
 
     let route = useRoute()
-    watch(route,()=>{
-      // console.log('change route')
-      GameManager.WSManager.Close()
+    watch(route,()=>{ 
+      GameManager.drop()
     })
 
     function handleUpdate(){

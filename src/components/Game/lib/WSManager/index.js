@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-16 16:18:16
- * @LastEditTime: 2021-04-19 16:51:56
+ * @LastEditTime: 2021-04-20 16:58:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/networkManager/index.js
@@ -47,6 +47,7 @@ export class WSManager{
     event.from = this.CanvasManager.Player.id 
     // if(!this.WS)
     // this.Connect()
+    if(this.ISCONNECTED)
     this.WS.send(JSON.stringify(event))
   }
 

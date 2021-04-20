@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-19 15:14:08
- * @LastEditTime: 2021-04-19 15:32:19
+ * @LastEditTime: 2021-04-20 17:01:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/KeyboardManager/index.js
@@ -14,6 +14,16 @@ export class KeyboardManager {
     this.keyMapping = keyMapping
     this.eventsPool = actions
     this.CanvasManager = null
+    this._keydown=(e)=>{
+      if (this.CanvasManager.Debug) console.log('Key has been pressed:', e.code.trim())
+      // e.preventDefault()
+      this.invoke(this.keyMapping[e.code.trim()])
+  }
+  this._keyup=(e)=>{
+    if (this.CanvasManager.Debug) console.log('Key up:', e.code.trim())
+    // e.preventDefault()
+    this.CanvasManager.broadcast('$keyup', e.code.trim())
+  }
   }
   init(CanvasManager) {
     this.CanvasManager = CanvasManager
@@ -21,18 +31,11 @@ export class KeyboardManager {
     this.initKeyboardEvents()
   }
   initKeyboardEvents() {
-    this.document.addEventListener('keydown', e => {
-      if (this.CanvasManager.Debug) console.log('Key has been pressed:', e.code.trim())
-      // e.preventDefault()
-      this.invoke(this.keyMapping[e.code.trim()])
-    }, true)
-    this.document.addEventListener('keyup', e => {
-      if (this.CanvasManager.Debug) console.log('Key up:', e.code.trim())
-      // e.preventDefault()
-      this.CanvasManager.broadcast('$keyup', e.code.trim())
-    }, true)
+    this.document.addEventListener('keydown', this._keydown, true)
+    this.document.addEventListener('keyup', this._keyup , true)
     return this
   }
+
   mappingKey(key, action) {
     for (var i in this.keyMapping) {
       if (this.keyMapping[i] === action) this.keyMapping[i] = null
@@ -47,8 +50,8 @@ export class KeyboardManager {
     return this
   }
   removeKeyboardEvents() {
-    this.document.removeKeyboardEvents('keydown')
-    this.document.removeKeyboardEvents('keyup')
+    this.document.removeEventListener('keydown',this._keydown)
+    this.document.removeEventListener('keyup',this._keyup)
     return this
   }
   invoke(eventName, {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-20 14:29:32
+ * @LastEditTime: 2021-04-20 17:03:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -52,8 +52,8 @@ export class CanvasManager {
         //HiDPI
         this.canvas.height = height * this.ratio
         this.canvas.width = width * this.ratio
-        this.canvas.style.height = height+'px'
-        this.canvas.style.width = width+'px'
+        this.canvas.style.height = height + 'px'
+        this.canvas.style.width = width + 'px'
         this.ctx.scale(this.ratio, this.ratio);
 
         this.Debug = debug
@@ -124,5 +124,16 @@ export class CanvasManager {
         data.TargetId = this.Player.id
         this.EventManager.trigger($event, data)
         return this
+    }
+    drop() {
+        this.pause = true
+        this.canvas.remove();
+        if (this.WSManager)
+            this.WSManager.Close();
+        this.WSManager = null
+        if (this.KeyboardManager)
+            this.KeyboardManager.removeKeyboardEvents();
+        this.KeyboardManager = null
+        this.AssetsManager = null
     }
 }
