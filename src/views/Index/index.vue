@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-20 14:49:28
+ * @LastEditTime: 2021-04-20 17:55:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -69,7 +69,7 @@ import { onMounted, reactive, ref, provide } from "vue";
 import GameComponent from "@/components/Game";
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
-import MPRank from '@/components/mp-rank'
+import MPRank from '@/components/mp-rank' 
 export default {
   setup () {
     var ImageObj = reactive({
@@ -110,7 +110,7 @@ export default {
         isShowBG.value = false
       }
     }
-
+ 
     return {
       ImageObj,
       DailyWords,
@@ -120,7 +120,7 @@ export default {
       GameComponent,
       NavTop,
       isShowBG,
-      svgBotton,
+      svgBotton, 
       MPRank
     };
   },
@@ -187,11 +187,6 @@ $fontSize_Mobile: 2.5rem;
 }
 .container {
   width: 100vw;
-  // @media (min-width: 600px) {
-  //   width: 100vw;
-  // }
-  //   width: unset;
-  // overflow: hidden;
   overflow-y: auto;
   overflow-x: hidden;
   height: 100vh;

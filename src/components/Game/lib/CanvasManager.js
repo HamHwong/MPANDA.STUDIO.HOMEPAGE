@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-20 17:03:18
+ * @LastEditTime: 2021-04-20 17:59:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -57,6 +57,11 @@ export class CanvasManager {
         this.ctx.scale(this.ratio, this.ratio);
 
         this.Debug = debug
+        if (!this.EventManager)
+            this.EventManager = new EventManager()
+        if (!this.KeyboardManager)
+            this.KeyboardManager = new KeyboardManager()
+
         this.KeyboardManager.init(this)
         this.initCursor()
         this.AssetsManager = new AssetsManager(this)
