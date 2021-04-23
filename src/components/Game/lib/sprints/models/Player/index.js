@@ -1,16 +1,16 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-19 15:07:59
+ * @LastEditTime: 2021-04-23 11:22:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
  */
 import {
-    Characters
-} from '../../Imodels/Characters'
+    ICharacter
+} from '../../Imodels/ICharacter'
 
-export class Player extends Characters {
+export class Player extends ICharacter {
     constructor(id) {
         super(id)
     }

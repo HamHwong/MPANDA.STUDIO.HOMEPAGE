@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-20 18:00:50
+ * @LastEditTime: 2021-04-23 16:40:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -16,9 +16,10 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive, watch, onDeactivated, onUnmounted } from "vue";
+import { ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import { GamePadFactory } from "./lib/load";
 import { Player } from './lib/Sprints/models/Player'
+import { IMap } from './lib/Sprints/Imodels/IMap'
 import { useRoute } from 'vue-router';
 export default {
   setup () {
@@ -30,17 +31,21 @@ export default {
 
       await GameManager.init({
         height: 300,
+        width:600,
         debug: false,
         document: window.document
       })
       var player = new Player()
       GameManager.Player = player
       GameManager.addInstance(player)
+      var map = new IMap()
+      map.w = 5000
+      map.h = 2000
+      GameManager.loadMap(map)
       GameManager.start()
     });
 
     onUnmounted(() => {
-      console.log('onUnmounted')
       GamePadFactory.CanvasManager = null
     })
     let route = useRoute()

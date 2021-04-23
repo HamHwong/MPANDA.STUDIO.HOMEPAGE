@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-20 17:55:35
+ * @LastEditTime: 2021-04-23 10:05:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -55,11 +55,11 @@
         <MPRank type="success" />
       </el-col>
     </el-row>
-    <!-- Enter Btn -->
-    <svgBotton @click="handleEnter" />
     <div>
       <GameComponent />
     </div>
+    <!-- Enter Btn -->
+    <svgBotton @click="handleEnter" />
   </div>
 </template>
 

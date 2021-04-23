@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-20 17:59:04
+ * @LastEditTime: 2021-04-23 16:57:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -18,12 +18,16 @@ import {
 import {
     KeyboardManager
 } from './KeyboardManager';
+import {
+    CameraManager
+} from "./CameraManager";
+import {
+    IMap
+} from "./Sprints/Imodels/IMap";
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
-        // this.offscreenCanvas = null
-        // this.offscreenCtx = null 
         this.messageBus = []
         this.sprints = []
         this.preRenderSprints = []
@@ -43,39 +47,59 @@ export class CanvasManager {
         this.WSManager = null
         this.Debug = false
         this.Player = null
+        this.Camera = null
+        this.MapManager = null
     }
     async init({
         width = document.documentElement.clientWidth,
         height = 500,
         debug = false
     }) {
+        this.Debug = debug
+        this._init_Canvas(width, height)
+        this._init_Camera()
+        this._init_EventManager()
+        this._init_KeyboardManager()
+        this._init_Cursor()
+        await this._init_AssetsManager()
+        this._init_WSManager()
+        return this
+    }
+    _init_Canvas(width, height) {
         //HiDPI
         this.canvas.height = height * this.ratio
         this.canvas.width = width * this.ratio
         this.canvas.style.height = height + 'px'
         this.canvas.style.width = width + 'px'
         this.ctx.scale(this.ratio, this.ratio);
-
-        this.Debug = debug
+    }
+    _init_Camera() {
+        this.Camera = new CameraManager()
+        this.Camera.follow(this.Player)
+    }
+    _init_EventManager() {
         if (!this.EventManager)
             this.EventManager = new EventManager()
+    }
+    _init_KeyboardManager() {
         if (!this.KeyboardManager)
             this.KeyboardManager = new KeyboardManager()
-
         this.KeyboardManager.init(this)
-        this.initCursor()
+    }
+    async _init_AssetsManager() {
         this.AssetsManager = new AssetsManager(this)
         await this.AssetsManager.init()
         this.preloadSprints()
+    }
+    _init_WSManager() {
         this.WSManager = new WSManager()
         this.WSManager.Connect(this)
-        return this
     }
     start() {
         this.AnimationFrameTimer = this.draw()
         return this
     }
-    initCursor() {
+    _init_Cursor() {
         this.canvas.addEventListener('mousemove', (e) => {
             e.preventDefault();
             //offsetX
@@ -92,12 +116,21 @@ export class CanvasManager {
             if (!this.AnimationFrameTimer) this.AnimationFrameTimer = timer
             if (!this.pause) {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-                // 画角色
+                // 画精灵
                 this.sprints.map(sprint => {
                     sprint._update()
                 })
+                // this.Camera.goForward()
             }
         }, 1000 / this.FPS);
+    }
+    loadMap(map) {
+        if (map instanceof IMap){
+            map.CanvasManager = this
+            this.sprints.unshift(map)
+            this.preloadSprints()
+            console.log('Loaded Map')
+        }
     }
     addInstance(instance) {
         instance.CanvasManager = this

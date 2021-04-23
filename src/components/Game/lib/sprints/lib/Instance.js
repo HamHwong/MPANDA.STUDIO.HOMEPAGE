@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-20 16:56:28
+ * @LastEditTime: 2021-04-23 18:01:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -16,36 +16,40 @@ import {
     defaultEvent
 } from '../../WSManager/default.event.class'
 import STATUS from './status.enums'
-import EVENTS from '../../WSManager/default.event.status' 
+import EVENTS from '../../WSManager/default.event.status'
+import TypeEnums from '../Imodels/Type.Enums'
+const SYNC_STAUTS={
+    'UPDATED':'UPDATED',
+    'READY':'READY'
+}
 export class Instance {
     constructor(id) {
         this._beforeInit()
-        this.id = id||v4()
+        this.id = id || v4()
         this.name = this.constructor.name
-        this.type = '' 
+        this.type = ''
         this.x = 0
         this.y = 0
-        this.z = 0
         this.w = 0
-        this.h = 0 
+        this.h = 0
         this.xv = 0
         this.yv = 0
-        this.zv = 0
         this.xa = 0
         this.ya = 0
-        this.za = 0
         //方向矢量
-        this.vector = [1, 1, 0]
+        this.vector = [1, 1]
         this.FramesDurationOfEachFrame = 1
-        this.groupId = null
-        this.rotation = 0 
+        this.rotation = 0
         this.actionsFrames = {}
+        //当前帧序列
+        this.activeFrames = []
         this.framesCount = 0
         this.currentFrame = 0
         this._currentFrame = 0
         this._frameCounter = 0
-        this._status = STATUS[this.name]?STATUS[this.name].INIT:null
+        this._status = STATUS[this.name] ? STATUS[this.name].INIT : null
         this._sync_timer = null
+        this._sync_status = SYNC_STAUTS.READY
         this.debugMode = false
         Object.defineProperty(this, 'status', {
             get: function () {
@@ -77,8 +81,8 @@ export class Instance {
                             callback
                         }) => this.on($event, callback))
                         this.eventsLoop = []
-                    } 
-                    this.ctx = this._CanvasManager.ctx 
+                    }
+                    this.ctx = this._CanvasManager.ctx
                     this._preRender()
                     this._afterBind()
                 }
@@ -88,7 +92,7 @@ export class Instance {
         this._init()
         this._afterInit()
     }
-    _generateOffscreenCanvas (){
+    _generateOffscreenCanvas() {
         this.offscreenCanvas = window.document.createElement('canvas')
         this.offscreenCanvas.height = this.CanvasManager.canvas.height
         this.offscreenCanvas.width = this.CanvasManager.canvas.width
@@ -213,7 +217,8 @@ export class Instance {
     _update() {
         this._beforeUpdate()
         this._updating()
-        this._sync_to_all()
+        if ([TypeEnums.CHARACTER, TypeEnums.MOB, TypeEnums.NPC].includes(this.type) && this.IsPlayer())
+            this._sync_to_all()
         this._draw()
         this._updated()
     }
@@ -238,10 +243,10 @@ export class Instance {
      * @memberof Instance
      */
     _updating() {
-        var [vx, vy, vz] = this.vector
+        this.updating()
+        var [vx, vy] = this.vector
         var currXV = this.xv = this.xv + this.xa
         var currYV = this.yv = this.yv + this.ya
-        var currZV = this.zv = this.zv + this.za
         if (currXV <= 0) {
             currXV = 0
             this.xa = 0
@@ -250,28 +255,20 @@ export class Instance {
             currYV = 0
             this.ya = 0
         }
-        if (currZV <= 0) {
-            currZV = 0
-            this.za = 0
+        const {
+            viewX,
+            viewY,
+            viewW,
+            viewH
+        } = this.CanvasManager.Camera
+        this.x += currXV * vx - (viewX) 
+        this.y += currYV * vy - (viewY) 
+        if(this.IsPlayer()){
+            // this.CanvasManager.Camera.go(this.x,this.y)
         }
-        this.x += currXV * vx
-        this.y += currYV * vy
-        this.z += currZV * vz
-
-        this.framesCount = this.actionsFrames[this.status] ? this.actionsFrames[this.status].length || 1 : 1
-        this._frameCounter += 1
-        if (this.framesCount > this.CanvasManager.FPS) {
-            this.currentFrame += 1
-            this.currentFrame = this._frameCounter % this.framesCount
-        } else {
-            if ((this._frameCounter / this.FramesDurationOfEachFrame) > 1) {
-                this._currentFrame += 1
-                this._currentFrame = this._currentFrame % this.framesCount
-                this.currentFrame = this._currentFrame
-                this._frameCounter = 0
-            }
-        }
-        this.updating()
+    }
+    IsPlayer(){
+        return this.id === this.CanvasManager.Player.id
     }
     /**
      * 状态位置更新(可重写)
@@ -301,7 +298,11 @@ export class Instance {
      * @memberof Instance
      */
     _sync_to_all() {
-        if (this._sync_timer || this.id !== this.CanvasManager.Player.id || !this.CanvasManager.WSManager.ISCONNECTED) return
+        if (this._sync_timer 
+            || !this.IsPlayer() 
+            || !this.CanvasManager.WSManager.ISCONNECTED
+            || this._sync_status == SYNC_STAUTS.UPDATED
+            ) return
         this._sync_timer = setTimeout(() => {
             var o = {
                 x: this.x,
@@ -311,20 +312,19 @@ export class Instance {
                 h: this.h,
                 xv: this.xv,
                 yv: this.yv,
-                zv: this.zv,
                 xa: this.xa,
                 ya: this.ya,
-                za: this.za,
-                rotation:this.rotation,
+                rotation: this.rotation,
                 vector: this.vector,
                 currentFrame: this.currentFrame,
                 _status: this._status,
             }
-            this.CanvasManager.WSManager&&this.CanvasManager.WSManager.Send(new defaultEvent({
+            this.CanvasManager.WSManager && this.CanvasManager.WSManager.Send(new defaultEvent({
                 $event: EVENTS.UPDATE,
                 data: o
             }))
             this._sync_timer = null
+            // console.log('Synced')
         }, process.env.VUE_APP_WS_SPEED);
     }
     /**
@@ -333,19 +333,16 @@ export class Instance {
      * @memberof Instance
      */
     _draw() {
-        var actionFrames = this.actionsFrames[this.status]
         var actionFrame = null;
-        if (actionFrames instanceof Array) {
-            actionFrame = actionFrames[this.currentFrame % actionFrames.length]
-        } else if (actionFrames instanceof Function) {
-            actionFrame = actionFrames
+        if (this.activeFrames instanceof Array) {
+            actionFrame = this.activeFrames[this.currentFrame % this.activeFrames.length]
+        } else if (this.activeFrames instanceof Function) {
+            actionFrame = this.activeFrames
         }
 
         if (actionFrame instanceof frame) {
-            // this.ctx.globalCompositeOperation="source-in";
-            // this.offscreenCtx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
             this.ctx.rotate(this.rotation * Math.PI / 180);
-            this.ctx.drawImage(actionFrame.img, this.x, this.y, this.w, this.h);
+            this._drawImage(actionFrame.img, 0, 0, actionFrame.img.width, actionFrame.img.height, this.x, this.y, this.w, this.h)
         } else if (actionFrame instanceof Function) {
             actionFrame.bind(this)(this.ctx)
         }
@@ -355,13 +352,31 @@ export class Instance {
         //this.draw()
     }
     /**
+     * 可重写绘图方式,参考Context.DrawImage
+     *
+     * @param {*} image
+     * @param {*} sx
+     * @param {*} sy
+     * @param {*} sWidth
+     * @param {*} sHeight
+     * @param {*} dx
+     * @param {*} dy
+     * @param {*} dWidth
+     * @param {*} dHeight
+     * @memberof Instance
+     */
+    _drawImage() {
+        if (arguments.length > 0)
+            this.ctx.drawImage.apply(this.ctx, [...arguments]);
+    }
+    /**
      * 画
      *
      * @param {*} actionFrame
      * @memberof Instance
      */
     draw() {
-        
+
     }
     /**
      * 绘制Debug信息
@@ -425,5 +440,5 @@ export class Instance {
                 this.CanvasManager.registerEvent(this, $event, callback)
         }
     }
-    
+
 }
