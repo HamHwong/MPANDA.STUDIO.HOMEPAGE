@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-23 18:01:51
+ * @LastEditTime: 2021-04-24 16:32:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -18,9 +18,9 @@ import {
 import STATUS from './status.enums'
 import EVENTS from '../../WSManager/default.event.status'
 import TypeEnums from '../Imodels/Type.Enums'
-const SYNC_STAUTS={
-    'UPDATED':'UPDATED',
-    'READY':'READY'
+const SYNC_STAUTS = {
+    'UPDATED': 'UPDATED',
+    'READY': 'READY'
 }
 export class Instance {
     constructor(id) {
@@ -28,8 +28,33 @@ export class Instance {
         this.id = id || v4()
         this.name = this.constructor.name
         this.type = ''
-        this.x = 0
+        //相对于Map的X
+        this.x = 0 
+        // Object.defineProperty(this, 'x', {
+        //     get: function () {
+        //         // if(this.CanvasManager&&this.CanvasManager.MapManager)
+        //         // return this._x-this.CanvasManager.MapManager.x
+        //         // else 
+        //         return this._x
+        //     },
+        //     set: function (val) { 
+        //         if(this.CanvasManager&&this.CanvasManager.MapManager)
+        //         this._x = val+this.CanvasManager.MapManager.x
+        //     }
+        // })
         this.y = 0
+        // Object.defineProperty(this, 'y', {
+        //     get: function () {
+        //         // if(this.CanvasManager&&this.CanvasManager.MapManager)
+        //         // return this._y-this.CanvasManager.MapManager.y
+        //         // else 
+        //         return this._y
+        //     },
+        //     set: function (val) { 
+        //         if(this.CanvasManager&&this.CanvasManager.MapManager)
+        //         this._y = val+this.CanvasManager.MapManager.y
+        //     }
+        // })
         this.w = 0
         this.h = 0
         this.xv = 0
@@ -68,7 +93,7 @@ export class Instance {
         this.offscreenCtx = null
         this._CanvasManager = null
         Object.defineProperty(this, 'CanvasManager', {
-            get: function () {
+            get: function () { 
                 return this._CanvasManager
             },
             set: function (val) {
@@ -217,8 +242,8 @@ export class Instance {
     _update() {
         this._beforeUpdate()
         this._updating()
-        if ([TypeEnums.CHARACTER, TypeEnums.MOB, TypeEnums.NPC].includes(this.type) && this.IsPlayer())
-            this._sync_to_all()
+        // if ([TypeEnums.CHARACTER, TypeEnums.MOB, TypeEnums.NPC].includes(this.type) && this.IsPlayer())
+            // this._sync_to_all()
         this._draw()
         this._updated()
     }
@@ -261,13 +286,14 @@ export class Instance {
             viewW,
             viewH
         } = this.CanvasManager.Camera
-        this.x += currXV * vx - (viewX) 
-        this.y += currYV * vy - (viewY) 
-        if(this.IsPlayer()){
-            // this.CanvasManager.Camera.go(this.x,this.y)
+        this.x += currXV * vx - viewX + 100
+        this.y += currYV * vy  - viewY + 100 
+        if (this.IsPlayer()) {
+            this.CanvasManager.Camera.draw(this.ctx)
+            this.CanvasManager.Camera.go(this.x, this.y,this.w,this.h)
         }
     }
-    IsPlayer(){
+    IsPlayer() {
         return this.id === this.CanvasManager.Player.id
     }
     /**
@@ -298,11 +324,18 @@ export class Instance {
      * @memberof Instance
      */
     _sync_to_all() {
-        if (this._sync_timer 
-            || !this.IsPlayer() 
-            || !this.CanvasManager.WSManager.ISCONNECTED
-            || this._sync_status == SYNC_STAUTS.UPDATED
-            ) return
+        if (this._sync_timer ||
+            !this.IsPlayer() ||
+            !this.CanvasManager.WSManager.ISCONNECTED ||
+            this._sync_status == SYNC_STAUTS.UPDATED
+        ) return
+        const {
+            viewX,
+            viewY,
+            viewW,
+            viewH
+        } = this.CanvasManager.Camera
+        // console.log('viewX,viewY',viewX,viewY)
         this._sync_timer = setTimeout(() => {
             var o = {
                 x: this.x,
@@ -342,6 +375,16 @@ export class Instance {
 
         if (actionFrame instanceof frame) {
             this.ctx.rotate(this.rotation * Math.PI / 180);
+            // var canvasX = 0
+            // if(this.CanvasManager&&this.CanvasManager.MapManager){
+            //     canvasX = 0-this.CanvasManager.MapManager.x
+            // }
+            // var canvasY = 0
+            // if(this.CanvasManager&&this.CanvasManager.MapManager){
+            //     canvasY = 0-this.CanvasManager.MapManager.y
+            // }
+            // console.log('canvasX',this._x,'canvasY',this._y)
+            // console.log('canvasY',this.CanvasManager)
             this._drawImage(actionFrame.img, 0, 0, actionFrame.img.width, actionFrame.img.height, this.x, this.y, this.w, this.h)
         } else if (actionFrame instanceof Function) {
             actionFrame.bind(this)(this.ctx)

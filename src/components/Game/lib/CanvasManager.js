@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-23 16:57:01
+ * @LastEditTime: 2021-04-24 15:24:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
  */
 import {
     EventManager
-} from "./EventManager";
+} from "./eventManager";
 import {
     AssetsManager
-} from './AssetsManager';
+} from './assetsManager';
 import {
     WSManager
 } from './WSManager';
@@ -23,7 +23,7 @@ import {
 } from "./CameraManager";
 import {
     IMap
-} from "./Sprints/Imodels/IMap";
+} from "./sprints/Imodels/IMap";
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
@@ -57,7 +57,6 @@ export class CanvasManager {
     }) {
         this.Debug = debug
         this._init_Canvas(width, height)
-        this._init_Camera()
         this._init_EventManager()
         this._init_KeyboardManager()
         this._init_Cursor()
@@ -74,7 +73,8 @@ export class CanvasManager {
         this.ctx.scale(this.ratio, this.ratio);
     }
     _init_Camera() {
-        this.Camera = new CameraManager()
+        this.Camera = new CameraManager(0,0,this.canvas.height,this.canvas.width)
+        console.log(this.canvas.height,this.canvas.width)
         this.Camera.follow(this.Player)
     }
     _init_EventManager() {
@@ -109,6 +109,7 @@ export class CanvasManager {
     }
     preloadSprints() {
         this.preRenderSprints.map(func => func())
+        this._init_Camera()
     }
     draw() {
         setTimeout(() => {
@@ -126,6 +127,7 @@ export class CanvasManager {
     }
     loadMap(map) {
         if (map instanceof IMap){
+            this.MapManager = map
             map.CanvasManager = this
             this.sprints.unshift(map)
             this.preloadSprints()

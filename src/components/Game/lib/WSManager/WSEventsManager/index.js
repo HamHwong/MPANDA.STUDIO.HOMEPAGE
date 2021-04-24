@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-19 16:51:17
+ * @LastEditTime: 2021-04-23 23:50:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -12,7 +12,7 @@ import {
 } from '../default.event.class'
 import {
   Player
-} from '../../Sprints/models/Player'
+} from '../../sprints/models/Player'
 export class WSEventsManager {
   constructor(WSManager) {
     this.WSManager = WSManager
