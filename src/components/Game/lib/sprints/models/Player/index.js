@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-30 16:38:32
- * @LastEditTime: 2021-04-23 11:22:38
+ * @LastEditTime: 2021-04-24 18:05:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/sprints/ball.js
@@ -18,9 +18,12 @@ export class Player extends ICharacter {
         this.on('$keyup', ({value:keyCode}) => {
             switch (keyCode) {
                 case 'KeyA':
-                case 'KeyD':
+                case 'KeyD': 
+                case 'KeyS': 
+                case 'KeyW':
                     this.status = 'init'
                     this.xa = -0.5
+                    this.ya = -0.5
                     break;
             }
         })
@@ -36,9 +39,20 @@ export class Player extends ICharacter {
             this.xv = 4
             this.vector[0] = 1
         })
-        var scale = 0.8
-        this.w = 80*scale
-        this.h = 110*scale
+        this.on('$walk.up', (data) => {
+            this.status = 'walk.right' 
+            this.ya = 0
+            this.yv = 4
+            this.vector[1] = -1
+        })
+        this.on('$walk.down', (data) => {
+            this.status = 'walk.right' 
+            this.ya = 0
+            this.yv = 4
+            this.vector[1] = 1
+        }) 
+        this.w = 80 
+        this.h = 110 
         this.FramesDurationOfEachFrame = 12
         this.enableDebug()
     }

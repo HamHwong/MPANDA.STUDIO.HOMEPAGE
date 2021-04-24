@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-23 23:50:23
+ * @LastEditTime: 2021-04-24 17:38:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -27,7 +27,7 @@ export class WSEventsManager {
       } = e
       switch ($event) {
         case Events.NEWBORN:
-          var ball = new Player(from)  
+          var ball = new Player(from)
           this.WSManager.CanvasManager.addInstance(ball)
           this.WSManager.Send(new defaultEvent({
             $event: Events.UPDATE_USERS,
@@ -50,13 +50,17 @@ export class WSEventsManager {
               xa,
               ya,
               za,
+              gap,
               rotation,
               vector,
               currentFrame,
               _status,
             } = data
-            i.x = x
-            i.y = y
+            var {x:myX,y:myY} = this.WSManager.CanvasManager.Player
+            var {x:myXToMap,y:myYToMap} = this.WSManager.CanvasManager.Player.getGapToMAP()
+            var {x:yourXToMap,y:yourYToMap} = gap 
+            i.x = yourXToMap-myXToMap+myX
+            i.y =  yourYToMap-myYToMap+myY
             i.z = z
             i.w = w
             i.h = h

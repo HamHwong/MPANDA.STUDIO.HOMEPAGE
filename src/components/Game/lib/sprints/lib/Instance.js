@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-24 16:32:17
+ * @LastEditTime: 2021-04-24 17:22:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -28,33 +28,8 @@ export class Instance {
         this.id = id || v4()
         this.name = this.constructor.name
         this.type = ''
-        //相对于Map的X
         this.x = 0 
-        // Object.defineProperty(this, 'x', {
-        //     get: function () {
-        //         // if(this.CanvasManager&&this.CanvasManager.MapManager)
-        //         // return this._x-this.CanvasManager.MapManager.x
-        //         // else 
-        //         return this._x
-        //     },
-        //     set: function (val) { 
-        //         if(this.CanvasManager&&this.CanvasManager.MapManager)
-        //         this._x = val+this.CanvasManager.MapManager.x
-        //     }
-        // })
         this.y = 0
-        // Object.defineProperty(this, 'y', {
-        //     get: function () {
-        //         // if(this.CanvasManager&&this.CanvasManager.MapManager)
-        //         // return this._y-this.CanvasManager.MapManager.y
-        //         // else 
-        //         return this._y
-        //     },
-        //     set: function (val) { 
-        //         if(this.CanvasManager&&this.CanvasManager.MapManager)
-        //         this._y = val+this.CanvasManager.MapManager.y
-        //     }
-        // })
         this.w = 0
         this.h = 0
         this.xv = 0
@@ -242,8 +217,8 @@ export class Instance {
     _update() {
         this._beforeUpdate()
         this._updating()
-        // if ([TypeEnums.CHARACTER, TypeEnums.MOB, TypeEnums.NPC].includes(this.type) && this.IsPlayer())
-            // this._sync_to_all()
+        if ([TypeEnums.CHARACTER, TypeEnums.MOB, TypeEnums.NPC].includes(this.type) && this.IsPlayer())
+            this._sync_to_all()
         this._draw()
         this._updated()
     }
@@ -288,6 +263,8 @@ export class Instance {
         } = this.CanvasManager.Camera
         this.x += currXV * vx - viewX + 100
         this.y += currYV * vy  - viewY + 100 
+        // this.x += currXV * vx
+        // this.y += currYV * vy
         if (this.IsPlayer()) {
             this.CanvasManager.Camera.draw(this.ctx)
             this.CanvasManager.Camera.go(this.x, this.y,this.w,this.h)
@@ -318,6 +295,11 @@ export class Instance {
      * @memberof Instance
      */
     updated() {}
+    getGapToMAP(){
+        var x = this.x - this.CanvasManager.MapManager.x
+        var y = this.y - this.CanvasManager.MapManager.y
+        return {x,y}
+    }
     /**
      * 同步到其他玩家(内部)
      *
@@ -346,7 +328,8 @@ export class Instance {
                 xv: this.xv,
                 yv: this.yv,
                 xa: this.xa,
-                ya: this.ya,
+                ya: this.ya, 
+                gap:this.getGapToMAP(),
                 rotation: this.rotation,
                 vector: this.vector,
                 currentFrame: this.currentFrame,
@@ -375,13 +358,13 @@ export class Instance {
 
         if (actionFrame instanceof frame) {
             this.ctx.rotate(this.rotation * Math.PI / 180);
-            // var canvasX = 0
+            // var MapX = 0
             // if(this.CanvasManager&&this.CanvasManager.MapManager){
-            //     canvasX = 0-this.CanvasManager.MapManager.x
+            //     MapX = 0-this.CanvasManager.MapManager.x
             // }
-            // var canvasY = 0
+            // var MapY = 0
             // if(this.CanvasManager&&this.CanvasManager.MapManager){
-            //     canvasY = 0-this.CanvasManager.MapManager.y
+            //     MapY = 0-this.CanvasManager.MapManager.y
             // }
             // console.log('canvasX',this._x,'canvasY',this._y)
             // console.log('canvasY',this.CanvasManager)
