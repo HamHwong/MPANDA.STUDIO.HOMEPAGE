@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-23 10:13:58
- * @LastEditTime: 2021-04-25 14:30:02
+ * @LastEditTime: 2021-04-25 15:59:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CameraManager/index.js
@@ -33,29 +33,37 @@ export class CameraManager {
     var centerXGap = (this.viewW - this.followObj.w) / 2
     var bottomYGap = (this.viewH - this.followObj.h) / 3 * 2
     
-    this.viewX = -this.followObj.x+ centerXGap
-    this.viewY = -this.followObj.y+ bottomYGap
-    // const {x,y} = this.CameraToCanvasMap(this.viewX,this.viewY)
-    // this.x = x
-    // this.y = y
+    // this.viewY = -this.followObj.y+ bottomYGap
+    var{ x:X2Map,y:Y2Map} = this.CameraToCanvasMap(this.viewX , this.viewY)  
+    if(
+      (X2Map<=0&&this.followObj.x<=this.viewW/2)
+      ||
+      ((X2Map+this.viewW)>=mapW&&this.followObj.x>=(this.viewW-this.followObj.w)/2)){ 
+      this.viewX = 0
+    }else{
+      this.viewX = -this.followObj.x+ centerXGap 
+    }
 
+    var InstanceMiddleLine = this.followObj.y+this.followObj.h/2
 
-    // var {viewX,viewY} =  this.Obj2Camera(this.followObj.x,this.followObj.y)
-    // viewX+=centerXGap
-    // viewY+=bottomYGap
-    
-    // if (viewW > mapW) {
-    //   var Fx = viewX-mapX
-    //   var Gx = (mapX+mapW)-(viewX+viewW)
-    //   if(Fx<=0){
-    //     this.viewX = 0
-    //   }
-    //   if(Gx<=0){
-    //     this.viewX = Fx
-    //   }
-    // } else {
+    if(Y2Map<0)
+    {
+      this.viewY = 0
+      if(this.followObj.y>bottomYGap){
+        //向上 
+        this.viewY = -this.followObj.y+ bottomYGap  
+      }
+    }else if(Y2Map+this.viewH>mapH){
+      this.viewY = 0
+      if(this.followObj.y<bottomYGap){
+        //向下 
+        this.viewY = -this.followObj.y+ bottomYGap  
+      } 
+    }else{
+      this.viewY = -this.followObj.y+ bottomYGap 
+    } 
 
-    // }
+ 
   }
   CameraToCanvasMap(viewX, viewY) {
     var {
@@ -92,6 +100,13 @@ export class CameraManager {
     context.lineWidth = 1;
     context.font = `${fontsize}px Verdana`;
     context.fillStyle = '#333'
-    context.strokeText(`this.viewW:${this.viewW} ,this.viewH:${this.viewH}`, 100, 100)
+    var {x,y} = this.CameraToCanvasMap(this.viewX , this.viewY)  
+    context.strokeText(`
+    this.viewW:${this.viewW},
+    this.viewH:${this.viewH},
+    this.viewX:${this.viewX},
+    this.viewY:${this.viewY},
+    X2Map:${x}, 
+    Y2Map:${y}`, 100, this.followObj.y+this.followObj.h/2)
   }
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-25 14:29:31
+ * @LastEditTime: 2021-04-25 14:47:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -257,17 +257,9 @@ export class Instance {
             this.ya = 0
         }
         const {
-            x,
-            y,
-            viewX,
-            viewY,
-            viewW,
-            viewH
-        } = this.CanvasManager.Camera
-        var CameraX = viewX
-        // GapX = 0
-        var CameraY = viewY
-        // GapY = 0
+            viewX:CameraX,
+            viewY:CameraY,
+        } = this.CanvasManager.Camera  
         this.x = (this.x + currXV * vx) + CameraX
         this.y = (this.y + currYV * vy) + CameraY
         

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-25 12:35:32
+ * @LastEditTime: 2021-04-25 15:43:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -36,13 +36,14 @@ export default {
         document: window.document
       })
       var player = new Player()
-      player.x = 100
-      player.y = 100
+      player.x = 0
+      player.y = 300
       GameManager.Player = player
       GameManager.addInstance(player)
-      var map = new IMap() 
-      map.w = 700
-      map.h = 300
+      var map = new IMap()
+
+      map.w = 1000
+      map.h = 600
       map.x = 0
       map.y = 0
       GameManager.loadMap(map)
