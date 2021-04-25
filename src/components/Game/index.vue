@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-24 15:26:39
+ * @LastEditTime: 2021-04-25 12:35:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -40,11 +40,11 @@ export default {
       player.y = 100
       GameManager.Player = player
       GameManager.addInstance(player)
-      var map = new IMap()
+      var map = new IMap() 
+      map.w = 700
+      map.h = 300
       map.x = 0
       map.y = 0
-      map.w = 500
-      map.h = 300
       GameManager.loadMap(map)
       GameManager.start()
     });

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-24 15:24:53
+ * @LastEditTime: 2021-04-25 11:02:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -73,7 +73,7 @@ export class CanvasManager {
         this.ctx.scale(this.ratio, this.ratio);
     }
     _init_Camera() {
-        this.Camera = new CameraManager(0,0,this.canvas.height,this.canvas.width)
+        this.Camera = new CameraManager(0,0,this.canvas.width,this.canvas.height)
         console.log(this.canvas.height,this.canvas.width)
         this.Camera.follow(this.Player)
     }

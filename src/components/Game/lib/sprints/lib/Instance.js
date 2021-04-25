@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-24 17:22:41
+ * @LastEditTime: 2021-04-25 14:29:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -28,7 +28,7 @@ export class Instance {
         this.id = id || v4()
         this.name = this.constructor.name
         this.type = ''
-        this.x = 0 
+        this.x = 0
         this.y = 0
         this.w = 0
         this.h = 0
@@ -43,6 +43,7 @@ export class Instance {
         this.actionsFrames = {}
         //当前帧序列
         this.activeFrames = []
+        this.activeFrame = {}
         this.framesCount = 0
         this.currentFrame = 0
         this._currentFrame = 0
@@ -68,7 +69,7 @@ export class Instance {
         this.offscreenCtx = null
         this._CanvasManager = null
         Object.defineProperty(this, 'CanvasManager', {
-            get: function () { 
+            get: function () {
                 return this._CanvasManager
             },
             set: function (val) {
@@ -256,18 +257,23 @@ export class Instance {
             this.ya = 0
         }
         const {
+            x,
+            y,
             viewX,
             viewY,
             viewW,
             viewH
         } = this.CanvasManager.Camera
-        this.x += currXV * vx - viewX + 100
-        this.y += currYV * vy  - viewY + 100 
-        // this.x += currXV * vx
-        // this.y += currYV * vy
+        var CameraX = viewX
+        // GapX = 0
+        var CameraY = viewY
+        // GapY = 0
+        this.x = (this.x + currXV * vx) + CameraX
+        this.y = (this.y + currYV * vy) + CameraY
+        
         if (this.IsPlayer()) {
             this.CanvasManager.Camera.draw(this.ctx)
-            this.CanvasManager.Camera.go(this.x, this.y,this.w,this.h)
+            this.CanvasManager.Camera.go()
         }
     }
     IsPlayer() {
@@ -295,10 +301,13 @@ export class Instance {
      * @memberof Instance
      */
     updated() {}
-    getGapToMAP(){
+    getGapToMAP() {
         var x = this.x - this.CanvasManager.MapManager.x
         var y = this.y - this.CanvasManager.MapManager.y
-        return {x,y}
+        return {
+            x,
+            y
+        }
     }
     /**
      * 同步到其他玩家(内部)
@@ -310,14 +319,7 @@ export class Instance {
             !this.IsPlayer() ||
             !this.CanvasManager.WSManager.ISCONNECTED ||
             this._sync_status == SYNC_STAUTS.UPDATED
-        ) return
-        const {
-            viewX,
-            viewY,
-            viewW,
-            viewH
-        } = this.CanvasManager.Camera
-        // console.log('viewX,viewY',viewX,viewY)
+        ) return 
         this._sync_timer = setTimeout(() => {
             var o = {
                 x: this.x,
@@ -328,8 +330,8 @@ export class Instance {
                 xv: this.xv,
                 yv: this.yv,
                 xa: this.xa,
-                ya: this.ya, 
-                gap:this.getGapToMAP(),
+                ya: this.ya,
+                gap: this.getGapToMAP(),
                 rotation: this.rotation,
                 vector: this.vector,
                 currentFrame: this.currentFrame,
@@ -349,28 +351,18 @@ export class Instance {
      * @memberof Instance
      */
     _draw() {
-        var actionFrame = null;
+        this.activeFrame = null;
         if (this.activeFrames instanceof Array) {
-            actionFrame = this.activeFrames[this.currentFrame % this.activeFrames.length]
+            this.activeFrame = this.activeFrames[this.currentFrame % this.activeFrames.length]
         } else if (this.activeFrames instanceof Function) {
-            actionFrame = this.activeFrames
+            this.activeFrame = this.activeFrames
         }
 
-        if (actionFrame instanceof frame) {
+        if (this.activeFrame instanceof frame) {
             this.ctx.rotate(this.rotation * Math.PI / 180);
-            // var MapX = 0
-            // if(this.CanvasManager&&this.CanvasManager.MapManager){
-            //     MapX = 0-this.CanvasManager.MapManager.x
-            // }
-            // var MapY = 0
-            // if(this.CanvasManager&&this.CanvasManager.MapManager){
-            //     MapY = 0-this.CanvasManager.MapManager.y
-            // }
-            // console.log('canvasX',this._x,'canvasY',this._y)
-            // console.log('canvasY',this.CanvasManager)
-            this._drawImage(actionFrame.img, 0, 0, actionFrame.img.width, actionFrame.img.height, this.x, this.y, this.w, this.h)
-        } else if (actionFrame instanceof Function) {
-            actionFrame.bind(this)(this.ctx)
+            this._drawImage(this.activeFrame.img, 0, 0, this.activeFrame.img.width, this.activeFrame.img.height, this.x, this.y, this.w, this.h)
+        } else if (this.activeFrame instanceof Function) {
+            this.activeFrame.bind(this)(this.ctx)
         }
         if (this.debugMode) {
             this.debug()
@@ -412,7 +404,11 @@ export class Instance {
     debug() {
         var fontsize = 8;
         this.ctx.font = `${fontsize}px Verdana`;
-        this.ctx.fillStyle = '#333'
+        this.ctx.fillStyle = '#333' 
+        this.ctx.lineWidth = 1;
+        var w = this.activeFrame!==null&&this.activeFrame.img!==null?this.activeFrame.img.width:this.w
+        var h = this.activeFrame!==null&&this.activeFrame.img!==null?this.activeFrame.img.height:this.h
+        this.ctx.strokeRect(this.x, this.y, w, h);
         this.ctx.fillText(`currentFrame:${this.currentFrame};x:${this.x};y:${this.y};w:${this.w};h:${this.h}`, this.x - this.w, this.y + this.h);
     }
     /**
