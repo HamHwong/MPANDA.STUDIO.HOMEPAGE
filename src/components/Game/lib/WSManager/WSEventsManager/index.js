@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-17 16:07:32
- * @LastEditTime: 2021-04-24 17:38:53
+ * @LastEditTime: 2021-04-25 16:37:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\components\Game\lib\WSManager\utils\index.js
@@ -83,8 +83,13 @@ export class WSEventsManager {
           }
           break;
         case Events.LEAVE:
-          // console.log('Events.LEAVE',Events.LEAVE,from)
           this.WSManager.CanvasManager.sprints= this.WSManager.CanvasManager.sprints.filter(o => o.id !== from)
+          break 
+        case Events.LISTEN:
+          this.WSManager.CanvasManager.sprints.filter(o => o.id === from).map(i=>{
+            // console.log(i)
+            i.SaySomeThing = data.words
+          })
           break
         default:
           break

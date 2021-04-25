@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-25 11:02:46
+ * @LastEditTime: 2021-04-25 16:13:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
@@ -48,7 +48,8 @@ export class CanvasManager {
         this.Debug = false
         this.Player = null
         this.Camera = null
-        this.MapManager = null
+        this.MapManager = null,
+        this.PauseControls = false
     }
     async init({
         width = document.documentElement.clientWidth,

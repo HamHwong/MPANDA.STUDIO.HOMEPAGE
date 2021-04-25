@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-25 15:43:40
+ * @LastEditTime: 2021-04-25 16:17:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -9,9 +9,26 @@
 <template>
   <div>
     <canvas ref="GameBoardCanvas" />
-    <el-button @click="handleUpdate">
-      更新数据
-    </el-button>
+    <el-row>
+      <el-col>
+        <el-button @click="handleUpdate">
+          更新数据
+        </el-button>
+      </el-col>
+      <el-col>
+        <el-input
+          v-model="words"
+          @focus="handlePauseControls"
+          @blur="handleResumeControls"
+        >
+          <template #append>
+            <el-button @click="speak">
+              说话
+            </el-button>
+          </template>
+        </el-input>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -37,7 +54,7 @@ export default {
       })
       var player = new Player()
       player.x = 0
-      player.y = 300
+      player.y = 200
       GameManager.Player = player
       GameManager.addInstance(player)
       var map = new IMap()
@@ -62,10 +79,28 @@ export default {
       GameManager.AssetsManager.dropDB()
       location.reload()
     }
+    var words = ref('')
+    function handlePauseControls(){
+      GameManager.PauseControls = true
+    }
+    
+    function handleResumeControls(){
+      GameManager.PauseControls = false
+    }
+    function speak(){
+      // console.log(words.value)
+      if(words.value&&words.value!=='')
+      GameManager.Player.SaySomeThing = words.value
+      words.value = ''
+    }
     return {
       GameBoardCanvas,
       GameManager,
-      handleUpdate
+      handleUpdate,
+      words,
+      handlePauseControls,
+      handleResumeControls,
+      speak
     };
   }
 };

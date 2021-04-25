@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:51:35
- * @LastEditTime: 2021-04-25 14:47:34
+ * @LastEditTime: 2021-04-25 16:24:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/Instance.js
@@ -193,6 +193,10 @@ export class Instance {
      * @memberof Instance
      */
     async _loadImgs() {
+        await this.loadActionImgs()
+        
+    }
+    async loadActionImgs(){
         var actions = STATUS[this.name]
         for (var actionKey in actions) {
             var actionName = actions[actionKey]
@@ -355,11 +359,14 @@ export class Instance {
             this._drawImage(this.activeFrame.img, 0, 0, this.activeFrame.img.width, this.activeFrame.img.height, this.x, this.y, this.w, this.h)
         } else if (this.activeFrame instanceof Function) {
             this.activeFrame.bind(this)(this.ctx)
-        }
+        } 
+        this.draw_addition()
         if (this.debugMode) {
             this.debug()
         }
-        //this.draw()
+    }
+    draw_addition(){
+
     }
     /**
      * 可重写绘图方式,参考Context.DrawImage

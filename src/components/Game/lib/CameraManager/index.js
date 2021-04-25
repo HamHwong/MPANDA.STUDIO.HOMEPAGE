@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-23 10:13:58
- * @LastEditTime: 2021-04-25 15:59:33
+ * @LastEditTime: 2021-04-25 16:01:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CameraManager/index.js
@@ -31,9 +31,7 @@ export class CameraManager {
       h: mapH
     } = this.followObj.CanvasManager.MapManager
     var centerXGap = (this.viewW - this.followObj.w) / 2
-    var bottomYGap = (this.viewH - this.followObj.h) / 3 * 2
-    
-    // this.viewY = -this.followObj.y+ bottomYGap
+    var bottomYGap = (this.viewH - this.followObj.h) / 3 * 2 
     var{ x:X2Map,y:Y2Map} = this.CameraToCanvasMap(this.viewX , this.viewY)  
     if(
       (X2Map<=0&&this.followObj.x<=this.viewW/2)
@@ -42,9 +40,7 @@ export class CameraManager {
       this.viewX = 0
     }else{
       this.viewX = -this.followObj.x+ centerXGap 
-    }
-
-    var InstanceMiddleLine = this.followObj.y+this.followObj.h/2
+    } 
 
     if(Y2Map<0)
     {

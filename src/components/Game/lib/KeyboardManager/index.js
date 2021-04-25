@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-19 15:14:08
- * @LastEditTime: 2021-04-20 17:01:43
+ * @LastEditTime: 2021-04-25 16:13:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/KeyboardManager/index.js
@@ -58,6 +58,7 @@ export class KeyboardManager {
     ...args
   }) {
     if (eventName && this.CanvasManager.Debug) console.log('CanvasManager.invoke:', eventName)
+    if(!this.CanvasManager.PauseControls)
     if (this.eventsPool[eventName] && typeof this.eventsPool[eventName] === 'function') this.eventsPool[eventName].call(this.CanvasManager, {
       OriginId: this.id,
       TargetId: this.id,
