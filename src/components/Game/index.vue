@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-24 15:58:27
- * @LastEditTime: 2021-04-25 16:17:25
+ * @LastEditTime: 2021-04-27 16:09:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/index.vue
@@ -35,8 +35,8 @@
 <script>
 import { ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import { GamePadFactory } from "./lib/load";
-import { Player } from './lib/sprints/models/Player'
-import { IMap } from './lib/sprints/Imodels/IMap'
+import { Player } from './lib/Sprints/models/Player'
+import {IMap} from './lib/Sprints/Imodels/IMap'
 import { useRoute } from 'vue-router';
 export default {
   setup () {

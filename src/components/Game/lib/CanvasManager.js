@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2021-03-25 14:50:15
- * @LastEditTime: 2021-04-25 16:13:52
+ * @LastEditTime: 2021-04-27 16:09:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/components/Game/lib/CanvasManager.js
  */
 import {
     EventManager
-} from "./eventManager";
+} from "./EventManager";
 import {
     AssetsManager
-} from './assetsManager';
+} from './AssetsManager';
 import {
     WSManager
 } from './WSManager';
@@ -23,7 +23,7 @@ import {
 } from "./CameraManager";
 import {
     IMap
-} from "./sprints/Imodels/IMap";
+} from "./Sprints/Imodels/IMap";
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas
