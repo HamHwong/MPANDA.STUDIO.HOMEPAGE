@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-04 22:04:12
- * @LastEditTime: 2021-05-05 17:25:54
+ * @LastEditTime: 2021-05-05 17:36:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\views\Articles\view\index.vue
@@ -46,8 +46,8 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { Article } from '@/api'
-import { onMounted, reactive, ref, toRefs } from 'vue'
-import {} from 'vue3-markdown-it'
+import { onMounted, reactive, ref } from 'vue'
+import 'vditor/dist/index.css' 
 export default {
   setup() {
     const route = useRoute()
