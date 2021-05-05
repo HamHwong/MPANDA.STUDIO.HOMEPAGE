@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 14:43:44
- * @LastEditTime: 2021-05-05 15:27:34
+ * @LastEditTime: 2021-05-05 17:37:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/main.js
@@ -14,6 +14,7 @@ import router from './router'
 import * as Layouts from './layouts'
 import VueMarkdownIt from 'vue3-markdown-it' 
 import 'highlight.js/styles/monokai.css';
+import 'vditor/dist/index.css'
 
 let app = createApp(App)
 
