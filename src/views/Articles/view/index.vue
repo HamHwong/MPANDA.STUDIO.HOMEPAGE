@@ -1,13 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-04 22:04:12
- * @LastEditTime: 2021-05-05 15:49:44
+ * @LastEditTime: 2021-05-05 17:25:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\views\Articles\view\index.vue
 -->
 <template>
-  <div v-loading="loading">
+  <div
+    v-loading="loading"
+    class="Markdown"
+  >
     <el-container direction="vertical">
       <el-header>
         <el-row type="flex">
@@ -95,4 +98,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.Markdown {
+  text-align: left;
+  margin: 10px 20px;
+}
+</style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-04 22:04:12
- * @LastEditTime: 2021-05-05 14:26:11
+ * @LastEditTime: 2021-05-05 17:25:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\views\Articles\view\index.vue
@@ -61,9 +61,10 @@
 
 <script>
 import MDEditor from '../components/editor'
-import { getCurrentInstance, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import {ElNotification as $notify} from 'element-plus'
 import { Article } from '@/api'
+import { useRouter } from 'vue-router'
 export default {
   setup() {
     const contentEditor = ref('')
@@ -74,6 +75,7 @@ export default {
     const disabled = ref(false)
     const rule = reactive({})
     const articleForm = ref(null)
+    const router = useRouter()
     async function handleSubmit() {
       var body = {
         title: form.title,
@@ -89,6 +91,7 @@ export default {
               message: '提交成功！' + Data,
               type: 'success',
             })
+            router.push('/')
           } else {
             throw new Error(Message)
           }
