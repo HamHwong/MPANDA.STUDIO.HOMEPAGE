@@ -11,13 +11,17 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.1-beta.14",
+    "highlight.js": "^10.7.2",
     "is-mobile": "^3.0.0",
     "lottie-api": "^1.0.3",
     "lottie-colorify": "^0.8.0",
     "lottie-web": "^5.7.7",
+    "mavon-editor": "^2.9.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
+    "vditor": "^3.8.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-markdown-it": "^1.0.8",
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
@@ -36,7 +40,8 @@
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "uuid": "^8.3.2",
-    "vue-cli-plugin-vuetify": "~2.0.8"
+    "vue-cli-plugin-vuetify": "~2.0.8",
+    "vue3-markdown-it": "^1.0.8"
   },
   "eslintConfig": {
     "root": true,

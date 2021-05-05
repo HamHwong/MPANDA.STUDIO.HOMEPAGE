@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-04 16:24:36
- * @LastEditTime: 2021-04-23 10:05:52
+ * @LastEditTime: 2021-05-05 15:46:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/index.vue
@@ -38,7 +38,13 @@
         :md="8"
         :sm="24"
       >
-        <MPRank />
+        <MPRank>
+          <ArticleList
+            :start="0"
+            :count="5"
+            :order="{createDate:-1}"
+          />
+        </MPRank>
       </el-col>
 
       <el-col
@@ -56,7 +62,7 @@
       </el-col>
     </el-row>
     <div>
-      <GameComponent />
+      <GameComponent v-if="false" />
     </div>
     <!-- Enter Btn -->
     <svgBotton @click="handleEnter" />
@@ -70,6 +76,7 @@ import GameComponent from "@/components/Game";
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
 import MPRank from '@/components/mp-rank' 
+import ArticleList from '@/views/Articles/components/list'
 export default {
   setup () {
     var ImageObj = reactive({
@@ -121,7 +128,8 @@ export default {
       NavTop,
       isShowBG,
       svgBotton, 
-      MPRank
+      MPRank,
+      ArticleList
     };
   },
   methods: {

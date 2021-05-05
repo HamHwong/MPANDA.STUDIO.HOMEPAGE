@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 11:18:22
- * @LastEditTime: 2021-04-04 22:36:56
+ * @LastEditTime: 2021-05-05 15:43:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/router/router.js
@@ -10,6 +10,9 @@ import HomePage from '@/views/HomePage'
 import Playground from '@/views/Playground'
 import Controls from '@/views/Controls'
 import Index from '@/views/Index'
+import ArticleCreate from '@/views/Articles/create'
+import ArticleView from '@/views/Articles/view'
+import Article from '@/views/Articles/index'
 const routes = [
   {
     path: '/',
@@ -26,7 +29,7 @@ const routes = [
     component: Playground,
     meta: {
       icon: 'el-icon-menu',
-      page:'Index'
+      page: 'Index',
     },
   },
   {
@@ -34,7 +37,7 @@ const routes = [
     name: '上传页面',
     component: HomePage,
     meta: {
-      page:'Index'
+      page: 'Index',
     },
   },
   {
@@ -43,8 +46,31 @@ const routes = [
     component: Controls,
     meta: {
       icon: 'el-icon-menu',
-      page:'Index'
+      page: 'Index',
     },
+  },
+  {
+    path: '/Article',
+    component: Article,
+    meta: {
+      layout: 'blank',
+      hidden: true,
+    },
+    children: [
+      {
+        path: 'Create',
+        name: '发布文章',
+        component: ArticleCreate,
+      },
+      {
+        path: 'View/:id',
+        name: '查看文章',
+        component: ArticleView,
+        meta: {
+          hidden: true,
+        },
+      },
+    ],
   },
 ]
 export { routes }
