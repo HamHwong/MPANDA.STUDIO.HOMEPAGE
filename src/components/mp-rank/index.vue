@@ -12,6 +12,9 @@
       v-bind="$attrs" 
       min-height="200px"
     >
+      <template #header>
+        <slot name="header" />
+      </template>
       <slot name="default" />
     </MPCard>
   </div>

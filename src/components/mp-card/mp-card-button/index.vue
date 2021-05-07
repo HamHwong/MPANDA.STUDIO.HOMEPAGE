@@ -8,8 +8,8 @@
 -->
 <template>
   <div
-    class="mp-card-button-warpper"
     :ref="setRef"
+    class="mp-card-button-warpper"
     @click="
       () => {
         if (trigger === 'click') collapse = !collapse;
@@ -41,26 +41,8 @@
 <script>
 import { nextTick } from "vue";
 export default {
-  name: "mp-card-button",
+  name: "MpCardButton",
   inject: ["cardType"],
-  setup() {
-    let myRef = "";
-    const setRef = (el) => {
-      myRef = el;
-    };
-    nextTick(() => {
-      // 调整下拉菜单位置
-      var offset = 3;
-      var dom = myRef.querySelector(".mp-card-button-reference");
-      var width = dom.offsetWidth;
-      dom.style.left = 0 - width + "px";
-      var btndom = myRef.querySelector(".mp-card-button");
-      dom.style.top = btndom.offsetHeight + offset + "px";
-    });
-    return {
-      setRef,
-    };
-  },
   props: {
     position: {
       type: String,
@@ -73,6 +55,24 @@ export default {
         return ["click", "hover"].indexOf(val) !== -1;
       },
     },
+  },
+  setup() {
+    let myRef = "";
+    const setRef = (el) => {
+      myRef = el;
+    };
+    nextTick(() => {
+      // 调整下拉菜单位置
+      var offset = 3;
+      var dom = myRef.querySelector(".mp-card-button-reference");
+      // var width = dom.offsetWidth;
+      dom.style.right = 0 - 0 + "px";
+      var btndom = myRef.querySelector(".mp-card-button");
+      dom.style.top = btndom.offsetHeight + offset + "px";
+    });
+    return {
+      setRef,
+    };
   },
   data() {
     return {
@@ -103,9 +103,11 @@ export default {
 
 <style lang="scss" scoped>
 .mp-card-button-warpper {
-  position: absolute;
-  right: 0;
-  top: 0;
+  // position: absolute;
+  // right: 0;
+  // top: 0;
+  min-height:30px;
+  min-width:30px;
   // display: flex;
   .mp-card-button {
     min-height: 30px;
@@ -141,6 +143,9 @@ export default {
     &.success {
       background-color: #31b8b8;
       color: #fff;
+    }
+    *{
+      pointer-events: none;
     }
   }
   .mp-card-button-reference {

@@ -39,6 +39,20 @@
         :sm="24"
       >
         <MPRank>
+          <template #header>
+            <MPButton
+              type="default"
+              trigger="hover"
+            >            
+              <template #reference>
+                <router-link :to="{path:'/Article/Create'}">
+                  <div>
+                    发帖
+                  </div>
+                </router-link>
+              </template>
+            </MPButton>
+          </template>
           <ArticleList
             :start="0"
             :count="5"
@@ -76,6 +90,7 @@ import GameComponent from "@/components/Game";
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
 import MPRank from '@/components/mp-rank' 
+import MPButton from "@/components/mp-card/mp-card-button";
 import ArticleList from '@/views/Articles/components/list'
 export default {
   setup () {
@@ -129,6 +144,7 @@ export default {
       isShowBG,
       svgBotton, 
       MPRank,
+      MPButton,
       ArticleList
     };
   },
