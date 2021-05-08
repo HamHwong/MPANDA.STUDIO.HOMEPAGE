@@ -76,7 +76,7 @@
       </el-col>
     </el-row>
     <div>
-      <GameComponent v-if="false" />
+      <GameComponent />
     </div>
     <!-- Enter Btn -->
     <svgBotton @click="handleEnter" />
