@@ -13,6 +13,8 @@ import Index from '@/views/Index'
 import ArticleCreate from '@/views/Articles/create'
 import ArticleView from '@/views/Articles/view'
 import Article from '@/views/Articles/index'
+import Login from '@/views/Login'
+import NotFound from '@/views/NotFound'
 const routes = [
   {
     path: '/',
@@ -72,5 +74,20 @@ const routes = [
       },
     ],
   },
+  {
+    path:'/Login',
+    component:Login,
+    meta:{
+      hidden:true
+    }
+  },
+  {
+    path:'/:pathMatch(.*)*',
+    component:NotFound,
+    meta:{
+      layout: 'blank',
+      hidden:true
+    }
+  }
 ]
 export { routes }
