@@ -11,10 +11,12 @@ import * as MXD from './MXD'
 import * as Ext from './Ext'
 import * as Game from './Game'
 import * as Article from './Articles'
+import * as Auth from './Auth'
 export  {
   Image,
   MXD,
   Ext,
   Game,
-  Article
+  Article,
+  Auth
 }

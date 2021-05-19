@@ -115,7 +115,8 @@ export default {
   props: {
     fixed: {
       type: String,
-      validator (val) {
+      default:()=>'',
+      validator(val) {
         return ['top', 'bottom', 'left', 'right'].includes(val.toLowerCase())
       },
     },
@@ -130,7 +131,7 @@ export default {
     })
     var Nav_Manus_Ref = ref(null)
     var Nav_Manus_Options = reactive([])
-    function initManusPosition () {
+    function initManusPosition() {
       var Menus = Nav_Manus_Ref.value.querySelectorAll('.Nav_Menu')
       for (var i = 0; i < Menus.length; i++) {
         Nav_Manus_Options.push({
@@ -142,17 +143,17 @@ export default {
       // Nav_Manus_Options = Nav_Manus_Options.filter(menu=>isCurrentPage(menu))
     }
 
-    function focusMenu (index) {
+    function focusMenu(index) {
       markerLinePosition.width = Nav_Manus_Options[index].width
       markerLinePosition.left = Nav_Manus_Options[index].left
       CurrentIndex.val = index
     }
-    function blurMenu () {
+    function blurMenu() {
       markerLinePosition.width = 0
       markerLinePosition.left = 0
       CurrentIndex.val = -1
     }
-    function To (menu) {
+    function To(menu) {
       this.$router.push({ path: menu.path })
     }
     var Nav_Manus = routes.filter((item) => isCurrentPage(item))
@@ -160,11 +161,11 @@ export default {
       !isMobile() && initManusPosition()
     })
 
-    function handleMenuUnFold (status) {
+    function handleMenuUnFold(status) {
       IsUnfold.value = status
     }
 
-    function isCurrentPage (route) {
+    function isCurrentPage(route) {
       var pageLimit = route.meta && route.meta.page ? route.meta.page : null
       if (!pageLimit) return false
       var currentRouteName = useRouter().currentRoute.value.name

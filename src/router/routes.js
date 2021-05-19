@@ -78,6 +78,7 @@ const routes = [
     path:'/Login',
     component:Login,
     meta:{
+      layout: 'blank',
       hidden:true
     }
   },
