@@ -23,7 +23,7 @@
 <script>
 import MPCard from '@/components/mp-card'
 export default {
-  setup() {
+  setup(props,context) {
     return { MPCard }
   },
 }

@@ -8,15 +8,19 @@
 -->
 <template>
   <div :class="typeClass">
-    <h1 class="mp-card-header">
+    <h1
+      ref="mp_header"
+      class="mp-card-header"
+    >
       <slot name="header" />
     </h1>
     <div
+      ref="mp_content"
       class="mp-card-content"
       :style="{
         maxHeight: maxHeight,
         minHeight: minHeight,
-        height:height,
+        height: height,
       }"
     >
       <el-scrollbar style="height:100%">
@@ -30,42 +34,62 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import { computed, onMounted } from '@vue/runtime-core'
 export default {
-  provide: function () {
+  provide: function() {
     return {
-      cardType: this.type
+      cardType: this.type,
     }
   },
   props: {
     type: {
       type: String,
-      default: () => "default",
+      default: () => 'default',
     },
     maxHeight: {
       type: String,
-      default: "",
+      default: '',
     },
     minHeight: {
       type: String,
-      default: () => "",
+      default: () => '',
     },
     height: {
       type: String,
-      default: () => "",
+      default: () => '',
     },
   },
-  computed: {
-    typeClass: {
-      get () {
-        var obj = {
-          "mp-card-warpper": true,
-        };
-        obj[this.type] = true;
-        return obj;
-      },
-    },
+  setup(props, context) {
+    let hasHeaderButtonOnly = ref(false)
+    const mp_content = ref(null)
+    const mp_header = ref(null)
+    const typeClass = computed(() => {
+      var obj = {
+        'mp-card-warpper': true,
+        'mp-card-has-button': hasHeaderButtonOnly,
+      }
+      obj[props.type] = true
+      return obj
+    })
+    const headerSlot = context.slots.header()[0]
+    hasHeaderButtonOnly =
+      headerSlot.children.length === 1 &&
+      headerSlot.children.filter((i) => i.type.name === 'MpCardButton').length >
+        0
+    onMounted(() => {
+      if (hasHeaderButtonOnly) { 
+        mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px`
+      }
+    })
+    return {
+      hasHeaderButtonOnly,
+      typeClass,
+      mp_content,
+      mp_header
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -127,6 +151,11 @@ h1 {
     position: relative;
     margin: 0;
     line-height: 30px;
+  }
+  &.mp-card-has-button {
+    & > *:first-child {
+      margin-top: -30px;
+    }
   }
 }
 

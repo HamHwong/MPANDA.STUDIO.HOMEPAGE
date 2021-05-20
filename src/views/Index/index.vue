@@ -30,7 +30,7 @@
         :sm="24"
       >
         <MPRank>
-          <template #header>
+          <template #header>  
             <MPButton
               type="default"
               trigger="hover"
