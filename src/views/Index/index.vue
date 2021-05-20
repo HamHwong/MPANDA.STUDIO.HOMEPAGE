@@ -51,7 +51,7 @@
           />
         </MPRank>
       </el-col>
-
+   
       <el-col
         :md="8"
         :sm="24"
@@ -76,16 +76,16 @@
 
 <script>
 import { Ext } from '@/api'
-import { onMounted, reactive, ref, provide } from 'vue'
+import { onMounted, reactive, ref, provide, toRefs, computed } from 'vue'
 import TopBanner from '@/components/TopBanner'
 import GameComponent from '@/components/Game'
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
 import MPRank from '@/components/mp-rank'
 import MPButton from '@/components/mp-card/mp-card-button'
-import ArticleList from '@/views/Articles/components/list'
+import ArticleList from '@/views/Articles/components/list' 
 export default {
-  setup() {
+  setup(props,ctx) {
     var DailyWords = reactive({ text: '' })
     onMounted(async () => {
       const {
@@ -95,10 +95,10 @@ export default {
       if (IsSuccess) {
         DailyWords.text = data
       }
-    })
+    }) 
     var isShowBG = ref(true)
-    var EnableGame = ref(false)
-    provide('isShownBG', isShowBG)
+    var EnableGame = ref(false) 
+    provide('isShownBG', isShowBG) 
     return {
       TopBanner,
       DailyWords,
@@ -109,7 +109,7 @@ export default {
       svgBotton,
       MPRank,
       MPButton,
-      ArticleList,
+      ArticleList ,
     }
   },
   methods: {

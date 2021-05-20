@@ -24,7 +24,8 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vue3-markdown-it": "^1.0.8",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^2.24.3",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",

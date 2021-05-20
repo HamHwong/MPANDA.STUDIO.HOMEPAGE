@@ -51,9 +51,9 @@ export default {
     onMounted(async ()=>{
       getCurrentInstance()
       const {cate,start,count,order} = props
-      console.log(cate,start,count,order)
+      //console.log(cate,start,count,order)
       const a = await Article.List(cate,start,count,order)
-      console.log(a)
+      //console.log(a)
       const {Data,Message,IsSuccess} = a
       if(IsSuccess){
         list.value = Data

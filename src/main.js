@@ -16,6 +16,7 @@ import VueMarkdownIt from 'vue3-markdown-it'
 import 'highlight.js/styles/monokai.css';
 import 'vditor/dist/index.css'
 import auth from './auth'
+import vuex from './store'
 
 let app = createApp(App)
 
@@ -23,8 +24,9 @@ let app = createApp(App)
 for (var layoutName in Layouts) {
   app.component(layoutName.toLocaleLowerCase() + '-layout', Layouts[layoutName])
 }
+app.use(vuex)
 // End Load
-app.use(VueMarkdownIt)
+app.use(VueMarkdownIt) 
 // app.use(CKEditor)
 auth(router)
 app.use(router)
