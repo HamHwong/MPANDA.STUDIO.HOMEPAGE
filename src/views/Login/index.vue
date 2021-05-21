@@ -46,12 +46,14 @@
                   <el-col>
                     <el-button
                       type="primary"
+                      size="mini"
                       @click="handleLogin"
                     >
                       登录
                     </el-button>
                     <el-button
                       type="primary"
+                      size="mini"
                       @click="handleReset"
                     >
                       重置
@@ -68,17 +70,17 @@
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive, ref, toRefs } from '@vue/reactivity'
 import { ElNotification as $notify } from 'element-plus'
 import { Auth } from '@/api'
-import {Encode} from '@/utils/crypto'
+import { Encode } from '@/utils/crypto'
+import store from '@/store'
+import { computed } from '@vue/runtime-core'
 export default {
-  setup() {  
-    console.log(Encode('gougou'))
-    console.log(Encode('admin'))
+  setup() { 
     const form = reactive({
-      account: '',
-      password: '',
+      account: 'gougou1239',
+      password: 'gougou',
     })
     const rules = reactive({
       account: [
@@ -102,22 +104,32 @@ export default {
       formRef.value.validate((valid, err) => {
         if (valid) {
           isLoading.value = true
-          const {account,password} = form 
-          Auth.Login({account,password})
-            .then((res) => {
-              console.log(res)
+          const { account, password } = form
+          Auth.Login({ account, password: Encode(password) })
+            .then(async (res) => {
+              const { IsSuccess, Message, Data } = res
+              if (IsSuccess) { 
+                await store.dispatch('user/update_user_info', toRefs(Data)) 
+ 
+                $notify({
+                  title: '登录成功!',
+                  message: `欢迎回来 ${store.getters.userDisplayName} !` ,
+                  type: 'success',
+                })
+              } else {
+                throw new Error(Message)
+              }
             })
             .catch((err) => {
               $notify({
                 title: '错误',
-                message: '验证失败:' + err,
+                message: err.message,
                 type: 'error',
               })
             })
             .finally(() => {
               isLoading.value = false
-            })
-          console.log('submitted')
+            }) 
         } else {
           var errArr = []
           for (var key in err) {
@@ -142,6 +154,7 @@ export default {
       handleReset,
       formRef,
       isLoading,
+      // Dispatch
     }
   },
 }

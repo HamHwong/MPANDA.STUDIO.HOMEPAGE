@@ -43,9 +43,8 @@ export default {
     var GameBoardCanvas = ref(null);
     let GameManager = reactive({})
     onMounted(async () => {
-      console.log('onMounted')
+      //console.log('onMounted')
       GameManager = GamePadFactory.getCanvasManager(GameBoardCanvas.value);
-
       await GameManager.init({
         height: 300,
         width:600,
