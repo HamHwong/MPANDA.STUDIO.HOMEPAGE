@@ -1,15 +1,18 @@
 export default { 
-  state: {
-    a:1
+  state: { 
+    isShownGB:false
   }, 
-  mutations: {
-    'UPDATE':(state)=>{
-      state.a += 1
+  mutations: { 
+    'SET_TOP_NAV_BG_DISPLAY':(state,isShownGB)=>{
+      state.isShownGB = isShownGB
     }
   }, 
-  actions: {
-    increment(ctx){
-      ctx.commit('UPDATE')
+  actions: { 
+    hideBG({commit}){
+      commit('SET_TOP_NAV_BG_DISPLAY',false)
+    },
+    showBG({commit}){
+      commit('SET_TOP_NAV_BG_DISPLAY',true)
     }
   } 
 }

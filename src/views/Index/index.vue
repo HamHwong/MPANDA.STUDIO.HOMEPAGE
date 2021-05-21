@@ -50,15 +50,13 @@
             :order="{ createDate: -1 }"
           />
         </MPRank>
-      </el-col>
-   
+      </el-col> 
       <el-col
         :md="8"
         :sm="24"
       >
         <MPRank type="primary" />
-      </el-col>
-
+      </el-col> 
       <el-col
         :md="8"
         :sm="24"

@@ -1,4 +1,4 @@
 export default {
-  a:state=>state.settings.a,
+  isShownGB:state=>state.settings.isShownGB,
   userDisplayName:state=>state.user.display_name
 }

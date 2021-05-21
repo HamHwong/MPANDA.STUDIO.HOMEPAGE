@@ -110,7 +110,6 @@ export default {
               const { IsSuccess, Message, Data } = res
               if (IsSuccess) { 
                 await store.dispatch('user/update_user_info', toRefs(Data)) 
- 
                 $notify({
                   title: '登录成功!',
                   message: `欢迎回来 ${store.getters.userDisplayName} !` ,

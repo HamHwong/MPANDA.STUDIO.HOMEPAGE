@@ -1,11 +1,4 @@
-<!--
- * @Author: your name
- * @Date: 2021-03-25 16:32:01
- * @LastEditTime: 2021-04-20 16:54:58
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Controls/components/mp-topnav/index.vue
--->
+<!--eslint-disable vue/no-v-model-argument--> 
 <template>
   <div>
     <div
@@ -17,7 +10,7 @@
       }"
       @mouseleave="blurMenu"
     >
-      <Lotties
+      <Lotties 
         v-model:value="IsUnfold"
         @menu:fold="handleMenuUnFold(false)"
         @menu:unfold="handleMenuUnFold(true)"
@@ -40,13 +33,10 @@
             `
             "
           />
-          <template
-            v-for="(menu, i) in Nav_Manus"
-            :key="menu.name"
-          >
-            <!-- {{ Nav_Manus[i] }} -->
+          <template v-for="(menu, i) in Nav_Manus">
             <div
               v-if="isCurrentPage(menu)"
+              :key="i"
               class="Nav_Menu"
               @mouseover="focusMenu(i)"
             >
@@ -64,6 +54,7 @@
                 >
                   <div
                     v-for="submenu in menu.children"
+                    :key="submenu"
                     class="Sub_Nav_Menu"
                   >
                     <div
@@ -104,8 +95,6 @@ import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
 import { routes } from '@/router/routes'
 import { useRouter } from 'vue-router'
-
-// import * as animationData from '@/assets/Lotties/menu.json';
 export default {
   name: 'TopNav',
   components: {
@@ -115,13 +104,13 @@ export default {
   props: {
     fixed: {
       type: String,
-      default:()=>'',
+      default: () => '',
       validator(val) {
         return ['top', 'bottom', 'left', 'right'].includes(val.toLowerCase())
       },
     },
   },
-  setup: (props, context) => {
+  setup: () => {
     var CurrentIndex = reactive({ val: -1 })
     var isShownGB = inject('isShownBG')
     var IsUnfold = ref(false)
@@ -140,7 +129,6 @@ export default {
           menusHeight: Menus[i].offsetHeight,
         })
       }
-      // Nav_Manus_Options = Nav_Manus_Options.filter(menu=>isCurrentPage(menu))
     }
 
     function focusMenu(index) {
