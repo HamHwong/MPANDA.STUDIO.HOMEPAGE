@@ -78,8 +78,9 @@
           </template>
         </div>
       </div>
+      <div>{{ userDisplayName }}</div>
       <AsideNav
-        v-else
+        v-if="isMobile()"
         v-model="IsUnfold"
         size="95%"
         :before-close="() => (IsUnfold = false)"
@@ -89,12 +90,13 @@
 </template>
 
 <script>
-import { ref, inject, reactive, onMounted } from 'vue'
+import { ref, inject, reactive, onMounted, computed } from 'vue'
 import AsideNav from '@/components/AsideNav'
 import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
 import { routes } from '@/router/routes'
 import { useRouter } from 'vue-router'
+import store from '@/store'
 export default {
   name: 'TopNav',
   components: {
@@ -129,8 +131,7 @@ export default {
           menusHeight: Menus[i].offsetHeight,
         })
       }
-    }
-
+    } 
     function focusMenu(index) {
       markerLinePosition.width = Nav_Manus_Options[index].width
       markerLinePosition.left = Nav_Manus_Options[index].left
@@ -176,6 +177,7 @@ export default {
       isMobile,
       isCurrentPage,
       To,
+      userDisplayName:computed(()=>store.getters.userDisplayName)
       // routes
     }
   },

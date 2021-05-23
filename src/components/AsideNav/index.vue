@@ -15,14 +15,18 @@
     >
       <div class="myDrawer">
         <ul>
-          <li
+          <template
             v-for="(item,index) in routes"
-            :key="item"
-            :class="{'aside_nav_item':true,'active':currentIndex===index}"
-            @click="handleMenuItemClick(item,index)"
           >
-            {{ item.name }}
-          </li>
+            <li
+              v-if="!item.meta||(item.meta&&!item.meta.hidden)"
+              :key="item"
+              :class="{'aside_nav_item':true,'active':currentIndex===index}"
+              @click="handleMenuItemClick(item,index)"
+            >
+              {{ item.name }}
+            </li>
+          </template>
         </ul>
       </div>
     </el-drawer>
@@ -53,6 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 .myDrawer {
+  color: #333;
   ul {
     list-style: none;
     padding: 0;

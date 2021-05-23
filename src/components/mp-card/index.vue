@@ -79,7 +79,7 @@ export default {
         0
     onMounted(() => {
       if (hasHeaderButtonOnly) { 
-        mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px`
+        mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px` 
       }
     })
     return {
@@ -150,7 +150,10 @@ h1 {
     justify-content: center;
     position: relative;
     margin: 0;
-    line-height: 30px;
+    line-height: 30px; 
+    &:deep(.mp-card-button){
+      z-index: 20;      
+    }
   }
   &.mp-card-has-button {
     & > *:first-child {

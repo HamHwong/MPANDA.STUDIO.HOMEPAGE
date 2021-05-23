@@ -76,8 +76,9 @@ import { Auth } from '@/api'
 import { Encode } from '@/utils/crypto'
 import store from '@/store'
 import { computed } from '@vue/runtime-core'
+import { useRoute, useRouter } from 'vue-router'
 export default {
-  setup() { 
+  setup() {
     const form = reactive({
       account: 'gougou1239',
       password: 'gougou',
@@ -100,6 +101,8 @@ export default {
     })
     const formRef = ref(null)
     var isLoading = ref(false)
+    const route = useRoute()
+    const router = useRouter()
     function handleLogin() {
       formRef.value.validate((valid, err) => {
         if (valid) {
@@ -108,13 +111,20 @@ export default {
           Auth.Login({ account, password: Encode(password) })
             .then(async (res) => {
               const { IsSuccess, Message, Data } = res
-              if (IsSuccess) { 
-                await store.dispatch('user/update_user_info', toRefs(Data)) 
+              if (IsSuccess) {
+                await store.dispatch('user/update_user_info', toRefs(Data))
                 $notify({
                   title: '登录成功!',
-                  message: `欢迎回来 ${store.getters.userDisplayName} !` ,
+                  message: `欢迎回来 ${store.getters.userDisplayName} !`,
                   type: 'success',
                 })
+                console.log('route', route.query)
+                const { redirectTo = null } = route.query
+                if (redirectTo) {
+                  router.push({ path: redirectTo })
+                } else {
+                  router.push({ path: '/' })
+                }
               } else {
                 throw new Error(Message)
               }
@@ -128,7 +138,7 @@ export default {
             })
             .finally(() => {
               isLoading.value = false
-            }) 
+            })
         } else {
           var errArr = []
           for (var key in err) {

@@ -63,6 +63,9 @@ const routes = [
         path: 'Create',
         name: '发布文章',
         component: ArticleCreate,
+        meta:{
+          role:['admin']
+        }
       },
       {
         path: 'View/:id',
@@ -76,6 +79,7 @@ const routes = [
   },
   {
     path:'/Login',
+    name:'login',
     component:Login,
     meta:{
       layout: 'blank',
