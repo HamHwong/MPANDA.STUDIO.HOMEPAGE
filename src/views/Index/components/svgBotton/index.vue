@@ -7,21 +7,24 @@
  * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/views/Index/components/svgBotton/index.vue
 -->
 <template>
-  <div class="btn-warpper">
+  <div class="btn-wrapper">
     <a
       class="btn"
-      v-bind="$attrs"
     >
-      <svg>
-        <rect
-          x="0"
-          y="0"
-          fill="none"
-          width="100%"
-          height="100%"
-        />
-      </svg>
-      <span> Enter </span>
+      <div
+        v-bind="$attrs"
+      >
+        <svg>
+          <rect
+            x="0"
+            y="0"
+            fill="none"
+            width="100%"
+            height="100%"
+          />
+        </svg>
+        <span> Enter </span>
+      </div>
     </a>
   </div>
 </template>
@@ -31,12 +34,16 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.btn-warpper {
+.btn-wrapper {
   // position: absolute;
   // bottom: calc(50% - 60px);
   // width: 20%;
   // left: 40%;
+  float: left;
+  text-align: center;
   margin-top: 10px;
+  margin-bottom: 10px;
+  transform: translateX(calc(50vw - 100%));
   & * {
     -moz-box-sizing: inherit;
     box-sizing: inherit;
@@ -54,31 +61,31 @@ export default {};
     font-size: 16px;
     font-weight: 400;
     line-height: 45px;
-    max-width: 160px;
-    margin: 0 auto 2em;
+    // max-width: 160px;
+    // margin: 0 auto 2em;
     position: relative;
     text-transform: uppercase;
     vertical-align: middle;
-    width: 100%;
+    width: 160px;
     background: #414b68;
     font-weight: 100;
-    @media (min-width: 400px) {
-      & {
-        display: inline-block;
-        margin-right: 2.5em;
-        &:nth-of-type(even) {
-          margin-right: 0;
-        }
-      }
-    }
-    @media (min-width: 600px) {
-      &:nth-of-type(even) {
-        margin-right: 2.5em;
-        &:nth-of-type(5) {
-          margin-right: 0;
-        }
-      }
-    }
+    // @media (min-width: 400px) {
+    //   & {
+    //     display: inline-block;
+    //     margin-right: 2.5em;
+    //     &:nth-of-type(even) {
+    //       margin-right: 0;
+    //     }
+    //   }
+    // }
+    // @media (min-width: 600px) {
+    //   &:nth-of-type(even) {
+    //     margin-right: 2.5em;
+    //     &:nth-of-type(5) {
+    //       margin-right: 0;
+    //     }
+    //   }
+    // }
     svg {
       position: absolute;
       left: 0;

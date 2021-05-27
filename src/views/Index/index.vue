@@ -30,7 +30,7 @@
         :sm="24"
       >
         <MPRank>
-          <template #header>  
+          <template #header>
             <MPButton
               type="default"
               trigger="hover"
@@ -50,13 +50,13 @@
             :order="{ createDate: -1 }"
           />
         </MPRank>
-      </el-col> 
+      </el-col>
       <el-col
         :md="8"
         :sm="24"
       >
         <MPRank type="primary" />
-      </el-col> 
+      </el-col>
       <el-col
         :md="8"
         :sm="24"
@@ -74,16 +74,16 @@
 
 <script>
 import { Ext } from '@/api'
-import { onMounted, reactive, ref, provide, toRefs, computed } from 'vue'
+import { onMounted, reactive, ref  } from 'vue'
 import TopBanner from '@/components/TopBanner'
 import GameComponent from '@/components/Game'
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
 import MPRank from '@/components/mp-rank'
 import MPButton from '@/components/mp-card/mp-card-button'
-import ArticleList from '@/views/Articles/components/list' 
+import ArticleList from '@/views/Articles/components/list'
 export default {
-  setup(props,ctx) {
+  setup(props, ctx) {
     var DailyWords = reactive({ text: '' })
     onMounted(async () => {
       const {
@@ -93,26 +93,22 @@ export default {
       if (IsSuccess) {
         DailyWords.text = data
       }
-    }) 
-    var isShowBG = ref(true)
-    var EnableGame = ref(false) 
-    provide('isShownBG', isShowBG) 
+    })
+    var EnableGame = ref(false)
     return {
       TopBanner,
       DailyWords,
       GameComponent,
       EnableGame,
       NavTop,
-      isShowBG,
       svgBotton,
       MPRank,
       MPButton,
-      ArticleList ,
+      ArticleList,
     }
   },
   methods: {
-    handleEnter(e) {
-      e.stopPropagation()
+    handleEnter() {
       setTimeout(() => {
         this.$router.push('/Controls')
       }, 700)

@@ -16,9 +16,10 @@
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
-import { inject, onMounted, watch } from '@vue/runtime-core'
+import { reactive, ref, toRef } from '@vue/reactivity'
+import { computed, onMounted, watch } from '@vue/runtime-core'
 import { Ext } from '@/api'
+import store from '@/store'
 export default {
   setup() {
     onMounted(async () => {
@@ -34,18 +35,23 @@ export default {
     })
     var bgTextColor = ref('rgba(255, 255, 255, 0.900);')
     var bgClipStyle = ref(null)
-    var isShowBG = inject('isShownBG')
-    watch(isShowBG, function(shownBG) {
-      if (shownBG) {
-        bgTextColor.value = 'rgba(255, 255, 255, 0.900);'
-        bgClipStyle.value = null
+    store.watch(()=>store.state.settings.isShownBG,
+      function(shownBG) { 
+        if (shownBG) {
+          bgTextColor.value = 'rgba(255, 255, 255, 0.900);'
+          bgClipStyle.value = null
+        } else {
+          bgTextColor.value = 'transparent'
+          bgClipStyle.value = 'text'
+        }
+      } 
+    )
+    function HandleBgTextSwitch() { 
+      if (store.getters.isShownBG) {
+        store.dispatch('settings/hideBG')
       } else {
-        bgTextColor.value = 'transparent'
-        bgClipStyle.value = 'text'
+        store.dispatch('settings/showBG')
       }
-    })
-    function HandleBgTextSwitch() {
-      isShowBG.value = !isShowBG.value
     }
     return {
       ImageObj,

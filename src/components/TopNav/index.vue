@@ -5,13 +5,14 @@
       :class="{
         Nav_Bar: true,
         DarkMode: false,
-        Dark: !isShownGB,
+        Dark: !isShownBG,
         Fold: !IsUnfold,
       }"
       @mouseleave="blurMenu"
     >
       <Lotties 
-        v-model:value="IsUnfold"
+        :is-unfold="IsUnfold" 
+        :is-shown-b-g="isShownBG"
         @menu:fold="handleMenuUnFold(false)"
         @menu:unfold="handleMenuUnFold(true)"
       />
@@ -29,7 +30,7 @@
               `
             width: ${markerLinePosition.width}px;
             left: ${markerLinePosition.left}px;
-            background-color:${isShownGB ? '#fff' : 'rgb(29, 32, 41);'}
+            background-color:${isShownBG ? '#fff' : 'rgb(29, 32, 41);'}
             `
             "
           />
@@ -78,7 +79,7 @@
           </template>
         </div>
       </div>
-      <div>{{ userDisplayName }}</div>
+      <div><AvatarNav /></div> 
       <AsideNav
         v-if="isMobile()"
         v-model="IsUnfold"
@@ -90,13 +91,14 @@
 </template>
 
 <script>
-import { ref, inject, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, toRef } from 'vue'
 import AsideNav from '@/components/AsideNav'
 import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
 import { routes } from '@/router/routes'
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router' 
 import store from '@/store'
+import AvatarNav from '@/components/AvatarNav'
 export default {
   name: 'TopNav',
   components: {
@@ -114,7 +116,12 @@ export default {
   },
   setup: () => {
     var CurrentIndex = reactive({ val: -1 })
-    var isShownGB = inject('isShownBG')
+
+    var isShownBG = ref(true)
+    store.watch(()=>store.state.settings.isShownBG,(val)=>{ 
+      isShownBG.value = val
+    })
+
     var IsUnfold = ref(false)
     var markerLinePosition = reactive({
       left: 0,
@@ -164,8 +171,7 @@ export default {
       return pageLimit === currentRouteName
     }
     return {
-      markerLinePosition,
-      isShownGB,
+      markerLinePosition, 
       Nav_Manus_Ref,
       Nav_Manus,
       focusMenu,
@@ -177,8 +183,8 @@ export default {
       isMobile,
       isCurrentPage,
       To,
-      userDisplayName:computed(()=>store.getters.userDisplayName)
-      // routes
+      AvatarNav,store,
+      isShownBG
     }
   },
 }

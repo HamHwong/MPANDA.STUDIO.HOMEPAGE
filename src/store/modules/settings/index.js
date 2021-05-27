@@ -1,10 +1,13 @@
 export default { 
+  namespaced: true,
   state: { 
-    isShownGB:false
+    isShownBG:true
   }, 
   mutations: { 
-    'SET_TOP_NAV_BG_DISPLAY':(state,isShownGB)=>{
-      state.isShownGB = isShownGB
+    'SET_TOP_NAV_BG_DISPLAY':(state,isShownBG)=>{
+      //console.log('state',state)
+      state.isShownBG = isShownBG
+      //console.log('state',state)
     }
   }, 
   actions: { 

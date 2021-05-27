@@ -11,26 +11,28 @@
 <script>
 import lottie from 'lottie-web'
 // import { replaceColor ,getColors} from 'lottie-colorify';
-import { onMounted, ref, reactive, watch } from 'vue'
+import { onMounted, ref, reactive, watch, computed } from 'vue'
 import lottieApi from 'lottie-api'
-import { inject } from 'vue'
+import store from '@/store' 
 import animation from '@/assets/Lotties/menu.json'
 export default {
   name: 'Lotties',
   props: {
-    value: {
+    isUnfold: {
       type: Boolean,
       default: () => false,
     },
+    isShownBG:{
+      type:Boolean,
+      default:()=>true
+    }
   },
   setup(props, context) {
     var container = ref(null)
-    var lottieObj = ref(null)
-    var isShownGB = inject('isShownBG')
+    var lottieObj = ref(null) 
     var options = reactive({
       status: 'fold',
     })
-    // var propValue = toRef(context.props.value)
     onMounted(function() {
       lottieObj = initAnimation(animation)
       changeColor([1, 1, 1, 1])
@@ -43,14 +45,16 @@ export default {
         autoplay: false,
         animationData: animation, //animation, // the path to the animation json
       })
-    }
-    watch(isShownGB, (shownBG) => {
+    } 
+
+    watch(()=>props.isShownBG, (shownBG) => {
       if (shownBG) {
         changeColor([1, 1, 1, 1])
       } else {
         changeColor([0, 0, 0, 1])
       }
     })
+
     function changeColor([r, g, b, a]) {
       const api = lottieApi.createAnimationApi(lottieObj)
       var arr = ['Upper', 'Center', 'Buttom']
@@ -71,20 +75,24 @@ export default {
         lottieObj.playSegments([69, 70], true)
       }
     }
+
     function goToAndStop(val, isFrame) {
       lottieObj.goToAndStop(val, isFrame)
     }
+
     function goToAndPlay(val, isFrame) {
       lottieObj.goToAndPlay(val, isFrame)
     }
+    
     function fold() {
       context.emit('menu:fold')
     }
     function unfold() {
       context.emit('menu:unfold')
     }
-    watch(props, ({ value }) => {
-      if (value) {
+    watch(()=>props.isUnfold, (isUnfold) => {
+      console.log(isUnfold)
+      if (isUnfold) {
         // unfold()
         options.status = 'unfold'
         lottieObj.playSegments([0, 70], false)
@@ -117,7 +125,6 @@ export default {
       lottieObj,
       options,
       switchStatus,
-      isShownGB,
     }
   },
 }

@@ -96,7 +96,7 @@ export default {
 .mp-card-warpper {
   position: relative;
   border-radius: 15px;
-  box-shadow: 0 0 30px 5px #f0f2ff;
+  box-shadow: 0 0 30px 5px #dddada;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -132,7 +132,7 @@ export default {
     }
   }
   &.success {
-    background: #1eaaab;
+    background: #38b4b4;
     color: #ffffff;
     &:hover {
       box-shadow: 0 0 15px #d9dbe9;

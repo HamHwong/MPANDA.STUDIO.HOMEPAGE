@@ -15,7 +15,7 @@
       <el-link
         type="primary"
         :href="`#/Article/View/${i._id}`"
-        style="margin:10px 0;"
+        style="margin:5px 0;"
       >
         {{ i.title }}
       </el-link>  

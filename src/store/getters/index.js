@@ -1,5 +1,5 @@
 export default {
-  isShownGB:state=>state.settings.isShownGB,
+  isShownBG:state=>state.settings.isShownBG,
   isShowGame:state=>state.game.isShowGame,
   userId:state=>state.user._id,
   userDisplayName:state=>state.user.display_name,
