@@ -2,9 +2,10 @@
   <div> 
     <el-dialog
       v-if="!hasLogin"
-      v-model="dialogVisible"
+      :model-value="dialogVisible"
       title="提示"
       width="30%"
+      :before-close="handleClose"
     >
       <div>
         <component
@@ -25,32 +26,25 @@ export default {
   setup() {
     const hasLogin = computed(() => store.getters.hasLogin)
     console.log('store.state.settings.isShowLoginDialog',store.state.settings.isShowLoginDialog)
-    // var dialogVisible = computed(()=>store.state.settings.isShowLoginDialog)
-    // watch(dialogVisible,
-    //   (val) => {
-    //     console.log('aaaa')
-    //     dialogVisible.value = val
-    //   },{
-    //     deep:true
-    //   }
-    // )
-    // setInterval(() => {
-    //   console.log(dialogVisible.value)
-    // }, 3000);
+    var dialogVisible = computed(()=>store.state.settings.isShowLoginDialog)
+    function handleClose(){
+      store.dispatch('settings/hideLogin')
+    }
     return {
       login,
       hasLogin,
-      // dialogVisible: dialogVisible,
+      dialogVisible,
+      handleClose
     }
   },
-  computed:{
-    dialogVisible:()=>store.getters.isShowLoginDialog
-  },
-  watch:{
-    dialogVisible(val){
-      console.log(val)
-    }
-  }
+  // computed:{
+  //   dialogVisible:()=>store.getters.isShowLoginDialog
+  // },
+  // watch:{
+  //   dialogVisible(val){
+  //     console.log(val)
+  //   }
+  // }
 }
 </script>
 
