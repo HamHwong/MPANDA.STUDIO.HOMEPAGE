@@ -4,10 +4,12 @@
       <el-main>
         <el-row>
           <el-col
-            :span="8"
-            :offset="8"
+            :span="()=>embed?8:24"
+            :offset="()=>embed?8:24"
           >
-            <el-card>
+            <el-card
+              :shadow=" embed?'never':'always'"
+            >
               <el-form
                 ref="formRef"
                 v-loading="isLoading"
@@ -74,11 +76,17 @@ import { reactive, ref, toRefs } from '@vue/reactivity'
 import { ElNotification as $notify } from 'element-plus'
 import { Auth } from '@/api'
 import { Encode } from '@/utils/crypto'
-import store from '@/store'
-import { computed } from '@vue/runtime-core'
+import store from '@/store' 
 import { useRoute, useRouter } from 'vue-router'
 export default {
-  setup() {
+  props:{
+    embed:{
+      type:Boolean,
+      default:()=>false
+    }
+  },
+  setup(props,context) {
+    const embed  = props.embed
     const form = reactive({
       account: 'gougou1239',
       password: 'gougou',
@@ -118,7 +126,8 @@ export default {
                   message: `欢迎回来 ${store.getters.userDisplayName} !`,
                   type: 'success',
                 })
-                console.log('route', route.query)
+                
+                // console.log('route', route.query)
                 const { redirectTo = null } = route.query
                 if (redirectTo) {
                   router.push({ path: redirectTo })
@@ -163,6 +172,7 @@ export default {
       handleReset,
       formRef,
       isLoading,
+      embed
       // Dispatch
     }
   },

@@ -18,17 +18,14 @@ import 'vditor/dist/index.css'
 import auth from './auth'
 import store from './store'
 
-let app = createApp(App)
-
+let app = createApp(App).use(store) .use(ElementPlus)
 // Auto Load Layouts
 for (var layoutName in Layouts) {
   app.component(layoutName.toLocaleLowerCase() + '-layout', Layouts[layoutName])
-}
-app.use(store)
+} 
 // End Load
 app.use(VueMarkdownIt) 
 // app.use(CKEditor)
 auth(router)
-app.use(router)
-app.use(ElementPlus)
+app.use(router) 
 app.mount('#app')

@@ -11,10 +11,12 @@
     <component :is="layout">
       <router-view />
     </component>
+    <LoginDialog />
   </div>
 </template>
 
 <script>
+import LoginDialog from '@/components/LoginDialog'
 import {onMounted,provide} from 'vue'
 export default {
   name: "App",
@@ -23,6 +25,9 @@ export default {
   setup(props, context,ctx){ 
     window.addEventListener('resize',()=>{ 
     })
+    return {
+      LoginDialog
+    }
   },
   data(){
     return{

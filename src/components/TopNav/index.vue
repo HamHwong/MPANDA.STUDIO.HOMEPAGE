@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, computed, toRef } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import AsideNav from '@/components/AsideNav'
 import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
@@ -103,6 +103,7 @@ export default {
   name: 'TopNav',
   components: {
     Lotties,
+    AvatarNav,
     AsideNav,
   },
   props: {
@@ -183,7 +184,8 @@ export default {
       isMobile,
       isCurrentPage,
       To,
-      AvatarNav,store,
+      AvatarNav,
+      store,
       isShownBG
     }
   },
@@ -202,7 +204,7 @@ $animation-duration: 1s;
   z-index: 10000;
   color: #fff;
   transition: color 1s $animation-cubic-bezier;
-  overflow: hidden;
+  // overflow: hidden;
   &.Dark {
     color: rgb(29, 32, 41);
   }
@@ -215,6 +217,7 @@ $animation-duration: 1s;
     }
   }
   .Nav_Menus_Warp {
+    width:100%;
     margin: 0px 20px;
     user-select: none;
     position: relative;
