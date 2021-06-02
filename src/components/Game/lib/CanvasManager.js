@@ -48,7 +48,7 @@ export class CanvasManager {
         this.Debug = false
         this.Player = null
         this.Camera = null
-        this.MapManager = null,
+        this.MapManager = null
         this.PauseControls = false
     }
     async init({
