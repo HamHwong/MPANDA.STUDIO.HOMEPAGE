@@ -76,13 +76,13 @@ export default {
       }
     }
 
-    function goToAndStop(val, isFrame) {
-      lottieObj.goToAndStop(val, isFrame)
-    }
+    // function goToAndStop(val, isFrame) {
+    //   lottieObj.goToAndStop(val, isFrame)
+    // }
 
-    function goToAndPlay(val, isFrame) {
-      lottieObj.goToAndPlay(val, isFrame)
-    }
+    // function goToAndPlay(val, isFrame) {
+    //   lottieObj.goToAndPlay(val, isFrame)
+    // }
     
     function fold() {
       context.emit('menu:fold')
@@ -90,8 +90,7 @@ export default {
     function unfold() {
       context.emit('menu:unfold')
     }
-    watch(()=>props.isUnfold, (isUnfold) => {
-      console.log(isUnfold)
+    watch(()=>props.isUnfold, (isUnfold) => { 
       if (isUnfold) {
         // unfold()
         options.status = 'unfold'

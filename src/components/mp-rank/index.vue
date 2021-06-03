@@ -15,7 +15,7 @@
       <template #header>
         <slot name="header" />
       </template>
-      <slot name="default" />
+      <slot />
     </MPCard>
   </div>
 </template>

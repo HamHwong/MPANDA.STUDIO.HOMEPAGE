@@ -201,7 +201,7 @@ $animation-duration: 1s;
   // flex-direction: row-reverse;
   top: 0;
   left: 0;
-  z-index: 10000;
+  z-index: 500;
   color: #fff;
   transition: color 1s $animation-cubic-bezier;
   // overflow: hidden;

@@ -11,7 +11,7 @@
     "
     @click="HandleBgTextSwitch()"
   >
-    <slot name="default" />
+    <slot />
   </div>
 </template>
 

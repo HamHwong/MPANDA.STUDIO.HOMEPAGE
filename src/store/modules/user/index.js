@@ -15,6 +15,8 @@ export default {
   mutations:{
     'UPDATE_USER_INFO'(state,data){ 
       for(var key in data){
+        // console.log('data',data)
+        // console.log('key',key)
         state[key] = data[key] 
       }
     },
@@ -38,6 +40,7 @@ export default {
   },
   actions:{
     update_user_info({commit},UserInformation){
+      // debugger
       commit('UPDATE_USER_INFO',UserInformation)
     },
     user_logout({commit}){

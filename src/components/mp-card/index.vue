@@ -24,7 +24,7 @@
       }"
     >
       <el-scrollbar style="height:100%">
-        <slot name="default" />
+        <slot />
       </el-scrollbar>
     </div>
     <div class="mp-card-footer">
