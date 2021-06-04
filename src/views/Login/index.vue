@@ -14,7 +14,7 @@
           </el-col>
           <el-col
             :xs="24"
-            :md="8"
+            :md="12"
           >
             <el-card>
               <loginForm @login="handleLoggedIn" />
@@ -68,6 +68,7 @@ $scale:.2;
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     .logo_no_bg{
       width: $logo_width * $scale;
       height: $logo_height * $scale; 
