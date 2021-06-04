@@ -9,7 +9,7 @@
 <template>
   <div>
     <el-drawer
-      title="我是标题"
+      title="导航"
       :direction="direction"
       v-bind="$attrs"
     >

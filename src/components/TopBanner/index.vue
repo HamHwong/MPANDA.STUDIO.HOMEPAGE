@@ -1,5 +1,8 @@
 <template>
-  <div
+  <!-- <div 
+    class="preload_bg"
+  /> -->
+  <div 
     class="text-context"
     :style="
       `
@@ -22,11 +25,13 @@ import { Ext } from '@/api'
 import store from '@/store'
 export default {
   setup() {
+    const hasLoaded = ref(false)
     onMounted(async () => {
       const { Data, IsSuccess } = await Ext.getDailyBG()
       if (IsSuccess) {
         if (Data.images.length > 0) {
           ImageObj.imgUrl = 'https://www.bing.com' + Data.images[0].url
+          hasLoaded.value = true
         }
       }
     })
@@ -66,6 +71,13 @@ export default {
 <style lang="scss" scoped>
 $fontSize_Desktop: 4rem;
 $fontSize_Mobile: 2.5rem;
+.preload_bg {
+  height: 70px;
+  width:100%;
+  background: #00B4DB;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #0083B0, #00B4DB);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 .text-context {
   transition: ALL 1s cubic-bezier(0.8, -0.5, 0.2, 1.4);
   min-height: 70px;

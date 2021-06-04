@@ -54,13 +54,14 @@ export default {
 <style lang="scss">
 $avatar-width:120px;
 $avatar-height:40px;
+$avatar-border:4px;
 .wrapper {
   width: $avatar-width;
   height:$avatar-height;
   overflow: hidden;
   margin: 10px;
   border-radius: $avatar-height/2;
-  background-color: rgba(165, 154, 154, 0.212);
+  background-color: rgba(154, 157, 165, 0.5);
   box-shadow: 0 0 20px 0px rgb(82, 87, 90);
   display: flex;
   flex-direction: column; 
@@ -74,8 +75,9 @@ $avatar-height:40px;
     .avatar_btn {
       position: relative; 
       transition: left .4s cubic-bezier(.38,.94,1,.77);
-      width: $avatar-height;
-      height: $avatar-height;
+      width: $avatar-height - $avatar-border;
+      height: $avatar-height - $avatar-border; 
+      margin: $avatar-border/2;
       left:0;
       &.on_logging_in {
         left:$avatar-width - $avatar-height;

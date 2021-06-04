@@ -1,4 +1,4 @@
-<!--eslint-disable vue/no-v-model-argument--> 
+<!--eslint-disable vue/no-v-model-argument-->
 <template>
   <div>
     <div
@@ -10,82 +10,84 @@
       }"
       @mouseleave="blurMenu"
     >
-      <Lotties 
-        :is-unfold="IsUnfold" 
-        :is-shown-b-g="isShownBG"
-        @menu:fold="handleMenuUnFold(false)"
-        @menu:unfold="handleMenuUnFold(true)"
-      />
-      <div
-        v-if="!isMobile()"
-        class="Nav_Menus_Warp"
-      >
+      <div>
+        <Lotties
+          :is-unfold="IsUnfold"
+          :is-shown-b-g="isShownBG"
+          @menu:fold="handleMenuUnFold(false)"
+          @menu:unfold="handleMenuUnFold(true)"
+        />
         <div
-          ref="Nav_Manus_Ref"
-          class="Nav_Menus"
+          v-if="!isMobile()"
+          class="Nav_Menus_Warp"
         >
           <div
-            class="Nav_Menus_Marker"
-            :style="
-              `
+            ref="Nav_Manus_Ref"
+            class="Nav_Menus"
+          >
+            <div
+              class="Nav_Menus_Marker"
+              :style="
+                `
             width: ${markerLinePosition.width}px;
             left: ${markerLinePosition.left}px;
             background-color:${isShownBG ? '#fff' : 'rgb(29, 32, 41);'}
             `
-            "
-          />
-          <template v-for="(menu, i) in Nav_Manus">
-            <div
-              v-if="isCurrentPage(menu)"
-              :key="i"
-              class="Nav_Menu"
-              @mouseover="focusMenu(i)"
-            >
-              <template v-if="menu.children && menu.children.length > 0">
-                <div class="Nav_Menu_Label">
-                  {{ menu.name }}
-                </div>
-                <div
-                  class="Sub_Nav_Menus"
-                  :style="
-                    `margin-top:${
-                      CurrentIndex.val === i ? 0 : -100
-                    }px;opacity:${CurrentIndex.val === i ? 1 : 0}`
-                  "
-                >
+              "
+            />
+            <template v-for="(menu, i) in Nav_Manus">
+              <div
+                v-if="isCurrentPage(menu)"
+                :key="i"
+                class="Nav_Menu"
+                @mouseover="focusMenu(i)"
+              >
+                <template v-if="menu.children && menu.children.length > 0">
+                  <div class="Nav_Menu_Label">
+                    {{ menu.name }}
+                  </div>
                   <div
-                    v-for="submenu in menu.children"
-                    :key="submenu"
-                    class="Sub_Nav_Menu"
+                    class="Sub_Nav_Menus"
+                    :style="
+                      `margin-top:${
+                        CurrentIndex.val === i ? 0 : -100
+                      }px;opacity:${CurrentIndex.val === i ? 1 : 0}`
+                    "
                   >
                     <div
-                      class="Sub_Nav_Menus_Label"
-                      @click="To(submenu)"
+                      v-for="submenu in menu.children"
+                      :key="submenu"
+                      class="Sub_Nav_Menu"
                     >
-                      {{ submenu.label }}
+                      <div
+                        class="Sub_Nav_Menus_Label"
+                        @click="To(submenu)"
+                      >
+                        {{ submenu.label }}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </template>
-              <template v-else>
-                <div
-                  class="Nav_Menu_Label"
-                  @click="To(menu)"
-                >
-                  {{ menu.name }}
-                </div>
-              </template>
-            </div>
-          </template>
+                </template>
+                <template v-else>
+                  <div
+                    class="Nav_Menu_Label"
+                    @click="To(menu)"
+                  >
+                    {{ menu.name }}
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
         </div>
+        <AsideNav
+          v-if="isMobile()"
+          v-model="IsUnfold"
+          size="95%"
+          :before-close="() => (IsUnfold = false)"
+        />
       </div>
-      <div><AvatarNav /></div> 
-      <AsideNav
-        v-if="isMobile()"
-        v-model="IsUnfold"
-        size="95%"
-        :before-close="() => (IsUnfold = false)"
-      />
+      <div><AvatarNav /></div>
     </div>
   </div>
 </template>
@@ -96,7 +98,7 @@ import AsideNav from '@/components/AsideNav'
 import Lotties from './components/Lotties'
 import isMobile from 'is-mobile'
 import { routes } from '@/router/routes'
-import { useRouter } from 'vue-router' 
+import { useRouter } from 'vue-router'
 import store from '@/store'
 import AvatarNav from '@/components/AvatarNav'
 export default {
@@ -119,9 +121,12 @@ export default {
     var CurrentIndex = reactive({ val: -1 })
 
     var isShownBG = ref(true)
-    store.watch(()=>store.state.settings.isShownBG,(val)=>{ 
-      isShownBG.value = val
-    })
+    store.watch(
+      () => store.state.settings.isShownBG,
+      (val) => {
+        isShownBG.value = val
+      }
+    )
 
     var IsUnfold = ref(false)
     var markerLinePosition = reactive({
@@ -139,7 +144,7 @@ export default {
           menusHeight: Menus[i].offsetHeight,
         })
       }
-    } 
+    }
     function focusMenu(index) {
       markerLinePosition.width = Nav_Manus_Options[index].width
       markerLinePosition.left = Nav_Manus_Options[index].left
@@ -172,7 +177,7 @@ export default {
       return pageLimit === currentRouteName
     }
     return {
-      markerLinePosition, 
+      markerLinePosition,
       Nav_Manus_Ref,
       Nav_Manus,
       focusMenu,
@@ -186,7 +191,7 @@ export default {
       To,
       AvatarNav,
       store,
-      isShownBG
+      isShownBG,
     }
   },
 }
@@ -198,12 +203,14 @@ $animation-duration: 1s;
   width: 100%;
   position: absolute;
   display: flex;
+  
   // flex-direction: row-reverse;
   top: 0;
   left: 0;
   z-index: 500;
   color: #fff;
   transition: color 1s $animation-cubic-bezier;
+  justify-content: space-between;
   // overflow: hidden;
   &.Dark {
     color: rgb(29, 32, 41);
@@ -217,7 +224,7 @@ $animation-duration: 1s;
     }
   }
   .Nav_Menus_Warp {
-    width:100%;
+    width: 100%;
     margin: 0px 20px;
     user-select: none;
     position: relative;

@@ -3,7 +3,7 @@
     <el-dialog
       :model-value="dialogVisible"
       title="登录"
-      width="30%"
+      :width="isMobile()?`70%`:`30%`"
       :before-close="handleClose"
     >
       <div>
@@ -17,6 +17,7 @@
 import loginForm from '@/components/Login'
 import store from '@/store'
 import { computed, watch } from '@vue/runtime-core'
+import isMobile from 'is-mobile'
 export default {
   setup() { 
     var dialogVisible = computed(() => store.state.settings.isShowLoginDialog)
@@ -41,6 +42,7 @@ export default {
       handleClose,
       handleLogin,
       loginForm,
+      isMobile
     }
   },
 }

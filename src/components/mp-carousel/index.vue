@@ -11,13 +11,13 @@
     <div class="mpanda-Carousel">
       <section
         v-for="(i, index) in slides"
+        :key="i"
         :class="{
           slide: true,
           left: currentSectionPos > index,
           active: currentSectionPos == index,
           right: currentSectionPos < index,
         }"
-        @click="focusOn(index)"
         :style="{
           zIndex:
             currentSectionPos >= index
@@ -27,26 +27,29 @@
               : slides.length - index,
           backgroundImage: 'url(' + i.url + ')',
         }"
+        @click="focusOn(index)"
         @mouseover="pause = true"
         @mouseleave="pause = false"
       >
         <div class="text-box">
           <h1>{{ i.title }}</h1>
-          <span v-html="i.text"></span>
+          <span v-html="i.text" />
         </div>
       </section>
-      <div @click="toLeft" class="slide-arrow left"></div>
-      <div @click="toRight" class="slide-arrow right"></div>
+      <div
+        class="slide-arrow left"
+        @click="toLeft"
+      />
+      <div
+        class="slide-arrow right"
+        @click="toRight"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {
-    this.init();
-    this.sort();
-  },
   data() {
     return {
       slides: [
@@ -82,6 +85,10 @@ export default {
       playTimer: null,
       intervalTime: 3000,
     };
+  },
+  mounted() {
+    this.init();
+    this.sort();
   },
   methods: {
     init() {
