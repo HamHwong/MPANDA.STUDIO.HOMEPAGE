@@ -29,16 +29,25 @@
         :md="8"
         :sm="24"
       >
-        <MPRank>
+        <MPCard height="200px">
           <template #header>
+            笔记
             <MPButton
               type="default"
               trigger="hover"
             >
               <template #reference>
-                <router-link :to="{ path: '/Article/Create' }">
+                <router-link
+                  v-if="hasLogin"
+                  :to="{ path: '/Article/Create' }"
+                >
                   <div>
                     发帖
+                  </div>
+                </router-link>
+                <router-link :to="{ path: '/Article/Create' }">
+                  <div>
+                    查看所有
                   </div>
                 </router-link>
               </template>
@@ -46,22 +55,28 @@
           </template>
           <ArticleList
             :start="0"
-            :count="5"
+            :count="10"
             :order="{ createDate: -1 }"
           />
-        </MPRank>
+        </MPCard>
       </el-col>
       <el-col
         :md="8"
         :sm="24"
       >
-        <MPRank type="primary" />
+        <MPCard
+          type="primary"
+          height="200px"
+        />
       </el-col>
       <el-col
         :md="8"
         :sm="24"
       >
-        <MPRank type="success" />
+        <MPCard
+          type="success"
+          height="200px"
+        />
       </el-col>
     </el-row>
     <div>
@@ -74,17 +89,20 @@
 
 <script>
 import { Ext } from '@/api'
-import { onMounted, reactive, ref  } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import TopBanner from '@/components/TopBanner'
 import GameComponent from '@/components/Game'
 import svgBotton from './components/svgBotton'
 import NavTop from '@/components/TopNav'
-import MPRank from '@/components/mp-rank'
+import MPCard from '@/components/mp-card'
 import MPButton from '@/components/mp-card/mp-card-button'
 import ArticleList from '@/views/Articles/components/list'
+import store from '@/store'
 export default {
   setup(props, ctx) {
     var DailyWords = reactive({ text: '' })
+    const hasLogin = computed(() => store.getters.hasLogin) 
+
     onMounted(async () => {
       const {
         Data: { data },
@@ -102,9 +120,10 @@ export default {
       EnableGame,
       NavTop,
       svgBotton,
-      MPRank,
+      MPCard,
       MPButton,
       ArticleList,
+      hasLogin
     }
   },
   methods: {

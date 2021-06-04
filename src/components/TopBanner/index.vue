@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { reactive, ref, toRef } from '@vue/reactivity'
-import { computed, onMounted, watch } from '@vue/runtime-core'
+import { reactive, ref } from '@vue/reactivity'
+import { onMounted } from '@vue/runtime-core'
 import { Ext } from '@/api'
 import store from '@/store'
 export default {

@@ -9,8 +9,7 @@
 <template>
   <div style="text-align:left;">
     <MPCard
-      v-bind="$attrs" 
-      min-height="200px"
+      v-bind="$attrs"   
     >
       <template #header>
         <slot name="header" />

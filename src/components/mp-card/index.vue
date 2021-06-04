@@ -8,12 +8,12 @@
 -->
 <template>
   <div :class="typeClass">
-    <h1
+    <div
       ref="mp_header"
       class="mp-card-header"
     >
       <slot name="header" />
-    </h1>
+    </div>
     <div
       ref="mp_content"
       class="mp-card-content"
@@ -61,39 +61,48 @@ export default {
     },
   },
   setup(props, context) {
-    let hasHeaderButtonOnly = ref(false)
+    let hasHeaderButtonOnly = ref(true)
     const mp_content = ref(null)
     const mp_header = ref(null)
     const typeClass = computed(() => {
       var obj = {
-        'mp-card-warpper': true,
-        'mp-card-has-button': hasHeaderButtonOnly,
+        'mp-card-wrapper': true,
+        'mp-card-has-button': hasHeaderButtonOnly.value,
       }
       obj[props.type] = true
       return obj
     })
-    const headerSlot = context.slots.header()[0]
-    hasHeaderButtonOnly =
-      headerSlot.children.length === 1 &&
-      headerSlot.children.filter((i) => i.type.name === 'MpCardButton').length >
-        0
+    if (context.slots.header) {
+      const headerSlot = context.slots.header()[0]
+      if (headerSlot.children) {
+        if (headerSlot.children instanceof Array) {
+          hasHeaderButtonOnly.value =
+            headerSlot.children.length === 1 &&
+            headerSlot.children.filter((i) => i.type.name === 'MpCardButton')
+              .length > 0
+        } else {
+          hasHeaderButtonOnly.value = false
+        }
+      }
+    } 
+    console.log('hasHeaderButtonOnly',hasHeaderButtonOnly)
     onMounted(() => {
-      if (hasHeaderButtonOnly) { 
-        mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px` 
+      if (hasHeaderButtonOnly.value) {
+        mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px`
       }
     })
     return {
       hasHeaderButtonOnly,
       typeClass,
       mp_content,
-      mp_header
+      mp_header,
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.mp-card-warpper {
+.mp-card-wrapper {
   position: relative;
   border-radius: 15px;
   box-shadow: 0 0 30px 5px #dddada;
@@ -144,18 +153,18 @@ export default {
     padding: 0px 15px;
   }
 }
-h1 {
-  &.mp-card-header {
+.mp-card-wrapper {
+  .mp-card-header {
     display: flex;
     justify-content: center;
     position: relative;
     margin: 0;
-    line-height: 30px; 
-    &:deep(.mp-card-button){
-      z-index: 20;      
+    line-height: 30px;
+    &:deep(.mp-card-button) {
+      z-index: 20;
     }
   }
-  &.mp-card-has-button {
+  .mp-card-has-button {
     & > *:first-child {
       margin-top: -30px;
     }

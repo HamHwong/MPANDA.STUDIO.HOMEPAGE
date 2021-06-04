@@ -33,7 +33,9 @@
       :class="{ 'mp-card-button-reference': true, collapse: collapse }"
       :style="referencePositionOptions"
     >
-      <slot name="reference" />
+      <div class="mp-card-button-reference-wrapper">
+        <slot name="reference" />
+      </div>
     </div>
   </div>
 </template>
@@ -156,6 +158,32 @@ export default {
     max-height: 0px;
     overflow: hidden;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px; 
+    min-width: 100px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0px rgb(196, 196, 196); 
+    &:deep(.mp-card-button-reference-wrapper){
+      a{
+        &:link,&:active,&:visited,&:hover{
+          text-decoration: none;
+          color: rgb(100, 100, 100);
+        }
+      }
+      > *{
+        display: block;
+        // padding: 5px 0px;
+        margin:0 5px;
+        box-sizing: border-box;
+        &:not(:last-child){
+          border-bottom: 1px solid rgb(236, 236, 236);
+        }
+        &:hover{
+          background-color: rgb(247, 247, 247);
+        }
+      }
+    }
     &.collapse {
       max-height: 800px;
     }
