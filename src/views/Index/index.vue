@@ -112,7 +112,7 @@ export default {
         DailyWords.text = data
       }
     })
-    var EnableGame = ref(false)
+    var EnableGame = computed(()=>store.getters.isShowGame)
     return {
       TopBanner,
       DailyWords,

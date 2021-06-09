@@ -1,26 +1,75 @@
 <template>
   <div>
-    <div
-      class="wrapper"
+    <el-dropdown
+      :disabled="!hasLogin"
+      size="small"
+      :hide-timeout="500"
+      @command="handleCommand" 
     >
       <div
-        class="inner_wrapper"
-        @click="handleBtnClick"
+        class="wrapper"
+        :class="{isShownBG}"
       >
-        <el-avatar
-          :class="{
-            avatar_btn: true,
-            on_logging_in: hasLogin,
-          }"
-          shape="circle"
-          size="large"
-          :src="squareUrl"
-        />
-        <span :class="{user_name:true,on_logging_in:hasLogin}">
-          <small>{{ userDisplayName || `Guest` }}</small>
-        </span>
-      </div> 
-    </div>
+        <div
+          class="inner_wrapper"
+          @click="handleBtnClick"
+        >
+          <el-avatar
+            :class="{
+              avatar_btn: true,
+              on_logging_in: hasLogin,
+            }"
+            shape="circle"
+            size="large"
+            :src="squareUrl"
+          />
+          <span :class="{user_name:true,on_logging_in:hasLogin}"> 
+            <small>{{ userDisplayName || `Guest` }}</small>
+          </span>
+        </div> 
+      </div>
+      <template 
+        #dropdown
+      >
+        <el-dropdown-menu>
+          <el-dropdown-item> 
+            <div class="bg_setting_switch">
+              背景
+              <el-switch
+                :value="isShownBG"
+                style="display: block"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-text="显示"
+                inactive-text="不显示"
+                @click="handleBGSwitch"
+              />
+            </div>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <div class="game_enable_switch">
+              游戏
+              <el-switch
+                :value="isShowGame"
+                style="display: block"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-text="启用"
+                inactive-text="不启用"
+                @click="handleGameSwitch"
+              />
+            </div>
+          </el-dropdown-item> 
+          <el-dropdown-item
+            command="exit"
+            divided
+            icon="el-icon-wind-power"
+          >
+            登出
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
@@ -28,6 +77,8 @@
 import store from '@/store'
 import { computed, ref, watch } from '@vue/runtime-core'
 import login from '@/views/Login'
+import { ElNotification as $notify } from 'element-plus'
+import {logout} from '@/compositionAPI/logout'
 export default {
   setup() {
     const squareUrl = ref(
@@ -35,9 +86,42 @@ export default {
     )
 
     const hasLogin = computed(() => store.getters.hasLogin) 
+    const isShownBG = computed(()=> store.getters.isShownBG)
+    const isShowGame = computed(()=> store.getters.isShowGame)
     function handleBtnClick() {
       if (!hasLogin.value) {
         store.dispatch('settings/showLogin')
+      }
+    }
+    async function handleLogout(){
+        await logout()
+        $notify({
+                title: '已经登出',
+                message: '期待您的下次光临!',
+                type: 'success',
+                position: 'bottom-right'
+              })
+    }
+    function handleBGSwitch(){ 
+      if(isShownBG.value){
+        store.dispatch('settings/hideBG')
+      }else{
+        store.dispatch('settings/showBG')
+      }
+    }
+    function handleGameSwitch(){ 
+      if(isShowGame.value){
+        store.dispatch('game/stop')
+      }else{
+        store.dispatch('game/start')
+      }
+    }
+    function handleCommand(command){
+      switch(command){
+        case 'exit':
+          handleLogout();
+          break;
+        default: break;
       }
     }
     return {
@@ -45,17 +129,23 @@ export default {
       squareUrl,
       handleBtnClick,
       hasLogin, 
-      login
+      isShownBG,
+      isShowGame,
+      login,
+      handleCommand,
+      handleBGSwitch,
+      handleGameSwitch
     }
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $avatar-width:120px;
 $avatar-height:40px;
 $avatar-border:4px;
 .wrapper {
+  color: #333;
   width: $avatar-width;
   height:$avatar-height;
   overflow: hidden;
@@ -93,5 +183,11 @@ $avatar-border:4px;
       }
     }
   }
+  &.isShownBG{
+    color: #fff;
+  }
+}
+.bg_setting_switch,.game_enable_switch{
+  padding:0px 0 10px 0;
 }
 </style>

@@ -103,6 +103,7 @@ export default {
                   title: '登录成功!',
                   message: `欢迎回来 ${store.getters.userDisplayName} !`,
                   type: 'success',
+                  position: 'bottom-right'
                 }) 
                 context.emit('login') 
               } else {
