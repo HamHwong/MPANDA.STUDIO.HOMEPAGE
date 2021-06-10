@@ -21,7 +21,7 @@ export default {
       }
     },
     'CLEAR_USER_INFO'(state){
-      console.log('Logout')
+      // console.log('Logout')
       var data = {
         _id: null,
         id: null,

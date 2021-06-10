@@ -11,6 +11,7 @@ import * as MXD from './MXD'
 import * as Ext from './Ext'
 import * as Game from './Game'
 import * as Article from './Articles'
+import * as Category from './Articles/Category'
 import * as Auth from './Auth'
 export  {
   Image,
@@ -18,5 +19,6 @@ export  {
   Ext,
   Game,
   Article,
-  Auth
+  Auth,
+  Category
 }

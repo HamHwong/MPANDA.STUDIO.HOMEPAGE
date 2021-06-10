@@ -13,31 +13,63 @@
   >
     <el-container direction="vertical">
       <el-header>
-        <el-row type="flex">
+        <PageHeader>
+          <template #content>
+            {{ article.title }}
+          </template>
+        </PageHeader>
+        <!-- <el-row type="flex">
           <el-col>
             <h1 style="margin-bottom:5px">
               {{ article.title }}
             </h1>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            {{ article.createDate }}
+        </el-row> -->
+        <el-row
+          type="flex" 
+          justify="space-between"
+          align="middle"
+        >
+          <el-col :span="12">
+            <small>{{ dateformat(article.createDate,'yyyy-mm-dd HH:MM') }}</small>
+          </el-col>
+          <el-col
+            :span="12"
+            style="text-align:right"
+          >
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+            />
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-share"
+            />
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-delete"
+            />
           </el-col>
         </el-row>
       </el-header>
+
       <el-main>
         <el-card>
           <vue3-markdown-it :source="article.content" />
         </el-card>
       </el-main>
+
+  
       <el-footer>
-        <el-button
+        <!-- <el-button
           size="mini"
           @click="handleBack"
         >
           返回
-        </el-button>
+        </el-button> -->
       </el-footer>
     </el-container>
   </div>
@@ -48,6 +80,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { Article } from '@/api'
 import { onMounted, reactive, ref } from 'vue'
 import 'vditor/dist/index.css' 
+import PageHeader from '@/components/PageHeader'
+import dateformat from 'dateformat'
 export default {
   setup() {
     const route = useRoute()
@@ -62,8 +96,7 @@ export default {
       title: '',
       updateDate: '',
       _id: '',
-    })
-
+    }) 
     const loading = ref(false)
     onMounted(() => {
       loading.value = true
@@ -93,6 +126,8 @@ export default {
       loading,
       article,
       handleBack,
+      PageHeader,
+      dateformat
     }
   },
 }

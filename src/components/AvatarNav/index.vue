@@ -37,9 +37,7 @@
               背景
               <el-switch
                 :value="isShownBG"
-                style="display: block"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
+                style="display: block" 
                 active-text="显示"
                 inactive-text="不显示"
                 @click="handleBGSwitch"
@@ -51,9 +49,7 @@
               游戏
               <el-switch
                 :value="isShowGame"
-                style="display: block"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
+                style="display: block" 
                 active-text="启用"
                 inactive-text="不启用"
                 @click="handleGameSwitch"

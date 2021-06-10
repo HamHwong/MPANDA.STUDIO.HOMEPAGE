@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-05-04 22:04:12
- * @LastEditTime: 2021-05-05 17:25:18
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\views\Articles\view\index.vue
--->
 <template>
   <div
     v-loading="disabled"
@@ -13,56 +5,76 @@
     element-loading-spinner="el-icon-loading"
     class="Markdown"
   >
-    <el-form
-      ref="articleForm"
-      v-model="form"
-      size="mini"
-      :rules="rule"
-      :disabled="disabled"
-    >
-      <el-form-item
-        label="文章标题"
-        prop="title"
-      >
-        <el-row>
-          <el-input v-model="form.title" />
-        </el-row>
-      </el-form-item>
-      <el-form-item prop="content">
-        <el-row>
-          <el-col>
-            <MDEditor
-              v-model="form.content"
-              :disabled="disabled"
+    <el-container>
+      <el-header height="40px">
+        <PageHeader>
+          <template #title>
+            创建文章
+          </template>
+          <template #content>
+            <Category
+              v-model="form.cateId"
+              size="mini"
+              editable 
             />
-          </el-col>
-        </el-row>
-      </el-form-item>
-      <el-row
-        type="flex"
-        justify="center"
-        style="margin-top:10px"
-      >
-        <el-form-item>
-          <el-button
-            type="primary"
-            @click="handleSubmit"
+          </template>
+        </PageHeader>
+      </el-header>
+      <el-main>
+        <el-form
+          ref="articleForm"
+          v-model="form"
+          size="mini"
+          :rules="rule"
+          :disabled="disabled"
+        >
+          <el-form-item
+            label="文章标题"
+            prop="title"
           >
-            Submit
-          </el-button>
-          <el-button @click="handleClear">
-            Clear
-          </el-button>
-        </el-form-item>
-      </el-row>
-    </el-form>
+            <el-row>
+              <el-input v-model="form.title" />
+            </el-row>
+          </el-form-item>
+          <el-form-item prop="content">
+            <el-row>
+              <el-col>
+                <MDEditor
+                  v-model="form.content"
+                  :disabled="disabled"
+                />
+              </el-col>
+            </el-row>
+          </el-form-item>
+          <el-row
+            type="flex"
+            justify="center"
+            style="margin-top:10px"
+          >
+            <el-form-item>
+              <el-button
+                type="primary"
+                @click="handleSubmit"
+              >
+                Submit
+              </el-button>
+              <el-button @click="handleClear">
+                Clear
+              </el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
 import MDEditor from '../components/editor'
+import PageHeader from '@/components/PageHeader'
+import Category from '@/components/Category'
 import { reactive, ref } from 'vue'
-import {ElNotification as $notify} from 'element-plus'
+import { ElNotification as $notify } from 'element-plus'
 import { Article } from '@/api'
 import { useRouter } from 'vue-router'
 export default {
@@ -71,6 +83,8 @@ export default {
     const form = reactive({
       title: '',
       content: '',
+      cate:'',
+      cateId:''
     })
     const disabled = ref(false)
     const rule = reactive({})
@@ -120,6 +134,8 @@ export default {
       disabled,
       articleForm,
       MDEditor,
+      PageHeader,
+      Category
     }
   },
 }
