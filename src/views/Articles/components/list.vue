@@ -18,7 +18,7 @@
           :href="`#/Article/View/${i._id}`"
           style="margin:5px 0;"
         >
-          <div>{{ i.cate ? `[${i.cate}]` : `` }}{{ i.title }}</div>
+          <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.label}]` : `` }}{{ i.title }}</div>
         </el-link>
         <div>
           <small>{{ i.createDate }}</small>

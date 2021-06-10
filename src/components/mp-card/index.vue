@@ -85,7 +85,7 @@ export default {
         }
       }
     } 
-    console.log('hasHeaderButtonOnly',hasHeaderButtonOnly)
+    // console.log('hasHeaderButtonOnly',hasHeaderButtonOnly)
     onMounted(() => {
       if (hasHeaderButtonOnly.value) {
         mp_content.value.style.marginTop = `-${mp_header.value.offsetHeight}px`
@@ -106,7 +106,7 @@ export default {
   position: relative;
   border-radius: 15px;
   box-shadow: 0 0 30px 5px #dddada;
-  padding: 10px;
+  padding: 10px 10px 30px 10px;
   display: flex;
   flex-direction: column;
   transition: 0.3s box-shadow ease-in-out;
@@ -173,6 +173,7 @@ export default {
 
 .mp-card-footer {
   position: relative;
+  // margin-top:10px;
   bottom: -10px;
   left: 0;
   width: 100%;

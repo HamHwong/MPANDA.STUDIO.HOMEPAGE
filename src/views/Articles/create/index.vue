@@ -13,9 +13,9 @@
           </template>
           <template #content>
             <Category
-              v-model="form.cateId"
+              v-model="form.cate"
               size="mini"
-              editable 
+              :editable="true"
             />
           </template>
         </PageHeader>
@@ -83,17 +83,17 @@ export default {
     const form = reactive({
       title: '',
       content: '',
-      cate:'',
-      cateId:''
+      cate:{},
     })
     const disabled = ref(false)
     const rule = reactive({})
     const articleForm = ref(null)
-    const router = useRouter()
+    const router = useRouter() 
     async function handleSubmit() {
       var body = {
         title: form.title,
         content: form.content,
+        cate:form.cate,
       }
       disabled.value = true
       Article.Create(body)
@@ -102,7 +102,7 @@ export default {
           if (IsSuccess) {
             $notify({
               title: '成功',
-              message: '提交成功！' + Data,
+              message: '提交成功！' ,
               type: 'success',
             })
             router.push('/')
@@ -129,13 +129,13 @@ export default {
       contentEditor,
       handleSubmit,
       handleClear,
-      form,
+      form, 
       rule,
       disabled,
       articleForm,
       MDEditor,
       PageHeader,
-      Category
+      Category,
     }
   },
 }

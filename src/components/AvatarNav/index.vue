@@ -164,6 +164,7 @@ $avatar-border:4px;
       width: $avatar-height - $avatar-border;
       height: $avatar-height - $avatar-border; 
       margin: $avatar-border/2;
+      z-index: 2;
       left:0;
       &.on_logging_in {
         left:$avatar-width - $avatar-height;
@@ -171,6 +172,7 @@ $avatar-border:4px;
     }
     .user_name {
       position:relative;
+      z-index: 1;
       left: 0;
       padding: 0 15px; 
       transition: left .4s cubic-bezier(.38,.94,1,.77);

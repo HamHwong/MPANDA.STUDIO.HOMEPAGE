@@ -10,7 +10,7 @@
       }"
       @mouseleave="blurMenu"
     >
-      <div>
+      <div style="display:flex">
         <Lotties
           :is-unfold="IsUnfold"
           :is-shown-b-g="isShownBG"

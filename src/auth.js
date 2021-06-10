@@ -16,30 +16,32 @@ function RedirectToLogin(next,query,message="您还未登录！"){
     title:message,
     message: `请登陆后操作!` ,
     type: 'error',
-  })
+  }) 
   next({path:"/login",query}) 
 }
 const whiteList = ["login"]
 function Auth(router) {
-  router.beforeEach((to, from, next) => {
-    // WhiteList, access directly.
-    if (whiteList.includes(to.name)) {
+  router.beforeEach((to, from, next) => { 
+    if (whiteList.includes(to.name)) { 
       next()
+      return 
     }
     if(to.meta.role&&to.meta.role.length>0){ 
       // Unlogin
       if(!store.getters.userId){
         RedirectToLogin(next,{redirectTo:to.fullPath}) 
+        return 
       }
       const requiredRoles = getMeta(to, 'role')
       if(requiredRoles.some(role=>store.getters.roles.includes(role))){
-        // have permission
+        // have permission 
         next()
       }else{
         // have no permission
         RedirectToLogin(next,{redirectTo:to.fullPath})
+        return 
       } 
-    }else{ 
+    }else{  
       next()
     }
     

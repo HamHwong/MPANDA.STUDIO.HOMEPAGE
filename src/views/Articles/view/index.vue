@@ -17,21 +17,22 @@
           <template #content>
             {{ article.title }}
           </template>
+          <template
+            v-if="article.cate && JSON.stringify(article.cate) !== '{}'"
+            #title
+          >
+            {{ article.cate.label }}
+          </template>
         </PageHeader>
-        <!-- <el-row type="flex">
-          <el-col>
-            <h1 style="margin-bottom:5px">
-              {{ article.title }}
-            </h1>
-          </el-col>
-        </el-row> -->
         <el-row
-          type="flex" 
+          type="flex"
           justify="space-between"
           align="middle"
         >
           <el-col :span="12">
-            <small>{{ dateformat(article.createDate,'yyyy-mm-dd HH:MM') }}</small>
+            <small>{{
+              dateformat(article.createDate, 'yyyy-mm-dd HH:MM')
+            }}</small>
           </el-col>
           <el-col
             :span="12"
@@ -51,6 +52,7 @@
               type="primary"
               size="mini"
               icon="el-icon-delete"
+              @click="handleDelete(article._id)"
             />
           </el-col>
         </el-row>
@@ -62,7 +64,6 @@
         </el-card>
       </el-main>
 
-  
       <el-footer>
         <!-- <el-button
           size="mini"
@@ -79,24 +80,25 @@
 import { useRoute, useRouter } from 'vue-router'
 import { Article } from '@/api'
 import { onMounted, reactive, ref } from 'vue'
-import 'vditor/dist/index.css' 
+import 'vditor/dist/index.css'
 import PageHeader from '@/components/PageHeader'
 import dateformat from 'dateformat'
+import { ElMessageBox } from 'element-plus'
+import { ElNotification as $notify } from 'element-plus'
 export default {
   setup() {
     const route = useRoute()
     const router = useRouter()
     const { id } = route.params
     let article = reactive({
-      cate: '',
-      cateId: '',
+      cate: {},
       content: '',
       createDate: '',
       id: '',
       title: '',
       updateDate: '',
       _id: '',
-    }) 
+    })
     const loading = ref(false)
     onMounted(() => {
       loading.value = true
@@ -118,7 +120,21 @@ export default {
           loading.value = false
         })
     })
-
+    function handleDelete(id) {
+      ElMessageBox.confirm('确认删除该文章？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        await Article.Delete(id)
+        $notify({
+          title: '成功',
+          message: '删除成功！',
+          type: 'success',
+        })
+        router.push('/')
+      })
+    }
     function handleBack() {
       router.push('/')
     }
@@ -127,7 +143,8 @@ export default {
       article,
       handleBack,
       PageHeader,
-      dateformat
+      dateformat,
+      handleDelete,
     }
   },
 }
