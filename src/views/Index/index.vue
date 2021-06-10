@@ -31,7 +31,7 @@
       >
         <MPCard height="200px">
           <template #header>
-            笔记
+            随笔
             <MPButton
               type="default"
               trigger="hover"

@@ -8,30 +8,39 @@
 -->
 <template>
   <div>
-    <div
-      v-for="i in list.value"
-      :key="i.id"
+    <template 
+      v-if="list.length>0"
     >
-      <div class="link">
-        <el-link
-          type="primary"
-          :href="`#/Article/View/${i._id}`"
-          style="margin:5px 0;"
-        >
-          <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.label}]` : `` }}{{ i.title }}</div>
-        </el-link>
-        <div>
-          <small>{{ i.createDate }}</small>
+      <div
+        v-for="i in list.value"
+        :key="i.id"
+      >
+        <div class="link">
+          <el-link
+            type="primary"
+            :href="`#/Article/View/${i._id}`"
+            style="margin:5px 0;"
+          >
+            <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.label}]` : `` }}{{ i.title }}</div>
+          </el-link>
+          <div>
+            <small>{{ i.createDate }}</small>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <el-empty
+        :image-size="60"
+        description="没有内容哦~"
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import { Article } from '@/api'
-import { getCurrentInstance, onMounted, reactive } from 'vue'
-// import dateformat from 'dateformat'
+import {  onMounted, reactive } from 'vue'
 import dateformat from 'dateformat'
 export default {
   props: {
@@ -52,9 +61,8 @@ export default {
       default: () => '',
     },
   },
-  setup(props) {
-    //  Articles.List()
-    let list = reactive({})
+  setup(props) { 
+    let list = reactive([])
     onMounted(async () => {
       const { cate, start, count, order } = props
       //console.log(cate,start,count,order)
@@ -63,9 +71,13 @@ export default {
       const { Data, Message, IsSuccess } = a
       if (IsSuccess) {
         Data.map(
-          (i) => (i.createDate = dateformat(i.createDate, 'yyyy-mm-dd HH:MM'))
+          (i) => {
+            i.createDate = dateformat(i.createDate, 'yyyy-mm-dd HH:MM')
+            list.push(i)
+            }
         )
-        list.value = Data
+        
+        
       } else {
         throw new Error(Message)
       }
