@@ -5,7 +5,7 @@ export default {
     isShowLoginDialog:false
   }, 
   mutations: { 
-    'SET_TOP_NAV_BG_DISPLAY':(state,isShownBG)=>{ 
+    'SET_TOP_NAV_BG_DISPLAY':(state,isShownBG)=>{
       state.isShownBG = isShownBG 
     },
     'SET_LOGIN_DIALOG':(state,ifShowDialog)=>{

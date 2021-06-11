@@ -34,7 +34,7 @@
         <el-dropdown-menu>
           <el-dropdown-item> 
             <div class="bg_setting_switch">
-              背景
+              背景{{ isShownBG }}
               <el-switch
                 :value="isShownBG"
                 style="display: block" 
@@ -82,8 +82,8 @@ export default {
     )
 
     const hasLogin = computed(() => store.getters.hasLogin) 
-    const isShownBG = computed(()=> store.getters.isShownBG)
-    const isShowGame = computed(()=> store.getters.isShowGame)
+    const isShownBG = computed(()=> store.state.settings.isShownBG)
+    const isShowGame = computed(()=> store.state.settings.isShowGame)
     function handleBtnClick() {
       if (!hasLogin.value) {
         store.dispatch('settings/showLogin')
@@ -98,6 +98,7 @@ export default {
                 position: 'bottom-right'
               })
     }
+    // console.log('store.getters.isShownBG',store.getters.isShownBG)
     function handleBGSwitch(){ 
       if(isShownBG.value){
         store.dispatch('settings/hideBG')
