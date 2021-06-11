@@ -16,8 +16,8 @@ export async function getDailyBG() {
 }
 export async function getFuckingWords(){
     return request({
-        url:'http://api.lkblog.net/ws/api.php',
-        // url:'/api/v1/Vendor/Other/GetDailyWords',
+        // url:'//api.lkblog.net/ws/api.php',
+        url:'/api/v1/Vendor/Other/GetDailyWords',
         method:'get'
     })
 }
