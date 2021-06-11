@@ -60,17 +60,13 @@
 
       <el-main>
         <el-card>
-          <vue3-markdown-it :source="article.content" />
+          <!-- <vue3-markdown-it :source="article.content" /> -->
+          <div ref="Content" />
         </el-card>
       </el-main>
 
       <el-footer>
-        <!-- <el-button
-          size="mini"
-          @click="handleBack"
-        >
-          返回
-        </el-button> -->
+        <!--  -->
       </el-footer>
     </el-container>
   </div>
@@ -79,7 +75,8 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { Article } from '@/api'
-import { onMounted, reactive, ref } from 'vue'
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import PageHeader from '@/components/PageHeader'
 import dateformat from 'dateformat'
@@ -90,6 +87,7 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const { id } = route.params
+    const Content = ref(null)
     let article = reactive({
       cate: {},
       content: '',
@@ -109,6 +107,7 @@ export default {
             for (var i in article) {
               article[i] = Data[i]
             }
+            Vditor.preview(Content.value, article.content)
           } else {
             throw new Error(Message)
           }
@@ -120,6 +119,7 @@ export default {
           loading.value = false
         })
     })
+ 
     function handleDelete(id) {
       ElMessageBox.confirm('确认删除该文章？', '提示', {
         confirmButtonText: '确定',
@@ -145,6 +145,7 @@ export default {
       PageHeader,
       dateformat,
       handleDelete,
+      Content,
     }
   },
 }
