@@ -12,7 +12,7 @@
       v-if="list.length>0"
     >
       <div
-        v-for="i in list.value"
+        v-for="i in list"
         :key="i.id"
       >
         <div class="link">
@@ -21,7 +21,7 @@
             :href="`#/Article/View/${i._id}`"
             style="margin:5px 0;"
           >
-            <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.label}]` : `` }}{{ i.title }}</div>
+            <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.cate_name}]` : `` }}{{ i.title }}</div>
           </el-link>
           <div>
             <small>{{ i.createDate }}</small>

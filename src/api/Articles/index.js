@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2021-05-05 13:59:21
- * @LastEditTime: 2021-05-05 15:14:08
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\api\Articles\index.js
- */
+ 
 import request from '@/utils/request'
 export async function Create(data) {
     return request({

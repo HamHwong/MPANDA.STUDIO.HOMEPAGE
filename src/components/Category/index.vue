@@ -10,13 +10,13 @@
     >
       <el-option
         v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        :key="item._id"
+        :label="item.cate_name"
+        :value="item._id"
       />
     </el-select>
     <div v-else>
-      {{ options.find((i) => i.value === value)?.label }}
+      {{ options.find((i) => i._id === value)?.cate_name }}
     </div>
   </div>
 </template>
@@ -50,14 +50,16 @@ export default {
     watch(
       () => innerValue.value,
       (val) => {
-        ctx.emit('update:modelValue', options.find(i=>i.value===val))
+        var result = options.find(i=>i._id===val)||{cate_name:val,_id:'_CREATE_CATEGORY_'}
+        console.log('result',result)
+        ctx.emit('update:modelValue', result)
       }
     )
     function initCategory() {
       Category.List().then(({ Data, IsSuccess, Message }) => {
         if (IsSuccess) {
           Data.map((item) => {
-            options.push({ value: item._id, label: item.cate_name })
+            options.push({ _id: item._id,cate_name:item.cate_name })
           })
         } else {
           $notify({
