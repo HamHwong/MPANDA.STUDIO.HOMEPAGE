@@ -67,7 +67,12 @@
         <MPCard
           type="primary"
           height="200px"
-        />
+        >
+          <template #header>
+            Todo List
+          </template>
+          <TasksList />
+        </MPCard>
       </el-col>
       <el-col
         :md="8"
@@ -97,6 +102,7 @@ import NavTop from '@/components/TopNav'
 import MPCard from '@/components/mp-card'
 import MPButton from '@/components/mp-card/mp-card-button'
 import ArticleList from '@/views/Articles/components/list'
+import TasksList from '@/components/Tasks'
 import store from '@/store'
 export default {
   setup(props, ctx) {
@@ -123,7 +129,8 @@ export default {
       MPCard,
       MPButton,
       ArticleList,
-      hasLogin
+      TasksList,
+      hasLogin,
     }
   },
   methods: {

@@ -13,6 +13,7 @@
 <script>
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
+import {debounce} from '@/utils/common.js'
 import { getCurrentInstance, onMounted, ref, toRefs, watch } from 'vue'
 export default {
   props: {
@@ -20,14 +21,14 @@ export default {
       type: Boolean,
       default: () => false,
     },
-    modelValue:{
+    modelValue: {
       type: String,
-      default:()=>''
-    }
+      default: () => '',
+    },
   },
   setup(props, context) {
-    const contentEditor = ref('')
-
+    const content = ref('')
+    const contentEditor = ref('') 
     const instance = getCurrentInstance()
     const dispatch = (componentName, eventName, params) => {
       var parent = instance.parent || instance.root
@@ -42,13 +43,15 @@ export default {
         parent.emit.apply(parent, [eventName].concat(params))
       }
     }
-    watch(()=>props.modelValue,(val)=>{
-      // console.log('watchv',val)
-      contentEditor.value.setValue(val)
-    })
+    watch(
+      () => props.modelValue,
+      (val) => {
+        contentEditor.value.setValue(val)
+      }
+    )
     onMounted(() => {
       contentEditor.value = new Vditor('vditor', {
-        height: 360,
+        height: 400,
         toolbarConfig: {
           pin: true,
         },
@@ -56,10 +59,21 @@ export default {
           enable: false,
         },
         after: () => {},
-        blur: (md) => {
-          var result = md.trim()
-          instance.emit('update:modelValue', result)
-          dispatch('ElFormItem', 'el.form.blur', [result])
+        // blur: (md) => { 
+        //   instance.emit('update:modelValue', md.trim()) 
+        //   dispatch('ElFormItem', 'el.form.blur', [md.trim()])
+        // },
+        input:(md)=>{
+          // console.log('input:update',md)
+          (debounce(()=>{
+            instance.emit('update:modelValue', md.trim())  
+            dispatch('ElFormItem', 'el.form.blur', [md.trim()])
+          },1000))()
+        },
+        select:(md)=>{
+          // console.log('select:update',md)
+          // instance.emit('update:modelValue', md.trim()) 
+          // dispatch('ElFormItem', 'el.form.blur', [md.trim()])
         },
       })
     })

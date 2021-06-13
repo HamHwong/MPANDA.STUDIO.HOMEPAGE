@@ -6,6 +6,7 @@ import * as Game from './Game'
 import * as Article from './Articles'
 import * as Category from './Articles/Category'
 import * as Auth from './Auth'
+import * as Tasks from './Tasks'
 export  {
   Image,
   MXD,
@@ -13,5 +14,6 @@ export  {
   Game,
   Article,
   Auth,
-  Category
+  Category,
+  Tasks
 }
