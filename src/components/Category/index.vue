@@ -2,11 +2,13 @@
   <div>
     <el-select
       v-if="editable"
-      v-model="innerValue"
+      v-model="innerValue._id"
       filterable
       placeholder="请选择类别"
       allow-create
+      clearable
       :size="size"
+      @clear="handleClear"
     >
       <el-option
         v-for="item in options"
@@ -46,34 +48,41 @@ export default {
   },
   setup(props, ctx) {
     var options = reactive([])
-    const innerValue = ref('')
+    var innerValue = reactive({
+      cate_name: null,
+      _id: null,
+    })
     const isLoading = ref(true)
     watch(
-      () => innerValue.value,
-      async (val) => {
-        if (innerValue.value === val) return
+      () => innerValue._id,
+      async (_id) => {
         if (isLoading.value) await initCategory()
-        var result = options.find((i) => i._id === val) || {
-          cate_name: val,
+        var result = options.find((i) => i._id === _id) || {
+          cate_name: _id,
           _id: '_CREATE_CATEGORY_',
         }
-        // console.log(result,options)
         ctx.emit('update:modelValue', result)
       }
     )
     watch(
       () => props.modelValue,
-      async (val) => {
+      async (obj) => {
         if (isLoading.value) await initCategory()
-        if (innerValue.value !== val._id) innerValue.value = val._id
-      }
+        if (obj._id === '_CREATE_CATEGORY_') {
+          innerValue.cate_name = obj.cate_name
+        }else{
+          innerValue._id = obj._id 
+          innerValue.cate_name= obj.cate_name 
+        }
+      },
+      { deep: true }
     )
     async function initCategory() {
       isLoading.value = true
       const { Data, IsSuccess, Message } = await Category.List()
       if (IsSuccess) {
         Data.map((item) => {
-          if(!options.find((i=>i._id===item._id)))
+          if (!options.find((i) => i._id === item._id))
             options.push({ _id: item._id, cate_name: item.cate_name })
         })
         isLoading.value = false
@@ -85,11 +94,16 @@ export default {
         })
       }
     }
+    function handleClear(){
+      innerValue.cate_name = null
+      innerValue._id = null
+    }
     onMounted(async () => {
       await initCategory()
     })
     return {
       innerValue,
+      handleClear,
       options,
     }
   },
