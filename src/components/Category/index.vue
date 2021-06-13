@@ -39,39 +39,55 @@ export default {
       type: Boolean,
       default: () => false,
     },
-    value: {
-      type: String,
-      default: () => '',
+    modelValue: {
+      type: Object,
+      default: () => {},
     },
   },
   setup(props, ctx) {
     var options = reactive([])
     const innerValue = ref('')
+    const isLoading = ref(true)
     watch(
       () => innerValue.value,
-      (val) => {
-        var result = options.find(i=>i._id===val)||{cate_name:val,_id:'_CREATE_CATEGORY_'}
-        console.log('result',result)
+      async (val) => {
+        if (innerValue.value === val) return
+        if (isLoading.value) await initCategory()
+        var result = options.find((i) => i._id === val) || {
+          cate_name: val,
+          _id: '_CREATE_CATEGORY_',
+        }
+        // console.log(result,options)
         ctx.emit('update:modelValue', result)
       }
     )
-    function initCategory() {
-      Category.List().then(({ Data, IsSuccess, Message }) => {
-        if (IsSuccess) {
-          Data.map((item) => {
-            options.push({ _id: item._id,cate_name:item.cate_name })
-          })
-        } else {
-          $notify({
-            title: '失败',
-            message: '获取失败：' + Message,
-            type: 'error',
-          })
-        }
-      }) 
+    watch(
+      () => props.modelValue,
+      async (val) => {
+        if (isLoading.value) await initCategory()
+        if (innerValue.value !== val._id) innerValue.value = val._id
+      }
+    )
+    async function initCategory() {
+      isLoading.value = true
+      const { Data, IsSuccess, Message } = await Category.List()
+      if (IsSuccess) {
+        Data.map((item) => {
+          if(!options.find((i=>i._id===item._id)))
+            options.push({ _id: item._id, cate_name: item.cate_name })
+        })
+        isLoading.value = false
+      } else {
+        $notify({
+          title: '失败',
+          message: '获取失败：' + Message,
+          type: 'error',
+        })
+      }
     }
-    initCategory()
-    // console.log('result', result)
+    onMounted(async () => {
+      await initCategory()
+    })
     return {
       innerValue,
       options,

@@ -21,7 +21,7 @@
             v-if="article.cate && JSON.stringify(article.cate) !== '{}'"
             #title
           >
-            {{ article.cate.label }}
+            {{ article.cate.cate_name }}
           </template>
         </PageHeader>
         <el-row
@@ -29,7 +29,7 @@
           justify="space-between"
           align="middle"
         >
-          <el-col :span="12">
+          <el-col :span="12"> 
             <small>{{
               dateformat(article.createDate, 'yyyy-mm-dd HH:MM')
             }}</small>
@@ -38,10 +38,12 @@
             :span="12"
             style="text-align:right"
           >
+            <el-divider direction="vertical" />
             <el-button
               type="primary"
               size="mini"
               icon="el-icon-edit"
+              @click="handleEdit()"
             />
             <el-button
               type="primary"
@@ -54,13 +56,13 @@
               icon="el-icon-delete"
               @click="handleDelete(article._id)"
             />
+            <el-divider direction="vertical" />
           </el-col>
         </el-row>
       </el-header>
 
       <el-main>
-        <el-card>
-          <!-- <vue3-markdown-it :source="article.content" /> -->
+        <el-card> 
           <div ref="Content" />
         </el-card>
       </el-main>
@@ -75,7 +77,7 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { Article } from '@/api'
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import {  onMounted, reactive, ref } from 'vue'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import PageHeader from '@/components/PageHeader'
@@ -135,6 +137,9 @@ export default {
         router.push('/')
       })
     }
+    function handleEdit(){ 
+      router.push(`/Article/Update/${id}`)
+    }
     function handleBack() {
       router.push('/')
     }
@@ -145,6 +150,7 @@ export default {
       PageHeader,
       dateformat,
       handleDelete,
+      handleEdit,
       Content,
     }
   },

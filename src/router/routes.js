@@ -12,6 +12,7 @@ import Controls from '@/views/Controls'
 import Index from '@/views/Index'
 import ArticleCreate from '@/views/Articles/create'
 import ArticleView from '@/views/Articles/view'
+import ArticleUpdate from '@/views/Articles/update'
 import Article from '@/views/Articles/index'
 import Login from '@/views/Login'
 import NotFound from '@/views/NotFound'
@@ -71,6 +72,14 @@ const routes = [
         path: 'View/:id',
         name: '查看文章',
         component: ArticleView,
+        meta: {
+          hidden: true,
+        },
+      },
+      {
+        path: 'Update/:id',
+        name: '编辑文章',
+        component: ArticleUpdate,
         meta: {
           hidden: true,
         },

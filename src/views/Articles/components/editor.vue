@@ -20,8 +20,12 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    modelValue:{
+      type: String,
+      default:()=>''
+    }
   },
-  setup(props, context, ctx) {
+  setup(props, context) {
     const contentEditor = ref('')
 
     const instance = getCurrentInstance()
@@ -38,6 +42,10 @@ export default {
         parent.emit.apply(parent, [eventName].concat(params))
       }
     }
+    watch(()=>props.modelValue,(val)=>{
+      // console.log('watchv',val)
+      contentEditor.value.setValue(val)
+    })
     onMounted(() => {
       contentEditor.value = new Vditor('vditor', {
         height: 360,

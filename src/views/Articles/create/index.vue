@@ -146,4 +146,7 @@ export default {
   text-align: left;
   margin: 10px 20px;
 }
+:deep(.vditor-toolbar--pin){
+  position:unset;
+}
 </style>

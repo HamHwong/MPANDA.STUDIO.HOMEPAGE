@@ -1,7 +1,7 @@
 <template>
   <div
     v-loading="disabled"
-    element-loading-text="拼命提交中"
+    :element-loading-text="loadingText"
     element-loading-spinner="el-icon-loading"
     class="Markdown"
   >
@@ -9,7 +9,17 @@
       <el-header height="40px">
         <PageHeader>
           <template #title>
-            创建文章
+            编辑文章
+          </template>
+          <template #content>
+            <Category
+              v-model="form.cate"
+              size="mini"
+              :editable="true"
+            />
+          </template>
+          <template #icon>
+            <div>asa</div>
           </template>
         </PageHeader>
       </el-header>
@@ -49,11 +59,8 @@
                 type="primary"
                 @click="handleSubmit"
               >
-                Submit
-              </el-button>
-              <el-button @click="handleClear">
-                Clear
-              </el-button>
+                更 新
+              </el-button> 
             </el-form-item>
           </el-row>
         </el-form>
@@ -65,37 +72,74 @@
 <script>
 import MDEditor from '../components/editor'
 import PageHeader from '@/components/PageHeader'
-import { reactive, ref } from 'vue'
+import Category from '@/components/Category'
+import { onMounted, reactive, ref } from 'vue'
 import { ElNotification as $notify } from 'element-plus'
 import { Article } from '@/api'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 export default {
   setup() {
     const contentEditor = ref('')
-    const form = reactive({
-      title: '',
+    const form =  reactive({
+      cate: {},
       content: '',
+      createDate: '',
+      id: '',
+      title: '',
+      updateDate: '',
+      _id: '',
     })
     const disabled = ref(false)
     const rule = reactive({})
     const articleForm = ref(null)
-    const router = useRouter()
+    const router = useRouter() 
+    const route = useRoute()
+    const loading = ref(false)
+    const id = route.params.id
+    var loadingText = ref('拼命加载中')
+    onMounted(() => {
+      loading.value = true
+      disabled.value = true
+      Article.Get(id)
+        .then((res) => {
+          const { Data, Message, IsSuccess } = res
+          if (IsSuccess) {
+            for (var i in form) {
+              form[i] = Data[i] 
+            }
+          } else {
+            throw new Error(Message)
+          }
+        })
+        .catch((e) => {
+          throw new Error(e)
+        })
+        .finally(() => {
+          loading.value = false
+          disabled.value = false
+        })
+    })
+ 
     async function handleSubmit() {
       var body = {
+        _id :form._id,
         title: form.title,
         content: form.content,
+        cate:form.cate,
       }
       disabled.value = true
-      Article.Create(body)
+      loadingText.value="拼命提交中"
+      console.log(body)
+      Article.Update(form._id,body)
         .then((res) => {
           const { IsSuccess, Data, Message } = res
           if (IsSuccess) {
             $notify({
               title: '成功',
-              message: '提交成功！' + Data,
+              message: '更新成功！' ,
               type: 'success',
             })
-            router.push('/')
+            router.push({path:`/Article/View/${form._id}`})
           } else {
             throw new Error(Message)
           }
@@ -109,22 +153,21 @@ export default {
         })
         .finally(() => {
           disabled.value = false
+          loadingText.value="拼命加载中"
         })
-    }
-    function handleClear() {
-      contentEditor.value.setValue('')
-    }
+    } 
 
     return {
       contentEditor,
-      handleSubmit,
-      handleClear,
-      form,
+      handleSubmit, 
+      form, 
       rule,
       disabled,
       articleForm,
       MDEditor,
       PageHeader,
+      Category,
+      loadingText
     }
   },
 }
@@ -134,5 +177,8 @@ export default {
 .Markdown {
   text-align: left;
   margin: 10px 20px;
+}
+:deep(.vditor-toolbar--pin){
+  position:unset;
 }
 </style>

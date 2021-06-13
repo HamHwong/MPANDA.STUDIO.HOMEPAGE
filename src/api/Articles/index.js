@@ -7,10 +7,11 @@ export async function Create(data) {
         data
     })
 }
-export async function Update(id){
+export async function Update(id,data){
   return request({
       url:'/api/v1/article/update/'+id,
-      method:'post'
+      method:'post',
+      data
   })
 }
 export async function Get(id){

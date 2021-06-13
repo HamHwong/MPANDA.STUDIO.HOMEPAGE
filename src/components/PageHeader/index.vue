@@ -2,6 +2,8 @@
   <div class="pageHeader_wrapper">
     <el-page-header
       :content="content"
+      :title="title"
+      :icon="icon"
       @back="goBack"
     >
       <template #title>
@@ -22,6 +24,14 @@ import { useRouter } from 'vue-router'
 export default {
   props: {
     content: {
+      type: String,
+      default: () => '',
+    },
+    title: {
+      type: String,
+      default: () => '',
+    },
+    icon: {
       type: String,
       default: () => '',
     },
