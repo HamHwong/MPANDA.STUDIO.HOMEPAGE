@@ -1,5 +1,6 @@
 import store from '@/store'
 import { ElNotification as $notify } from 'element-plus'
+import { hasRole } from './utils/auth'
 
 function getMeta(route, key) {
   var result = null
@@ -33,7 +34,7 @@ function Auth(router) {
         return 
       }
       const requiredRoles = getMeta(to, 'role')
-      if(requiredRoles.some(role=>store.getters.roles.includes(role))){
+      if(hasRole(requiredRoles)){
         // have permission 
         next()
       }else{

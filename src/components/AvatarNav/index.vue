@@ -32,9 +32,11 @@
         #dropdown
       >
         <el-dropdown-menu>
-          <el-dropdown-item> 
+          <el-dropdown-item
+            icon="el-icon-sunrise-1"
+          > 
+            背景
             <div class="bg_setting_switch">
-              背景{{ isShownBG }}
               <el-switch
                 :value="isShownBG"
                 style="display: block" 
@@ -44,9 +46,11 @@
               />
             </div>
           </el-dropdown-item>
-          <el-dropdown-item>
+          <el-dropdown-item
+            icon="el-icon-aim"
+          >
+            游戏
             <div class="game_enable_switch">
-              游戏
               <el-switch
                 :value="isShowGame"
                 style="display: block" 

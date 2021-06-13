@@ -38,8 +38,12 @@
             :span="12"
             style="text-align:right"
           >
-            <el-divider direction="vertical" />
+            <el-divider
+              v-auth="['admin']"
+              direction="vertical"
+            />
             <el-button
+              v-auth="['admin']"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -47,16 +51,20 @@
             />
             <el-button
               type="primary"
-              size="mini"
+              size="mini" 
               icon="el-icon-share"
             />
             <el-button
+              v-auth="['admin']"
               type="primary"
               size="mini"
               icon="el-icon-delete"
               @click="handleDelete(article._id)"
             />
-            <el-divider direction="vertical" />
+            <el-divider
+              v-auth="['admin']"
+              direction="vertical"
+            />
           </el-col>
         </el-row>
       </el-header>

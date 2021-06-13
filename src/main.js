@@ -17,6 +17,7 @@ import 'highlight.js/styles/monokai.css';
 import 'vditor/dist/index.css'
 import auth from './auth'
 import store from './store'
+import directive from './directives'
 
 let app = createApp(App).use(store) .use(ElementPlus)
 // Auto Load Layouts
@@ -25,6 +26,7 @@ for (var layoutName in Layouts) {
 } 
 // End Load
 app.use(VueMarkdownIt) 
+app.use(directive)
 // app.use(CKEditor)
 auth(router)
 app.use(router) 

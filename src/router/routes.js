@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-03-03 11:18:22
- * @LastEditTime: 2021-05-05 15:43:45
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /MPANDA.STUDIO.HOMEPAGE/src/router/router.js
- */
 import HomePage from '@/views/HomePage'
 import Playground from '@/views/Playground'
 import Controls from '@/views/Controls'
@@ -82,6 +74,7 @@ const routes = [
         component: ArticleUpdate,
         meta: {
           hidden: true,
+          role:['admin']
         },
       },
     ],

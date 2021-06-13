@@ -6,9 +6,13 @@
     class="Markdown"
   >
     <el-container>
-      <el-header height="40px">
+      <el-header 
+        height="40px"
+      >
         <PageHeader>
-          <template #title>
+          <template
+            #title
+          >
             编辑文章
           </template>
           <template #content>
