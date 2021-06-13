@@ -81,9 +81,9 @@ export default {
       'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'
     )
 
-    const hasLogin = computed(() => store.getters.hasLogin) 
-    const isShownBG = computed(()=> store.state.settings.isShownBG)
-    const isShowGame = computed(()=> store.state.settings.isShowGame)
+    var hasLogin = computed(() => store.getters.hasLogin) 
+    var isShownBG = computed(()=> store.state.settings.isShownBG)
+    var isShowGame = computed(()=> store.getters.isShowGame)
     function handleBtnClick() {
       if (!hasLogin.value) {
         store.dispatch('settings/showLogin')

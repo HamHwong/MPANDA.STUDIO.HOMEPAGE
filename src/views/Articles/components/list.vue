@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-05-05 14:33:04
- * @LastEditTime: 2021-05-05 15:40:51
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \MPANDA.STUDIO.HOMEPAGE\src\views\Articles\components\list.vue
--->
 <template>
   <div>
     <template 
@@ -24,9 +16,13 @@
             <div>{{ i.cate&&JSON.stringify(i.cate)!=='{}' ? `[${i.cate.cate_name}]` : `` }}{{ i.title }}</div>
           </el-link>
           <div>
-            <small>{{ i.createDate }}</small>
+            <small>
+              {{ i.cate.cate_name }}
+              <el-divider direction="vertical" /> 
+              {{ i.createDate }}  
+            </small>
           </div>
-        </div>
+        </div> 
       </div>
     </template>
     <template v-else>
