@@ -35,8 +35,8 @@
 <script>
 import { ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import { GamePadFactory } from "./lib/load";
-import { Player } from './lib/Sprints/models/Player'
-import {IMap} from './lib/Sprints/Imodels/IMap'
+import { Player } from './lib/sprints/models/Player'
+import {IMap} from './lib/sprints/Imodels/IMap'
 import { useRoute } from 'vue-router';
 export default {
   setup () {

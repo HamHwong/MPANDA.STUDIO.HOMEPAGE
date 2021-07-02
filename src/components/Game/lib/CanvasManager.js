@@ -23,7 +23,7 @@ import {
 } from "./CameraManager";
 import {
     IMap
-} from "./Sprints/Imodels/IMap";
+} from "./sprints/Imodels/IMap";
 export class CanvasManager {
     constructor(canvas) {
         this.canvas = canvas

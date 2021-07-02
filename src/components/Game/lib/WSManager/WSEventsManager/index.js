@@ -12,7 +12,7 @@ import {
 } from '../default.event.class'
 import {
   Player
-} from '../../Sprints/models/Player'
+} from '../../sprints/models/Player'
 export class WSEventsManager {
   constructor(WSManager) {
     this.WSManager = WSManager
