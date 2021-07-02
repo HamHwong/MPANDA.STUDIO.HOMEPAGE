@@ -12,7 +12,7 @@ import 'element-plus/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router'
 import * as Layouts from './layouts'
-import VueMarkdownIt from 'vue3-markdown-it' 
+// import VueMarkdownIt from 'vue3-markdown-it' 
 import 'highlight.js/styles/monokai.css';
 import 'vditor/dist/index.css'
 import auth from './auth'
@@ -25,7 +25,7 @@ for (var layoutName in Layouts) {
   app.component(layoutName.toLocaleLowerCase() + '-layout', Layouts[layoutName])
 } 
 // End Load
-app.use(VueMarkdownIt) 
+// app.use(VueMarkdownIt) 
 app.use(directive)
 // app.use(CKEditor)
 auth(router)
