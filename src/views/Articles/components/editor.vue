@@ -6,7 +6,7 @@
 <script>
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
-import {debounce} from '@/utils/common.js'
+import { debounce } from '@/utils/common.js'
 import { getCurrentInstance, onMounted, ref, toRefs, watch } from 'vue'
 export default {
   props: {
@@ -19,9 +19,9 @@ export default {
       default: () => '',
     },
   },
-  setup(props, context) {
+  setup (props, context) {
     const content = ref('')
-    const contentEditor = ref('') 
+    const contentEditor = ref('')
     const instance = getCurrentInstance()
     const dispatch = (componentName, eventName, params) => {
       var parent = instance.parent || instance.root
@@ -38,11 +38,14 @@ export default {
     }
     watch(
       () => props.modelValue,
-      (val) => {
-        contentEditor.value.setValue(val)
+      (val, old) => {
+        if (contentEditor.value.getValue().trim() === '') {
+          contentEditor.value.setValue(val)
+        }
       }
     )
     onMounted(() => {
+      // console.log(props.modelValue)
       contentEditor.value = new Vditor('vditor', {
         height: 400,
         toolbarConfig: {
@@ -51,22 +54,12 @@ export default {
         cache: {
           enable: false,
         },
-        after: () => {},
-        // blur: (md) => { 
-        //   instance.emit('update:modelValue', md.trim()) 
-        //   dispatch('ElFormItem', 'el.form.blur', [md.trim()])
-        // },
-        input:(md)=>{
-          // console.log('input:update',md)
-          (debounce(()=>{
-            instance.emit('update:modelValue', md.trim())  
-            dispatch('ElFormItem', 'el.form.blur', [md.trim()])
-          },1000))()
+        after: () => { },
+        input: (md) => { 
+          instance.emit('update:modelValue', md.trim())
+          dispatch('ElFormItem', 'el.form.blur', [md.trim()])
         },
-        select:(md)=>{
-          // console.log('select:update',md)
-          // instance.emit('update:modelValue', md.trim()) 
-          // dispatch('ElFormItem', 'el.form.blur', [md.trim()])
+        select: () => {
         },
       })
     })

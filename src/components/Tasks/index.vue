@@ -25,8 +25,7 @@ import { onMounted, reactive } from '@vue/runtime-core'
       const list = reactive([])
       onMounted(async ()=>{
         const {IsSuccess,Message,Data} = await Tasks.List()
-        if(IsSuccess){
-          // list.concat()
+        if(IsSuccess){ 
           Data.map(i=>list.push(i))
         }else{
 
