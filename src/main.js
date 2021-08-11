@@ -18,8 +18,11 @@ import 'vditor/dist/index.css'
 import auth from './auth'
 import store from './store'
 import directive from './directives'
+import mpanda from '@mpanda/mpc'
+import '@mpanda/mpc/lib/mpc.css'
 
 let app = createApp(App).use(store) .use(ElementPlus)
+app.use(mpanda)
 // Auto Load Layouts
 for (var layoutName in Layouts) {
   app.component(layoutName.toLocaleLowerCase() + '-layout', Layouts[layoutName])

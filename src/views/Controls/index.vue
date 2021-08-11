@@ -24,7 +24,7 @@
         :md="4"
         :sm="8"
         :xs="12"
-      > 
+      >
         <MPRadio>
           <template #default>
             Normal
@@ -61,8 +61,11 @@
     </el-row>
 
     <el-row :gutter="15">
-      <el-col>
-        <MPCarousel />
+      <el-col style="height:500px">
+        <MPCarousel
+          indicators
+          :value="slides"
+        />
       </el-col>
     </el-row>
     <el-row>
@@ -70,9 +73,7 @@
         <h1>MP-Card</h1>
       </el-col>
     </el-row>
-    <el-row 
-      :gutter="15"
-    >
+    <el-row :gutter="15">
       <el-col
         :span="4"
         :xs="24"
@@ -129,9 +130,8 @@
           height="200px"
         >
           <template #header>
-            Success <MPButton
-              type="success"
-            />
+            Success
+            <MPButton type="success" />
           </template>
           <p>Success</p>
           <p>Type</p>
@@ -152,7 +152,8 @@
       >
         <MPCard type="danger">
           <template #header>
-            Danger <MPButton type="danger" />
+            Danger
+            <MPButton type="danger" />
           </template>
           <p>Danger type</p>
           <p>With 4 Spans</p>
@@ -164,7 +165,8 @@
       >
         <MPCard type="dark">
           <template #header>
-            Dark <MPButton type="dark" />
+            Dark
+            <MPButton type="dark" />
           </template>
           <p>Dark Mode</p>
         </MPCard>
@@ -174,7 +176,7 @@
 </template>
 
 <script>
-import MPCarousel from "@/components/mp-carousel";
+// import MPCarousel from "@/components/mp-carousel";
 import MPCard from "@/components/mp-card";
 import MPRadio from "@/components/mp-radio";
 import MPButton from "@/components/mp-card/mp-card-button";
@@ -183,12 +185,43 @@ export default {
   components: {
     MPCard,
     MPButton,
-    MPCarousel,
+    // MPCarousel,
     MPRadio,
   },
-  data() {
+  data () {
     return {
       activeName: "1",
+      slides: [
+        {
+          title: "This is a 3D Image Carousel",
+          text: "With blur FX",
+          width: 400,
+          pic:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          title: "Migrated from my old controls",
+          text:
+            "View the old one from <b><a href='https://github.com/HamHwong/Mpanda.Frontend.Library/tree/master/Mpanda.Carousel'>MPanda.Carousel</a></b>",
+          width: 400,
+          pic:
+            "https://cdn.pixabay.com/photo/2020/12/10/10/17/jasper-national-park-5819878_1280.jpg",
+        },
+        {
+          title: "This is for Vue3",
+          text: "But it's not full-featured",
+          width: 400,
+          pic:
+            "https://cdn.pixabay.com/photo/2018/06/25/00/51/sunrise-3495775_1280.jpg",
+        },
+        {
+          title: "Why?",
+          text: "Cause I forget how I finished it.",
+          width: 400,
+          pic:
+            "https://cdn.pixabay.com/photo/2021/01/28/03/13/person-5956897_1280.jpg",
+        },
+      ]
     };
   },
 };
