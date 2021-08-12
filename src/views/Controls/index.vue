@@ -65,6 +65,7 @@
         <MPCarousel
           indicators
           :value="slides"
+          :height="`500px`"
         />
       </el-col>
     </el-row>
