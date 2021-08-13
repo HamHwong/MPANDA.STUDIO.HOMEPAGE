@@ -1,7 +1,7 @@
 export function debounce(func, wait) {
   let lastTime = null
   let timeout
-  console.log('doudong')
+  // console.log('doudong')
   return function() {
     let context = this
     let now = new Date()
