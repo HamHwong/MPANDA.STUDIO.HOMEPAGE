@@ -37,9 +37,11 @@ import { ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import { GamePadFactory } from "./lib/load";
 import { Player } from './lib/sprints/models/Player'
 import {IMap} from './lib/sprints/Imodels/IMap'
+import * as obj from '@mpanda/magec' 
 import { useRoute } from 'vue-router';
 export default {
   setup () {
+    console.log(obj)
     var GameBoardCanvas = ref(null);
     let GameManager = reactive({})
     onMounted(async () => {
