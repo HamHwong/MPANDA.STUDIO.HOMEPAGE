@@ -946,10 +946,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@mpanda/mpc@^0.1.6-2.84":
-  version "0.1.6-2.84"
-  resolved "https://registry.yarnpkg.com/@mpanda/mpc/-/mpc-0.1.6-2.84.tgz#eed1f5e8a84eccdb8f2695be7c8781685517df40"
-  integrity sha512-erR6b1MXzlAQGNwV1NWTTqTAigjVJqT5phaaMxxE9ZSCp4tqt+g8aLr+fbnK5MWjd+FxRLUzdOeMXpGHsx6SVQ==
+"@mpanda/mpc@^0.1.6-2.86":
+  version "0.1.6-2.86"
+  resolved "https://registry.yarnpkg.com/@mpanda/mpc/-/mpc-0.1.6-2.86.tgz#1b5d43971952893a8fcee2c692fab52bdcdb4ea3"
+  integrity sha512-VJbI1w9vaykoVzxI3eanZGa8dukWmdBujrW+mDJ+uVzi4JDPH8CwKo8saRmj3C4ijvKT3ggwEUtWzJAekaF4AQ==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-brands-svg-icons" "^5.15.3"
