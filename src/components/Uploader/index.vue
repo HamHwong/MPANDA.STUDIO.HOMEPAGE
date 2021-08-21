@@ -27,9 +27,10 @@
       <el-row>
         <el-col>
           <el-input 
-          size="mini"
-          v-model="id"
-          :disabled="loading"/>
+            v-model="id"
+            size="mini"
+            :disabled="loading" 
+          />
         </el-col>
       </el-row>
       <el-row>

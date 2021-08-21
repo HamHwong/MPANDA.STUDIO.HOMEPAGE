@@ -14,7 +14,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.0.0",
     "dateformat": "^4.5.1",
-    "element-plus": "^1.0.1-beta.14",
+    "element-plus": "latest",
     "highlight.js": "^10.7.2",
     "is-mobile": "^3.0.0",
     "lottie-api": "^1.0.3",

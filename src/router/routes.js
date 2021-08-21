@@ -1,5 +1,6 @@
 import HomePage from '@/views/HomePage'
 import Playground from '@/views/Playground'
+import Tools from '@/views/Tools'
 import Controls from '@/views/Controls'
 import Index from '@/views/Index'
 import ArticleCreate from '@/views/Articles/create'
@@ -31,6 +32,14 @@ const routes = [
     path: '/Home',
     name: '上传页面',
     component: HomePage,
+    meta: {
+      page: 'Index',
+    },
+  },
+  {
+    path: '/Tools',
+    name: '日常工具',
+    component: Tools,
     meta: {
       page: 'Index',
     },
