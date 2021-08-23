@@ -8,13 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@mpanda/mpc": "^0.1.6-2.86",
+    "@mpanda/magec": "^0.0.1",
+    "@mpanda/mpc": "^0.1.6-2.99",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "crypto": "^1.0.1",
     "crypto-js": "^4.0.0",
     "dateformat": "^4.5.1",
-    "element-plus": "latest",
+    "element-plus": "^1.0.1-beta.14",
     "highlight.js": "^10.7.2",
     "is-mobile": "^3.0.0",
     "lottie-api": "^1.0.3",
