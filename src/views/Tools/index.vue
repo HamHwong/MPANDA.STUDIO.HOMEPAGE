@@ -160,6 +160,7 @@ export default {
         }
       }
       Style.boxShadow = results.join(',')
+      bufferArray.value = null
     }
     return {
       dialogImageUrl,
