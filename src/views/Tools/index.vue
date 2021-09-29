@@ -28,8 +28,7 @@
               height="300px"
               max-height="300px"
               style="height:300px"
-            >
-              <!-- <canvas ref="canvas" /> -->
+            > 
               <div :style="Style" />
             </el-scrollbar>
           </el-col>
@@ -155,12 +154,12 @@ export default {
           if(a===0) continue
           results.push(
             `rgb(${r} ${g} ${b} / ${Math.floor((a / 255) * 100)}%) ${index %
-              width.value}px ${y}px 0px ${pixelBlur.value}px `
+              width.value}px ${y}px ${pixelBlur.value}px ${pixelBlur.value}px`
           )
         }
       }
       Style.boxShadow = results.join(',')
-      bufferArray.value = null
+      bufferArray.value = []
     }
     return {
       dialogImageUrl,

@@ -21,8 +21,7 @@ import directive from './directives'
 import MPC from '@mpanda/mpc'
 import '@mpanda/mpc/lib/mpc.css'
 
-let app = createApp(App).use(store) .use(ElementPlus)
-app.use(MPC)
+let app = createApp(App).use(store).use(ElementPlus).use(MPC)
 
 // Auto Load Layouts
 for (var layoutName in Layouts) {

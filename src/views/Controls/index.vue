@@ -71,7 +71,7 @@
     </el-row>
     <el-row>
       <el-col>
-        <h1>MP-Card</h1>
+        <h1>MP-Card A type</h1>
       </el-col>
     </el-row>
     <el-row :gutter="15">
@@ -79,7 +79,7 @@
         :span="4"
         :xs="24"
       >
-        <MPCard type="default">
+        <MPCardA type="default">
           <template #header>
             Default
             <MPButton
@@ -92,13 +92,13 @@
             </MPButton>
           </template>
           <p>Sigle Line</p>
-        </MPCard>
+        </MPCardA>
       </el-col>
       <el-col
         :span="6"
         :xs="24"
       >
-        <MPCard
+        <MPCardA
           type="primary"
           height="200px"
         >
@@ -120,13 +120,13 @@
           <p>U can scroll down</p>
           <p>to see</p>
           <p>more informations</p>
-        </MPCard>
+        </MPCardA>
       </el-col>
       <el-col
         :span="6"
         :xs="24"
       >
-        <MPCard
+        <MPCardA
           type="success"
           height="200px"
         >
@@ -145,33 +145,181 @@
           <template #footer>
             <small>With Footer</small>
           </template>
-        </MPCard>
+        </MPCardA>
       </el-col>
       <el-col
         :span="4"
         :xs="24"
       >
-        <MPCard type="danger">
+        <MPCardA type="danger">
           <template #header>
             Danger
             <MPButton type="danger" />
           </template>
           <p>Danger type</p>
           <p>With 4 Spans</p>
-        </MPCard>
+        </MPCardA>
       </el-col>
       <el-col
         :span="4"
         :xs="24"
       >
-        <MPCard type="dark">
+        <MPCardA type="dark">
           <template #header>
             Dark
             <MPButton type="dark" />
           </template>
           <p>Dark Mode</p>
-        </MPCard>
+        </MPCardA>
       </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <h1>MP-Card</h1>
+      </el-col>
+    </el-row>
+    <el-row :gutter="15">
+      <MPCard
+        :radius="`20px`"
+        type="bankCard"
+        style="width: 350px; height: 200px"
+        :bg-blur="false"
+      >
+        <template #header>
+          <div
+            style="
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            align-items: center;
+          "
+          >
+            <span style="font-size: 12px">WORD ELITE</span>
+            <span>
+              <img
+                src="/images/mastercard/wave.png"
+                :width="15"
+              >
+            </span>
+          </div>
+        </template>
+        <template #avatar>
+          <img
+            src="/images/mastercard/mastercard.png"
+            :width="35"
+            :height="35"
+            style="margin: 0px 5px 0px 0px"
+            alt=""
+          >
+        </template>
+        <template #content>
+          5412 7512 3412 3456
+        </template>
+        <template #date>
+          <small style="font-size: 0.5rem">VALID THAU</small> 12/23
+        </template>
+        <template #others>
+          <small style="font-size: 12px">LEE M. CARDHOLDER</small>
+        </template>
+      </MPCard>
+      <MPCard
+        :radius="`20px`"
+        type="bankCard"
+        style="width: 350px; height: 200px" 
+      >
+        <template #header>
+          <div
+            style="
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            align-items: center;
+          "
+          >
+            <span style="font-size: 12px">WORD ELITE</span>
+            <span>
+              <img
+                src="/images/mastercard/wave.png"
+                :width="15"
+              >
+            </span>
+          </div>
+        </template>
+        <template #avatar>
+          <img
+            src="/images/mastercard/mastercard.png"
+            :width="35"
+            :height="35"
+            style="margin: 0px 5px 0px 0px"
+            alt=""
+          >
+        </template>
+        <template #content>
+          5412 7512 3412 3456
+        </template>
+        <template #date>
+          <small style="font-size: 0.5rem">VALID THAU</small> 12/23
+        </template>
+        <template #others>
+          <small style="font-size: 12px">LEE M. CARDHOLDER</small>
+        </template>
+      </MPCard>
+      <MPCard
+        :radius="`20px`"
+        type="bankCard"
+        style="width: 350px; height: 200px"
+        :bg-blur="false"
+      >
+        <template #header>
+          <div
+            style="
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            align-items: center;
+          "
+          >
+            <span style="font-size: 12px">WORD ELITE</span>
+            <span>
+              <img
+                src="/images/mastercard/wave.png"
+                :width="15"
+              >
+            </span>
+          </div>
+        </template>
+        <template #avatar>
+          <img
+            src="/images/mastercard/mastercard.png"
+            :width="35"
+            :height="35"
+            style="margin: 0px 5px 0px 0px"
+            alt=""
+          >
+        </template>
+        <template #content>
+          5412 7512 3412 3456
+        </template>
+        <template #date>
+          <small style="font-size: 0.5rem">VALID THAU</small> 12/23
+        </template>
+        <template #others>
+          <small style="font-size: 12px">LEE M. CARDHOLDER</small>
+        </template>
+      </MPCard>
+    </el-row>
+    <el-row>
+      <el-button @click="handleShow">
+        Click
+      </el-button>
+      <MPModal
+        :visible="modalVisibility"
+        draggable
+        resizeable
+        @close="handleClose"
+      >
+        aa
+      </MPModal>
     </el-row>
   </div>
 </template>
@@ -181,14 +329,29 @@
 import MPCard from "@/components/mp-card";
 import MPRadio from "@/components/mp-radio";
 import MPButton from "@/components/mp-card/mp-card-button";
+import { ref } from '@vue/reactivity';
 export default {
   name: "",
   components: {
-    MPCard,
+    MPCardA:MPCard,
     MPButton,
     // MPCarousel,
     MPRadio,
   },
+      setup(){
+        const modalVisibility = ref(false)
+        function handleClose (){
+            modalVisibility.value=false;
+        } 
+        function handleShow(){
+            modalVisibility.value=true; 
+        }
+        return {
+            modalVisibility,
+            handleClose,
+            handleShow
+        }
+    },
   data () {
     return {
       activeName: "1",
